@@ -743,6 +743,19 @@
     </div>
   </header>
 
+  <!-- HIZLI EKRAN GEÇİŞ ÇUBUĞU (KONU ANLATIMI <-> SORU ÇÖZÜM EKRANI) -->
+  <div style="margin-top:20px; background:linear-gradient(135deg, #065f46, #047857); padding:18px 24px; border-radius:20px; color:#fff; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px; box-shadow:0 12px 28px rgba(4,120,87,0.25); border:3px solid #6ee7b7;">
+    <div>
+      <div style="font-size:1.15rem; font-weight:800;">🚀 Hızlı Ekran Geçişi: Soru Çözüm & Deneme Sınavı Ekranı Aktif!</div>
+      <div style="font-size:0.92rem; color:#d1fae5;">5 Adet Vize Denemesi (50 Soru) aşağıda hazır. Tek tıkla soru çözüm ekranına inebilir veya "Kendim Çözeceğim" modunu açabilirsin:</div>
+    </div>
+    <div style="display:flex; flex-wrap:wrap; gap:10px;">
+      <button onclick="goToExamScreen(false)" style="padding:12px 18px; border-radius:12px; border:2px solid #fef08a; background:#facc15; color:#0f172a; font-weight:800; font-size:0.95rem; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.15);">✍️ Soru Çözüm Ekranına Geç (Kendim Çözeceğim)</button>
+      <button onclick="goToExamScreen(true)" style="padding:12px 18px; border-radius:12px; border:2px solid #fff; background:rgba(255,255,255,0.15); color:#fff; font-weight:800; font-size:0.95rem; cursor:pointer;">📖 Çözümlü Soruları Oku (Döküman Modu)</button>
+    </div>
+  </div>
+
+
   <!-- CANLI KOMUT ARAMA ÇUBUĞU -->
   <div class="search-bar-wrap">
     <div style="font-weight:800; color:#0f172a; margin-bottom:8px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
@@ -2139,8 +2152,7 @@ function runMatrixSim(mode) {
     cbox.innerHTML = `<pre style="margin:0;"><span class="prompt">&gt;&gt;</span> a = [1 1000; 3 10; 2 5; 4 1];
 <span class="prompt">&gt;&gt;</span> sortrows(a, ${colIdx+1}) <span class="comment">% Satırları ${colIdx+1}. sütuna göre sırala</span>
 <span class="ans">ans =</span>
-   ${sorted.map(row => row[0].toString().padStart(3,' ') + '  ' + row[1].toString().padStart(5,' ')).join('
-   ')}</pre>`;
+   ${sorted.map(row => row[0].toString().padStart(3,' ') + '  ' + row[1].toString().padStart(5,' ')).join('\n   ')}</pre>`;
   }
 }
 
@@ -2365,6 +2377,26 @@ function setSimStep(step) {
 }
 
 // 6. BÖLÜM: 5 VİZE DENEME SINAVI MOTORU
+
+let userAnswers = {};
+
+function goToExamScreen(docMode) {
+  showAllSolutions = docMode;
+  const btn = document.getElementById('toggleAllSolBtn');
+  if (btn) {
+    if (showAllSolutions) {
+      btn.innerHTML = '🙈 Çözümleri Gizle (Kendim Çözeceğim)';
+      btn.style.background = '#4f46e5';
+    } else {
+      btn.innerHTML = '📖 Tüm Çözümleri Aç (Döküman Modu)';
+      btn.style.background = '#e11d48';
+    }
+  }
+  renderCurrentExam();
+  const sec = document.getElementById('denemeler');
+  if (sec) sec.scrollIntoView({behavior: 'smooth'});
+}
+
 let currentExamIndex = 0;
 let showAllSolutions = true;
 

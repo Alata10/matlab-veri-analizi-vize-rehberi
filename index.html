@@ -1,0 +1,2480 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mühendislikte Veri Toplama ve Analizi — MATLAB & Simulink Vize Rehberi (Eksiksiz 10 Sayfa)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fffdf9;
+    --bg-soft: #f8f5ee;
+    --card: #ffffff;
+    --text: #1e293b;
+    --muted: #475569;
+    --border: #e2e8f0;
+    --indigo: #4f46e5;
+    --indigo-soft: #eef2ff;
+    --teal: #0d9488;
+    --teal-soft: #f0fdfa;
+    --rose: #e11d48;
+    --rose-soft: #fff1f2;
+    --amber: #d97706;
+    --amber-soft: #fffbeb;
+    --emerald: #059669;
+    --emerald-soft: #ecfdf5;
+    --purple: #7c3aed;
+    --purple-soft: #f5f3ff;
+    --shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.06), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 16.5px;
+    padding-bottom: 80px;
+  }
+
+  code, pre, .mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+  code {
+    background: #f1f5f9;
+    color: #be123c;
+    padding: 2px 7px;
+    border-radius: 6px;
+    font-size: 0.92em;
+    font-weight: 700;
+    border: 1px solid #e2e8f0;
+  }
+
+  /* ÜST GEZİNTİ ÇUBUĞU */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(255, 253, 249, 0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 2px solid #e2e8f0;
+    padding: 10px 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+  }
+  .topbar-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .brand {
+    font-weight: 800;
+    font-size: 1.02rem;
+    color: var(--indigo);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+  }
+  .brand-badge {
+    background: linear-gradient(135deg, #e11d48, #f97316);
+    color: #fff;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.76rem;
+    font-weight: 800;
+  }
+  .nav-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .nav-pill {
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 6px 11px;
+    border-radius: 10px;
+    background: #f1f5f9;
+    color: #334155;
+    transition: all 0.18s;
+    border: 1px solid #cbd5e1;
+  }
+  .nav-pill:hover {
+    background: var(--indigo);
+    color: #fff;
+    border-color: var(--indigo);
+    transform: translateY(-1px);
+  }
+  .nav-pill.hot {
+    background: #fff1f2;
+    color: #be123c;
+    border-color: #fda4af;
+  }
+  .nav-pill.exam {
+    background: #ecfdf5;
+    color: #047857;
+    border-color: #6ee7b7;
+  }
+
+  .container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 18px;
+  }
+
+  /* HERO (KAPAK) */
+  .hero {
+    margin-top: 24px;
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 48%, #0f766e 100%);
+    color: #ffffff;
+    border-radius: 28px;
+    padding: 38px 32px;
+    box-shadow: 0 20px 45px -12px rgba(15, 23, 42, 0.35);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .hero-chip {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: #fef08a;
+  }
+  .hero h1 {
+    font-size: clamp(1.7rem, 3.6vw, 2.55rem);
+    font-weight: 800;
+    line-height: 1.22;
+    margin-bottom: 14px;
+    letter-spacing: -0.02em;
+  }
+  .hero p {
+    font-size: 1.06rem;
+    color: #e0e7ff;
+    max-width: 900px;
+    margin-bottom: 24px;
+  }
+
+  /* SINAV PLANI KUTUSU */
+  .exam-blueprint {
+    background: rgba(255, 255, 255, 0.98);
+    color: var(--text);
+    border-radius: 20px;
+    padding: 22px 24px;
+    border: 3px solid #facc15;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+  }
+  .exam-blueprint-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #b91c1c;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .blueprint-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+  }
+  .bp-box {
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 2px solid;
+  }
+  .bp-box.classic { background: #fff1f2; border-color: #fda4af; }
+  .bp-box.test { background: #eff6ff; border-color: #93c5fd; }
+  .bp-box.sim { background: #ecfdf5; border-color: #6ee7b7; }
+  .bp-box h4 { font-size: 0.98rem; font-weight: 800; margin-bottom: 6px; }
+  .bp-box ul { padding-left: 18px; font-size: 0.91rem; }
+  .bp-box li { margin-bottom: 4px; }
+
+  /* HIZLI KOMUT ARAMA KUTUSU */
+  .search-bar-wrap {
+    margin-top: 24px;
+    background: #ffffff;
+    border: 2px solid #cbd5e1;
+    border-radius: 20px;
+    padding: 18px 22px;
+    box-shadow: var(--shadow);
+  }
+  .search-input-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .search-input {
+    flex: 1;
+    min-width: 240px;
+    padding: 12px 16px;
+    font-size: 1rem;
+    font-family: inherit;
+    font-weight: 600;
+    border: 2px solid #94a3b8;
+    border-radius: 12px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-input:focus {
+    border-color: var(--indigo);
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.12);
+  }
+  .quick-tag-btn {
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    color: #334155;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .quick-tag-btn:hover {
+    background: var(--indigo);
+    color: #fff;
+    border-color: var(--indigo);
+  }
+  .search-results {
+    margin-top: 12px;
+    display: none;
+    max-height: 350px;
+    overflow-y: auto;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 12px;
+  }
+  .search-item {
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  /* BÖLÜM BAŞLIKLARI */
+  .chapter {
+    margin-top: 48px;
+    scroll-margin-top: 75px;
+  }
+  .chapter-banner {
+    border-radius: 22px;
+    padding: 24px 28px;
+    color: #fff;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow);
+  }
+  .chapter-banner.c1 { background: linear-gradient(135deg, #4338ca, #6366f1); }
+  .chapter-banner.c2 { background: linear-gradient(135deg, #be123c, #e11d48); }
+  .chapter-banner.c3 { background: linear-gradient(135deg, #0f766e, #14b8a6); }
+  .chapter-banner.c4 { background: linear-gradient(135deg, #b45309, #f59e0b); }
+  .chapter-banner.c5 { background: linear-gradient(135deg, #6d28d9, #8b5cf6); }
+  .chapter-banner.c6 { background: linear-gradient(135deg, #047857, #10b981); }
+
+  .chapter-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.22);
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 8px;
+  }
+  .chapter-banner h2 {
+    font-size: clamp(1.35rem, 2.7vw, 1.95rem);
+    font-weight: 800;
+    line-height: 1.25;
+    margin-bottom: 6px;
+  }
+  .chapter-banner p {
+    color: rgba(255,255,255,0.93);
+    font-size: 1rem;
+  }
+
+  /* DÖKÜMAN KARTLARI */
+  .doc-card {
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: 22px;
+    padding: 26px 28px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow);
+  }
+  .doc-card h3 {
+    font-size: 1.28rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 2px dashed #e2e8f0;
+    padding-bottom: 10px;
+  }
+
+  /* MALA ANLATIR GİBİ KUTULAR */
+  .eli5-box {
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+    border-left: 6px solid #f59e0b;
+    border-radius: 16px;
+    padding: 18px 20px;
+    margin: 16px 0;
+  }
+  .eli5-title {
+    font-weight: 800;
+    color: #b45309;
+    font-size: 1.02rem;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .trap-box {
+    background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);
+    border-left: 6px solid #e11d48;
+    border-radius: 16px;
+    padding: 18px 20px;
+    margin: 16px 0;
+  }
+  .trap-title {
+    font-weight: 800;
+    color: #be123c;
+    font-size: 1.02rem;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .ok-box {
+    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+    border-left: 6px solid #059669;
+    border-radius: 16px;
+    padding: 18px 20px;
+    margin: 16px 0;
+  }
+
+  /* ADIM ADIM LİSTE */
+  .steps-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 14px 0;
+  }
+  .step-row {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 14px;
+    padding: 14px 16px;
+  }
+  .step-row.red { background: #fff1f2; border-color: #fda4af; }
+  .step-row.green { background: #ecfdf5; border-color: #6ee7b7; }
+  .step-row.blue { background: #eff6ff; border-color: #93c5fd; }
+  .step-row.amber { background: #fffbeb; border-color: #fcd34d; }
+  .step-num {
+    background: var(--indigo);
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.82rem;
+    padding: 4px 11px;
+    border-radius: 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .step-row.red .step-num { background: #e11d48; }
+  .step-row.green .step-num { background: #059669; }
+  .step-row.amber .step-num { background: #d97706; }
+
+  /* TABLOLAR */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 14px 0;
+    border-radius: 14px;
+    border: 2px solid #cbd5e1;
+  }
+  table.clean-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    font-size: 0.95rem;
+  }
+  table.clean-table th {
+    background: #1e293b;
+    color: #fff;
+    text-align: left;
+    padding: 12px 14px;
+    font-weight: 700;
+  }
+  table.clean-table td {
+    padding: 11px 14px;
+    border-bottom: 1px solid #e2e8f0;
+    vertical-align: top;
+  }
+  table.clean-table tr:nth-child(even) td {
+    background: #f8fafc;
+  }
+  table.clean-table tr:hover td {
+    background: #eef2ff;
+  }
+
+  /* GRİD KARTLAR */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+    gap: 18px;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+  }
+  .mini-card {
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 18px;
+  }
+  .mini-card h4 {
+    font-size: 1.05rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+    color: #0f172a;
+  }
+
+  /* MATLAB TERMİNAL KUTUSU */
+  .matlab-cmd {
+    background: #0f172a;
+    color: #e2e8f0;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 16px 20px;
+    border-radius: 14px;
+    font-size: 0.94rem;
+    line-height: 1.65;
+    overflow-x: auto;
+    border: 2px solid #334155;
+    margin: 12px 0;
+  }
+  .matlab-cmd .prompt { color: #38bdf8; font-weight: 800; }
+  .matlab-cmd .comment { color: #4ade80; font-style: italic; }
+  .matlab-cmd .str { color: #f472b6; }
+  .matlab-cmd .ans { color: #facc15; font-weight: 700; }
+
+  /* İNTERAKTİF LABORATUVAR KUTUSU */
+  .sim-panel {
+    background: linear-gradient(135deg, #eef2ff 0%, #f0fdfa 100%);
+    border: 2px solid #818cf8;
+    border-radius: 20px;
+    padding: 22px 24px;
+    margin-top: 18px;
+  }
+  .sim-btn {
+    padding: 8px 14px;
+    border-radius: 10px;
+    border: 2px solid #cbd5e1;
+    background: #fff;
+    font-weight: 700;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: 'JetBrains Mono', monospace;
+    color: #1e293b;
+  }
+  .sim-btn:hover, .sim-btn.active {
+    background: var(--indigo);
+    color: #fff;
+    border-color: var(--indigo);
+  }
+
+  /* MATRİS GÖRSEL HÜCRELERİ */
+  .matrix-grid {
+    display: inline-grid;
+    gap: 6px;
+    background: #1e293b;
+    padding: 12px;
+    border-radius: 12px;
+    border-left: 5px solid #38bdf8;
+    border-right: 5px solid #38bdf8;
+  }
+  .matrix-cell {
+    background: #334155;
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    padding: 8px 14px;
+    border-radius: 8px;
+    text-align: center;
+    min-width: 58px;
+    transition: all 0.2s;
+  }
+  .matrix-cell.hl {
+    background: #facc15;
+    color: #0f172a;
+    transform: scale(1.06);
+    box-shadow: 0 0 12px rgba(250, 204, 21, 0.7);
+  }
+  .matrix-cell.del {
+    background: #e11d48;
+    color: #fff;
+    text-decoration: line-through;
+    opacity: 0.65;
+  }
+
+  /* DENEME SINAVI KARTLARI */
+  .exam-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .exam-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .exam-tab-btn {
+    padding: 10px 16px;
+    border-radius: 12px;
+    border: 2px solid #cbd5e1;
+    background: #fff;
+    font-weight: 800;
+    font-size: 0.9rem;
+    cursor: pointer;
+    color: #334155;
+    transition: all 0.18s;
+  }
+  .exam-tab-btn.active, .exam-tab-btn:hover {
+    background: #047857;
+    color: #fff;
+    border-color: #047857;
+  }
+  .mode-btn {
+    padding: 10px 16px;
+    border-radius: 12px;
+    border: 2px solid var(--indigo);
+    background: var(--indigo);
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.88rem;
+    cursor: pointer;
+  }
+  .q-card {
+    background: #fff;
+    border: 2px solid #cbd5e1;
+    border-radius: 20px;
+    padding: 22px 24px;
+    margin-bottom: 18px;
+    box-shadow: var(--shadow);
+  }
+  .q-card.classic-card {
+    border-color: #fda4af;
+    background: #fffdfd;
+  }
+  .q-title {
+    font-size: 1.08rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 12px;
+  }
+  .badge {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+  .badge-blue { background: #dbeafe; color: #1d4ed8; }
+  .badge-red { background: #ffe4e6; color: #be123c; }
+
+  .opt-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 10px;
+    margin: 12px 0;
+  }
+  .opt-btn {
+    text-align: left;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 2px solid #cbd5e1;
+    background: #f8fafc;
+    font-weight: 700;
+    font-size: 0.94rem;
+    cursor: pointer;
+    font-family: inherit;
+    color: #1e293b;
+    transition: all 0.15s;
+  }
+  .opt-btn:hover { border-color: var(--indigo); background: #eef2ff; }
+  .opt-btn.correct {
+    background: #d1fae5 !important;
+    border-color: #059669 !important;
+    color: #065f46 !important;
+  }
+  .opt-btn.wrong {
+    background: #ffe4e6 !important;
+    border-color: #e11d48 !important;
+    color: #9f1239 !important;
+  }
+  .toggle-sol-btn {
+    margin-top: 8px;
+    padding: 7px 13px;
+    border-radius: 9px;
+    border: 1px solid #cbd5e1;
+    background: #f1f5f9;
+    font-size: 0.84rem;
+    font-weight: 700;
+    cursor: pointer;
+    color: #334155;
+  }
+  .sol-box {
+    margin-top: 14px;
+    background: #f8fafc;
+    border-left: 5px solid #059669;
+    padding: 14px 18px;
+    border-radius: 12px;
+  }
+  .sol-step {
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+  }
+  .sol-step:last-child { margin-bottom: 0; }
+
+  @media print {
+    .topbar, .search-bar-wrap, .sim-panel, .exam-toolbar { display: none !important; }
+    body { background: #fff; font-size: 13px; }
+    .doc-card, .q-card { break-inside: avoid; box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ÜST SABİT MENÜ -->
+<nav class="topbar">
+  <div class="topbar-inner">
+    <a href="#" class="brand">
+      <span>💻 Mühendislikte Veri Toplama ve Analizi</span>
+      <span class="brand-badge">MATLAB & Simulink Vize</span>
+    </a>
+    <div class="nav-pills">
+      <a href="#bolum1" class="nav-pill">1. Temel & Yuvarlama (S.1-2)</a>
+      <a href="#bolum2" class="nav-pill hot">2. Matris & sortrows (S.3-4)</a>
+      <a href="#bolum3" class="nav-pill">3. Matris Cebiri & .* (S.4-5)</a>
+      <a href="#bolum4" class="nav-pill">4. 26 Grafik & subplot (S.2,5,6,7)</a>
+      <a href="#bolum5" class="nav-pill hot">5. Simulink Modelleme (S.8-10)</a>
+      <a href="#denemeler" class="nav-pill exam">📝 5 Vize Denemesi (50 Soru)</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+
+  <!-- HERO (KAPAK) -->
+  <header class="hero">
+    <div class="hero-badge-row">
+      <span class="hero-chip">📄 10 Sayfa Defter Notunun %100 Eksiksiz Dijital İkizi</span>
+      <span class="hero-chip">⚡ "Ayrıntı ama Oku" Kutuları Dahil</span>
+      <span class="hero-chip">🔧 Canlı MATLAB & Simulink Simülatörlü</span>
+    </div>
+    <h1>Mühendislikte Veri Toplama ve Analizi<br>MATLAB Komutları & Simulink Vize Hazırlık Portalı</h1>
+    <p>Defterindeki 10 sayfanın tek bir satırı, tek bir oku veya tablosu bile atlanmadan; hiç bilmeyen birinin bile tek okumada 100 alacağı <b>"Sıfırdan Mala Anlatır Gibi"</b> anlatım, <b>Canlı MATLAB Komut Simülatörleri</b>, <b>Adım Adım Simulink 3. Derece Diferansiyel Denklem Çizici</b> ve <b>5 Adet Vize Deneme Sınavı (50 Çözümlü Soru)</b> ile 7/24 açık çalışma siten.</p>
+
+    <div class="exam-blueprint">
+      <div class="exam-blueprint-title">🎯 VİZEDE KESİN ÇIKACAK KONU DAĞILIMI (10 SAYFA ÖZET HARİTASI)</div>
+      <div class="blueprint-grid">
+        <div class="bp-box test">
+          <h4 style="color:#1d4ed8;">📌 Sayfa 1–2: Temel Komutlar & Yuvarlama</h4>
+          <ul>
+            <li><b>4 Pencere:</b> Geçerli Klasör, Komut, Çalışma Ortamı, Komut Geçmişi</li>
+            <li><b>Temel:</b> <code>clc</code>, <code>clear</code>, <code>whos</code>, <code>%</code>, <code>;</code>, <code>Ctrl+C</code>, <code>save/load</code></li>
+            <li><b>4 Uzantı:</b> <code>.m</code>, <code>.mat</code>, <code>.fig (.fi)</code>, <code>.p</code></li>
+            <li><b>Log & Trig:</b> <code>log(x)=ln(x)</code>, <code>sin(x)</code> radyan vs <code>sind(x)</code> derece</li>
+            <li><b>Yuvarlama:</b> <code>round</code>, <code>fix</code>, <code>floor</code>, <code>ceil (Ciel)</code></li>
+          </ul>
+        </div>
+        <div class="bp-box classic">
+          <h4 style="color:#be123c;">🔥 Sayfa 3–5: Matrisler & "Ayrıntı ama Oku"</h4>
+          <ul>
+            <li><b>Polinom & Matris 3 Yolu:</b> <code>A=[1 4 -5 6 -1]</code>, <code>fprintf/sprintf</code></li>
+            <li><b>İndisleme:</b> <code>a(:)</code> (vec), <code>a(:,i)</code> sütun, <code>a(j,:)</code> satır</li>
+            <li><b>Silme & Sıralama:</b> <code>a(:,i)=[]</code>, <code>sort(a)</code>, <b><code>sortrows(a,1) / (a,2)</code></b></li>
+            <li><b>Noktalı İşlem:</b> <code>a*b</code> vs <b><code>a.*b</code></b>, <code>a/b = a*inv(b)</code> vs <b><code>a./b</code></b></li>
+            <li><b>Özel:</b> <code>trace</code>, <code>diag</code>, <code>sum</code>, <code>triu/tril</code>, <code>zeros/ones/eye</code></li>
+          </ul>
+        </div>
+        <div class="bp-box sim">
+          <h4 style="color:#047857;">⚙️ Sayfa 6–10: 26 Grafik, Karmaşık & Simulink</h4>
+          <ul>
+            <li><b>Grafik:</b> <code>plot(x,y,'c')</code>, <code>fplot</code>, <code>ezplot</code>, <code>subplot(m,n,p)</code></li>
+            <li><b>Fare & Lejant:</b> <code>gtext</code>, <code>ginput(n)</code>, <code>legend</code> (-1,0,1,2,3,4)</li>
+            <li><b>Tablolar:</b> <code>stem</code>, <code>stairs</code>, <code>pie3(x,explode)</code>, <code>quiver</code>, <code>loglog</code>...</li>
+            <li><b>Karmaşık:</b> <code>conj</code>, <code>real</code>, <code>imag</code>, <code>abs</code>, <code>angle (atan2)</code></li>
+            <li><b>Simulink:</b> <b>y''' = √(t' - y²) + sin(t·y') + e⁻²ᵗ - cos(y)</b></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- CANLI KOMUT ARAMA ÇUBUĞU -->
+  <div class="search-bar-wrap">
+    <div style="font-weight:800; color:#0f172a; margin-bottom:8px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+      <span>🔍 Defterdeki 95+ MATLAB Komutu & Simulink Bloğu İçinde Anında Ara:</span>
+      <span style="font-size:0.82rem; color:#64748b;">Bir komuta tıkla veya yaz (Örn: <code>sortrows</code>, <code>rem</code>, <code>ginput</code>, <code>triu</code>, <code>pie3</code>, <code>Step</code>)</span>
+    </div>
+    <div class="search-input-row">
+      <input type="text" id="cmdSearchInput" class="search-input" placeholder="Komut adı veya açıklama yazın (örn: sütun silme, yuvarlama, logaritma, subplot, simulink)..." oninput="filterCommands()">
+      <button class="quick-tag-btn" onclick="setSearch('sortrows')">sortrows</button>
+      <button class="quick-tag-btn" onclick="setSearch('floor')">round/fix/floor/ceil</button>
+      <button class="quick-tag-btn" onclick="setSearch('.*')">a.*b ve a./b</button>
+      <button class="quick-tag-btn" onclick="setSearch('subplot')">subplot</button>
+      <button class="quick-tag-btn" onclick="setSearch('legend')">legend</button>
+      <button class="quick-tag-btn" onclick="setSearch('Step')">Simulink Step</button>
+      <button class="quick-tag-btn" onclick="setSearch('')" style="background:#ffe4e6; color:#be123c; border-color:#fda4af;">✖ Temizle</button>
+    </div>
+    <div id="cmdSearchResults" class="search-results"></div>
+  </div>
+
+
+  <!-- ===================================================================== -->
+  <!-- 1. BÖLÜM: SAYFA 1 VE SAYFA 2 (ARAYÜZ, TEMEL KOMUTLAR, MATEMATİK)       -->
+  <!-- ===================================================================== -->
+  <section id="bolum1" class="chapter">
+    <div class="chapter-banner c1">
+      <span class="chapter-tag">1. BÖLÜM — DEFTER SAYFA 1 & SAYFA 2 (EKSİKSİZ)</span>
+      <h2>MATLAB Arayüz Pencereleri, Temel Sistem Komutları, Dosya Uzantıları & Matematik/Yuvarlama</h2>
+      <p>Defterin 1. ve 2. sayfasındaki tüm tanımlar, sınavda şaşırtmacalı sorulan <code>log(x)</code> ve <code>sind(x)</code> tuzakları ile 4 yuvarlama komutu.</p>
+    </div>
+
+    <!-- 1.1 MATLAB 4 PENCERESİ -->
+    <div class="doc-card">
+      <h3><span>🪟</span> 1.1. MATLAB Arayüzündeki 4 Temel Pencere (Defter Sayfa 1)</h3>
+      <p style="margin-bottom:14px;">MATLAB'ı ilk açtığında karşımıza çıkan 4 pencerenin görevleri sınavda doğrudan eşleştirme veya boşluk doldurma olarak sorulur:</p>
+      <div class="grid-2">
+        <div class="mini-card" style="border-left:5px solid #4f46e5;">
+          <h4>1. Geçerli Klasör Penceresi (Current Folder)</h4>
+          <p><b>Defter Tanımı:</b> <i>"Dosyaların yer aldığı pencere."</i><br>Çalıştığımız klasörün içindeki <code>.m</code>, <code>.mat</code>, <code>.fig</code> dosyalarını burada görürüz.</p>
+        </div>
+        <div class="mini-card" style="border-left:5px solid #0d9488;">
+          <h4>2. Komut Penceresi (Command Window)</h4>
+          <p><b>Defter Tanımı:</b> <i>"Değişkenlerin girildiği ve programın çalıştırıldığı pencere."</i><br>Başında <code>&gt;&gt;</code> işareti bulunan, komutları yazıp Enter'a bastığımız ana ekrandır.</p>
+        </div>
+        <div class="mini-card" style="border-left:5px solid #e11d48;">
+          <h4>3. Çalışma Ortamı Penceresi (Workspace)</h4>
+          <p><b>Defter Tanımı:</b> <i>"Kullanılan değişkenlerin bilgilerinin olduğu pencere."</i><br>Tanımladığımız değişkenlerin ismi, değeri, boyutu hafızada burada tutulur.</p>
+        </div>
+        <div class="mini-card" style="border-left:5px solid #d97706;">
+          <h4>4. Komut Geçmiş Penceresi (Command History)</h4>
+          <p><b>Defter Tanımı:</b> <i>"Komut penceresine girilenlerin saklandığı pencere."</i><br>Daha önce yazdığımız tüm komutların tarih/saat sırasıyla kaydını tutar.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1.2 TEMEL SİSTEM, YARDIM VE DOSYA KOMUTLARI -->
+    <div class="doc-card">
+      <h3><span>⌨️</span> 1.2. Temel Sistem Komutları, Kayıt (save/load) ve 4 Dosya Uzantısı (Sayfa 1–2)</h3>
+
+      <div class="table-wrap">
+        <table class="clean-table">
+          <thead>
+            <tr>
+              <th style="width:22%;">Komut / Sembol</th>
+              <th style="width:43%;">Defterdeki Birebir Tanımı</th>
+              <th>Sınav Tüyosu & Mala Anlatır Gibi Açıklaması</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>clc</code></td>
+              <td>Komut penceresini temizler.</td>
+              <td>Sadece ekranı (yazıları) siler! Hafızadaki değişkenlere <b>dokunmaz</b>.</td>
+            </tr>
+            <tr>
+              <td><code>clear</code><br><code>clear a</code></td>
+              <td>Çalışma Ortamı Penceresindeki değişkenleri temizler.<br>(<code>clear a</code>: Yalnızca <code>a</code> değişkenini siler.)</td>
+              <td>🚨 <b>TUZAK:</b> <code>clc</code> ekranı siler, <code>clear</code> hafızadaki değişkenleri siler!</td>
+            </tr>
+            <tr>
+              <td><code>whos</code></td>
+              <td>Şu ana kadar yaptığımız değişkenleri yeniden çağırır.</td>
+              <td>Değişkenlerin adını, boyutunu (size), byte'ını ve sınıfını detaylı listeler.</td>
+            </tr>
+            <tr>
+              <td><code>%</code></td>
+              <td>Yorum (program bu kısmı görmez).</td>
+              <td><code>%</code> işaretinden sonra aynı satıra yazılan hiçbir şey çalıştırılmaz.</td>
+            </tr>
+            <tr>
+              <td><code>;</code> (Noktalı Virgül)</td>
+              <td>Çıktının ana ekranda görünmesini engeller.</td>
+              <td>Komutun sonuna <code>;</code> koyarsan işlem arka planda yapılır ama ekrana <code>ans =</code> basılmaz.</td>
+            </tr>
+            <tr>
+              <td><code>Ctrl + C</code></td>
+              <td>Çalışan programdan çıkar.</td>
+              <td>Program sonsuz döngüye girdiğinde veya kilitlendiğinde işlemi anında durdurur.</td>
+            </tr>
+            <tr>
+              <td><code>exit</code></td>
+              <td>MATLAB'ı kapatır.</td>
+              <td>Programdan tamamen çıkış yapar (<code>quit</code> ile aynı işi görür).</td>
+            </tr>
+            <tr>
+              <td><code>demo</code></td>
+              <td>MATLAB demosunu çalıştırır.</td>
+              <td>Örnek uygulamalar ve tanıtım penceresini açar (Sayfa 2).</td>
+            </tr>
+            <tr>
+              <td><code>date</code></td>
+              <td>Gün - Ay - Yılı görüntüler.</td>
+              <td>O günün tarihini metin olarak verir (Örn: <code>02-Nov-2026</code>).</td>
+            </tr>
+            <tr>
+              <td><code>help</code><br><code>help f_na</code></td>
+              <td>Yardım menüsünü açar.<br><code>f_na</code> fonksiyonu hakkında bilgi verir.</td>
+              <td>Örn: <code>help plot</code> yazarsan <code>plot</code> komutunun nasıl kullanıldığını anlatır.</td>
+            </tr>
+            <tr>
+              <td><code>save d a</code></td>
+              <td><code>a</code> değişkenini <code>d</code> dosya ismiyle <code>.mat</code> uzantılı olarak kaydeder.</td>
+              <td>Önce <b>dosya adı (<code>d</code>)</b>, sonra <b>değişken adı (<code>a</code>)</b> yazılır! (<code>d.mat</code> oluşur).</td>
+            </tr>
+            <tr>
+              <td><code>load d</code></td>
+              <td><code>a</code> değişkenini <code>d</code> dosyasından geri çağırır.</td>
+              <td>Daha önce kaydedilen <code>d.mat</code> dosyasındaki değişkenleri Workspace'e geri yükler.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="eli5-box">
+        <div class="eli5-title">📁 Defter Sayfa 2: MATLAB'ın 4 Dosya Uzantısı (Kesin Test Sorusu!)</div>
+        <div class="grid-2" style="margin-top:10px;">
+          <div>• <b><code>.m</code></b> = MATLAB <b>program</b> dosyaları (yazdığımız kod/script ve fonksiyonlar)</div>
+          <div>• <b><code>.mat</code></b> = <b>Değişken ve matris</b> dosyaları (<code>save</code> ve <code>load</code> ile kullanılan veri dosyası)</div>
+          <div>• <b><code>.fig</code> (Defterde <code>.fi</code>)</b> = <b>Grafik</b> dosyaları ve GUI'lerin grafik parçaları</div>
+          <div>• <b><code>.p</code></b> = <b>Pre-parsed pseudo-code</b> dosyaları (kod içeriği gizlenmiş/şifrelenmiş çalışma dosyası)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1.3 MATEMATİKSEL, TRİGONOMETRİK VE YUVARLAMA FONKSİYONLARI -->
+    <div class="doc-card">
+      <h3><span>🧮</span> 1.3. Matematiksel, Trigonometrik ve Yuvarlama Fonksiyonları (Sayfa 1–2)</h3>
+
+      <div class="trap-box">
+        <div class="trap-title">🚨 SINAVDA EN ÇOK DÜŞÜLEN 3 BÜYÜK TUZAK!</div>
+        <ol style="padding-left:20px; font-size:0.96rem;">
+          <li><b>Logaritma Tuzağı:</b> MATLAB'da <code>ln(x)</code> diye bir komut <b>YOKTUR!</b> Doğal logaritma <b>ln(x)</b> almak için <b><code>log(x)</code></b> yazılır! 10 tabanında <b>log₁₀(x)</b> için ise <b><code>log10(x)</code></b> yazılır!</li>
+          <li><b>Radyan vs Derece Tuzağı:</b> <code>sin(x), cos(x), tan(x)</code> fonksiyonları açıyı <b>RADYAN</b> kabul eder. Eğer açıyı <b>30°, 60°</b> gibi <b>DERECE</b> olarak gireceksen sonuna <b><code>d</code> (degree)</b> harfi koymalısın: <b><code>sind(x), cosd(x), tand(x)</code></b>! Aynı kural ters trigonometride de geçerlidir: <code>asin(x)</code> radyan verir, <b><code>asind(x)</code></b> derece verir!</li>
+          <li><b>Negatif Sayılarda <code>fix</code> ve <code>floor</code> Tuzağı:</b> <b>x = -2.7</b> için <code>fix(-2.7) = -2</code> yapar (ondalığı siler), ama <code>floor(-2.7) = -3</code> yapar (kendisinden küçük en büyük tam sayıya yani sola gider)!</li>
+        </ol>
+      </div>
+
+      <div class="table-wrap">
+        <table class="clean-table">
+          <thead>
+            <tr>
+              <th style="width:28%;">MATLAB Fonksiyonu</th>
+              <th style="width:36%;">Defterdeki Karşılığı</th>
+              <th>Örnek ve Açıklama</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>abs(x)</code></td>
+              <td>Mutlak Değer (<b>|x|</b>)</td>
+              <td><code>abs(-8) = 8</code> (Karmaşık sayıda ise büyüklük/modül verir).</td>
+            </tr>
+            <tr>
+              <td><code>exp(x)</code></td>
+              <td><b>e<sup>x</sup></b> (Üstel fonksiyon)</td>
+              <td><code>exp(1) = 2.7183</code> (<b>e¹</b>), <b>e<sup>-2t</sup></b> yazmak için <code>exp(-2*t)</code> kullanılır.</td>
+            </tr>
+            <tr>
+              <td><code>log(x)</code></td>
+              <td><b>ln(x)</b> (<b>e</b> tabanında doğal logaritma)</td>
+              <td><code>log(exp(1)) = 1</code>. Unutma: <code>log</code> = <b>ln</b> demektir!</td>
+            </tr>
+            <tr>
+              <td><code>log10(x)</code></td>
+              <td><b>log₁₀(x)</b> (10 tabanında logaritma)</td>
+              <td><code>log10(100) = 2</code>, <code>log10(1000) = 3</code>.</td>
+            </tr>
+            <tr>
+              <td><code>sign(x)</code></td>
+              <td>Signum (İşaret) Fonksiyonu:<br><b>0 &gt; x</b> ise <b>-1</b>, <b>0 = x</b> ise <b>0</b>, <b>0 &lt; x</b> ise <b>1</b></td>
+              <td>Sayı negatifse <b><code>-1</code></b>, sıfırsa <b><code>0</code></b>, pozitifse <b><code>1</code></b> döndürür. Örn: <code>sign(-25) = -1</code>.</td>
+            </tr>
+            <tr>
+              <td><code>sin(x), cos(x), tan(x), cot(x), sec(x), csc(x)</code></td>
+              <td>Trigonometrik fonksiyon (<b>x</b> <b>radyan</b>)</td>
+              <td>Örn: <code>sin(pi/2) = 1</code>, <code>cos(0) = 1</code>.</td>
+            </tr>
+            <tr>
+              <td><code>sind(x), cosd(x), tand(x), cotd(x), secd(x), cscd(x)</code></td>
+              <td>Trigonometrik fonksiyon (<b>x</b> <b>derece</b>)</td>
+              <td>Sonundaki <b><code>d</code></b> = Derece! Örn: <code>sind(30) = 0.5</code>, <code>cosd(60) = 0.5</code>.</td>
+            </tr>
+            <tr>
+              <td><code>sinh(x), cosh(x), tanh(x), coth(x)</code></td>
+              <td>Hiperbolik Fonksiyonlar</td>
+              <td>Sonundaki <b><code>h</code></b> = Hiperbolik demektir.</td>
+            </tr>
+            <tr>
+              <td><code>asin(x), acos(x), atan(x), acot(x)</code></td>
+              <td>Ters Trigonometrik Fonksiyonlar (<b>x</b> <b>radyan</b>)</td>
+              <td>Başındaki <b><code>a</code></b> = Arc (ters) demektir, sonucu <b>radyan</b> olarak verir.</td>
+            </tr>
+            <tr>
+              <td><code>asind(x), acosd(x), atand(x), acotd(x)</code></td>
+              <td>Ters Trigonometrik Fonksiyonlar (<b>x</b> <b>derece</b>)</td>
+              <td>Başında <code>a</code>, sonunda <code>d</code> var → sonucu <b>derece</b> verir! Örn: <code>asind(0.5) = 30</code>.</td>
+            </tr>
+            <tr>
+              <td><code>rem(x, y)</code></td>
+              <td><b>x / y</b>'nin kalanını verir.</td>
+              <td><code>rem(14, 4) = 2</code> (14'ü 4'e bölünce kalan 2'dir).</td>
+            </tr>
+            <tr>
+              <td><code>sqrt(x)</code></td>
+              <td><b>√x</b> (Karekök)</td>
+              <td><code>sqrt(25) = 5</code>.</td>
+            </tr>
+            <tr style="background:#fffbeb;">
+              <td><b><code>round(x)</code></b></td>
+              <td><b>x</b>'i <b>en yakın tam sayıya</b> yuvarlar.</td>
+              <td><code>round(3.6) = 4</code>, <code>round(3.2) = 3</code>, <code>round(-2.7) = -3</code>.</td>
+            </tr>
+            <tr style="background:#fffbeb;">
+              <td><b><code>fix(x)</code></b></td>
+              <td><b>x</b>'in <b>ondalık kısmını atar</b> (sıfıra doğru keser).</td>
+              <td>Virgülden sonrasını çöpe at! <code>fix(3.9) = 3</code>, <code>fix(-3.9) = -3</code>.</td>
+            </tr>
+            <tr style="background:#fffbeb;">
+              <td><b><code>floor(x)</code></b></td>
+              <td><b>x</b>'ten <b>küçük en büyük tam sayıyı</b> verir (Taban / Aşağı).</td>
+              <td>Her zaman SOLA (küçüğe) yuvarlar: <code>floor(3.9) = 3</code>, <b><code>floor(-3.1) = -4</code></b>!</td>
+            </tr>
+            <tr style="background:#fffbeb;">
+              <td><b><code>ceil(x)</code></b><br><i>(Defterde: <code>Ciel(x)</code>)</i></td>
+              <td><b>x</b>'ten <b>büyük en küçük tam sayıyı</b> verir (Tavan / Yukarı).</td>
+              <td>Her zaman SAĞA (büyüğe) yuvarlar: <b><code>ceil(3.1) = 4</code></b>, <code>ceil(-3.9) = -3</code>.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- İNTERAKTİF YUVARLAMA SİMÜLATÖRÜ -->
+      <div class="sim-panel">
+        <h4 style="font-size:1.1rem; font-weight:800; color:#1e1b4b; margin-bottom:8px;">🧪 Canlı MATLAB Yuvarlama, İşaret ve Kalan Simülatörü</h4>
+        <p style="font-size:0.93rem; color:#334155; margin-bottom:12px;">Bir sayı gir veya hazır sınav tuzaklarına tıkla; <code>round</code>, <code>fix</code>, <code>floor</code>, <code>ceil (Ciel)</code> ve <code>sign</code> farkını anında gör:</p>
+        <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:14px;">
+          <label style="font-weight:800;">x = </label>
+          <input type="number" id="roundInputX" value="-2.7" step="0.1" style="width:110px; padding:8px 12px; border:2px solid #4f46e5; border-radius:10px; font-weight:800; font-size:1rem;" oninput="updateRoundSim()">
+          <button class="sim-btn" onclick="setRoundX(3.7)">x = 3.7</button>
+          <button class="sim-btn" onclick="setRoundX(3.2)">x = 3.2</button>
+          <button class="sim-btn" onclick="setRoundX(-2.7)">x = -2.7 (Tuzak!)</button>
+          <button class="sim-btn" onclick="setRoundX(-2.2)">x = -2.2 (Tuzak!)</button>
+          <button class="sim-btn" onclick="setRoundX(0)">x = 0</button>
+        </div>
+        <div id="roundSimOutput" class="grid-3"></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================================================================== -->
+  <!-- 2. BÖLÜM: SAYFA 3 VE SAYFA 4 ÜST (POLİNOM, MATRİS, İNDİSLEME, SORTROWS)-->
+  <!-- ===================================================================== -->
+  <section id="bolum2" class="chapter">
+    <div class="chapter-banner c2">
+      <span class="chapter-tag">2. BÖLÜM — DEFTER SAYFA 3 & SAYFA 4 ("AYRINTI AMA OKU" DAHİL!)</span>
+      <h2>Polinomlar, Matris Tanımlamanın 3 Yolu, İndisleme (:) ve sortrows Sıralaması</h2>
+      <p>Sınavda klasik ve test sorularının kalbi olan matris eleman seçimi, satır/sütun silme ve defterde <b>"Ayrıntı ama Oku"</b> diye işaretlenen tüm komutlar.</p>
+    </div>
+
+    <!-- 2.1 POLİNOM VE MATRİS GİRMENİN 3 YOLU -->
+    <div class="doc-card">
+      <h3><span>📐</span> 2.1. Polinom Tanımlama, fprintf/sprintf ve Matris Girmenin 3 Yolu (Sayfa 3)</h3>
+
+      <div class="steps-list">
+        <div class="step-row blue">
+          <span class="step-num">POLİNOM</span>
+          <div class="step-body">
+            <b>Defter Sayfa 3 En Üstteki Örnek:</b><br>
+            <div style='font-size:1.1rem; font-weight:800; margin:6px 0; color:#1e3a8a;'>P(x) = x⁴ + 4x³ - 5x² + 6x - 1 &nbsp;⟹&nbsp; <code>A = [1 &nbsp; 4 &nbsp; -5 &nbsp; 6 &nbsp; -1]</code></div><br>
+            • Matris ve vektörler her zaman <b>köşeli parantez <code>[ ]</code></b> ile tanımlanır.<br>
+            • 🚨 <b>Ekstra Sınav Uyarısı:</b> Eğer polinomda eksik bir üs varsa (örneğin <b>x²</b> terimi yoksa) onun yerine mutlaka <b><code>0</code></b> yazılır!
+          </div>
+        </div>
+        <div class="step-row amber">
+          <span class="step-num">FORMAT</span>
+          <div class="step-body">
+            <b><code>fprintf</code> / <code>sprintf</code> (Sayfa 3 Orta Kısım):</b><br>
+            <b>Defter Tanımı:</b> <i>"Bir sayının istenilen hanesinin (basamağının) gösterilmesi."</i> (Örn: virgülden sonra kaç basamak yazdırılacağını formatlamak için kullanılır).
+          </div>
+        </div>
+      </div>
+
+      <h4 style="font-size:1.1rem; font-weight:800; margin:18px 0 10px; color:#be123c;">📌 Matris ve Vektörleri Girmenin 3 Farklı Yolu (Defterdeki Birebir Örnek):</h4>
+      <div class="grid-3">
+        <div class="mini-card">
+          <h4>1. Yol: Enter İle Alt Alta</h4>
+          <p style="font-size:0.88rem; margin-bottom:8px;">Aynı satırdaki sayılar arasına boşluk (veya virgül) koyup alt satıra Enter ile geçmek:</p>
+          <div class="matlab-cmd" style="margin:0;">
+<span class="prompt">&gt;&gt;</span> A = [1   3   5
+        7   8  11
+      100   1   4]</div>
+        </div>
+        <div class="mini-card">
+          <h4>2. Yol: Noktalı Virgül (;) İle</h4>
+          <p style="font-size:0.88rem; margin-bottom:8px;">Köşeli parantez içinde <code>;</code> işareti "bir alt satıra geç" demektir:</p>
+          <div class="matlab-cmd" style="margin:0;">
+<span class="prompt">&gt;&gt;</span> A = [1 3 5 ; 7 8 11 ; 100 1 4]</div>
+        </div>
+        <div class="mini-card">
+          <h4>3. Yol: İndislerle Tek Tek</h4>
+          <p style="font-size:0.88rem; margin-bottom:8px;"><code>A(satır, sütun) = değer</code> şeklinde tek tek atamak:</p>
+          <div class="matlab-cmd" style="margin:0; font-size:0.82rem;">
+A(1,1)=1;   A(1,2)=3;  A(1,3)=5;
+A(2,1)=7;   A(2,2)=8;  A(2,3)=11;
+A(3,1)=100; A(3,2)=1;  A(3,3)=4;</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2.2 İKİ NOKTA OPERATÖRÜ VE AYRINTI AMA OKU KUTULARI -->
+    <div class="doc-card">
+      <h3><span>🎯</span> 2.2. İki Nokta (:) Operatörü ve "Ayrıntı ama Oku" Kutuları (Sayfa 3 & 4)</h3>
+
+      <div class="eli5-box">
+        <div class="eli5-title">🧠 5 Saniyede Satır/Sütun Seçme Şifresi: <code>a(SATIR, SÜTUN)</code></div>
+        <p>Parantez içinde <b>virgülden öncesi her zaman SATIR</b>, <b>virgülden sonrası her zaman SÜTUNDUR!</b> İki nokta üst üste <b><code>:</code></b> ise <b>"HEPSİ / TAMAMI"</b> demektir:<br>
+        • <code>a(:, i)</code> → Satırda <code>:</code> (tüm satırlar), sütunda <code>i</code> var ⟹ <b><code>i</code>. SÜTUNU alır!</b><br>
+        • <code>a(j, :)</code> → Satırda <code>j</code>, sütunda <code>:</code> (tüm sütunlar) var ⟹ <b><code>j</code>. SATIRI alır!</b><br>
+        • Karşısına boş köşeli parantez <code>= []</code> koyarsan o satırı veya sütunu <b>KOMPLE SİLER!</b></p>
+      </div>
+
+      <div class="table-wrap">
+        <table class="clean-table">
+          <thead>
+            <tr>
+              <th style="width:26%;">MATLAB Komutu</th>
+              <th style="width:42%;">Defterdeki Birebir Açıklaması (Sayfa 3–4)</th>
+              <th>Somut Örnek / Dikkat Edilecek Nokta</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>a(:)</code></td>
+              <td><code>a</code> matrisinin <b>sütunlarının ard arda dizilmesi</b> ile oluşan vektör oluşturur. (<b>vec operatörü</b>)</td>
+              <td>🚨 <b>Çok Önemli:</b> Satırları değil, <b>SÜTUNLARI</b> yukarıdan aşağıya tek bir sütun vektörü olarak dizer!</td>
+            </tr>
+            <tr>
+              <td><code>a(:, i)</code></td>
+              <td><code>a</code> matrisinin <b><b>i</b>. sütununu</b> alır.</td>
+              <td>Örn: <code>a(:, 2)</code> → 2. sütunu yukarıdan aşağıya alır.</td>
+            </tr>
+            <tr>
+              <td><code>a(j, :)</code></td>
+              <td><code>a</code> matrisinin <b><b>j</b>. satırını</b> alır.</td>
+              <td>Örn: <code>a(3, :)</code> → 3. satırı soldan sağa alır.</td>
+            </tr>
+            <tr>
+              <td><code>a(:, [i j])</code></td>
+              <td><code>a</code> matrisinin <b><b>i</b> ve <b>j</b>. sütununu</b> alır.</td>
+              <td>Örn: <code>a(:, [1 3])</code> → Sadece 1. ve 3. sütunları alır.</td>
+            </tr>
+            <tr>
+              <td><code>a([i j], :)</code></td>
+              <td><code>a</code> matrisinin <b><b>i</b> ve <b>j</b>. satırını</b> alır.</td>
+              <td>Örn: <code>a([1 3], :)</code> → Sadece 1. ve 3. satırları alır.</td>
+            </tr>
+            <tr>
+              <td><code>e = a : b : n</code></td>
+              <td><b>a, (a+b), ..., n</b> sayılarından oluşan bir satır vektör oluşturur.<br><b>Ör:</b> <code>e = -10 : 0.1 : n</code> = -10'dan 0.1 artışla <b>n</b>'ye kadar olan sayılardan oluşan bir vektör.</td>
+              <td><code>başlangıç : artış_miktarı : bitiş</code>. Eğer ortadaki artışı yazmazsan (<code>1:5</code>) artış otomatik <code>1</code> kabul edilir.</td>
+            </tr>
+            <tr style="background:#fff1f2;">
+              <td><b><code>length(a)</code></b><br><i>(Ayrıntı ama Oku)</i></td>
+              <td><code>a</code> matrisinin sütun sayısını (en büyük boyutunu) verir. <code>a</code> bir vektör ise sonuç, <code>a</code> vektörünün eleman sayısıdır.</td>
+              <td>Vektörde eleman sayısını, matriste ise büyük olan boyutu verir.</td>
+            </tr>
+            <tr style="background:#fff1f2;">
+              <td><b><code>[m, n] = size(a)</code></b><br><i>(Ayrıntı ama Oku)</i></td>
+              <td><code>a</code> matrisinin <b>satır sayısını (<code>m</code>)</b> ve <b>sütun sayısını (<code>n</code>)</b> verir.</td>
+              <td>3 satır 4 sütunlu matriste <code>m = 3</code>, <code>n = 4</code> olur.</td>
+            </tr>
+            <tr style="background:#fff1f2;">
+              <td><b><code>max(a)</code> / <code>min(a)</code></b></td>
+              <td>Bir <code>a</code> vektörünün <b>en büyük</b> / <b>en küçük</b> elemanını gösterir.</td>
+              <td>Matris verilirse her sütunun en büyüğünü/en küçüğünü içeren satır vektörü verir.</td>
+            </tr>
+            <tr style="background:#fff1f2;">
+              <td><b><code>[m, i] = max(a)</code></b><br><b><code>[m, i] = min(a)</code></b></td>
+              <td>Bir <code>a</code> sütun vektörünün en büyük/küçük elemanını (<b><code>m</code></b>) ve bunun <b>satır numarasını / indisini (<code>i</code>)</b> verir.</td>
+              <td>Hem değeri (<code>m</code>) hem de kaçıncı sırada olduğunu (<code>i</code>) aynı anda bulur!</td>
+            </tr>
+            <tr style="background:#fff1f2;">
+              <td><b><code>sort(a)</code></b></td>
+              <td>Bir <code>a</code> vektörünün elemanlarını <b>küçükten büyüğe</b> sıralar.</td>
+              <td>Örn: <code>sort([8 1 5])</code> ⟹ <code>[1 5 8]</code>.</td>
+            </tr>
+            <tr style="background:#fff1f2;">
+              <td><b><code>a(:, i) = []</code></b><br><b><code>a(i, :) = []</code></b></td>
+              <td><code>a(:, i) = []</code> → A'nın <b><b>i</b>. sütununu siler</b>.<br><code>a(i, :) = []</code> → A'nın <b><b>i</b>. satırını siler</b>.</td>
+              <td>Silme işleminde eşittirin sağına mutlaka boş köşeli parantez <b><code>[]</code></b> konulur!</td>
+            </tr>
+            <tr style="background:#fef3c7;">
+              <td><b><code>sortrows(a, i)</code></b><br><i>(Sayfa 4 Özel Kutu!)</i></td>
+              <td>Bir <code>a</code> matrisinin elemanlarını (satırlarını) <b><b>i</b>. sütuna göre</b> küçükten büyüğe sıralar.</td>
+              <td>Satırların kendi içindeki bütünlüğü bozulmaz; sadece <b>i</b>. sütundaki sayılar küçükten büyüğe dizilecek şekilde satırlar yer değiştirir!</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- İNTERAKTİF MATRİS & SORTROWS KONSOLU -->
+      <div class="sim-panel">
+        <h4 style="font-size:1.12rem; font-weight:800; color:#1e1b4b; margin-bottom:8px;">🖥️ Canlı MATLAB Matris İndisleme & <code>sortrows</code> Laboratuvarı (Sayfa 3 & 4 Birebir Örnekleri)</h4>
+        <p style="font-size:0.93rem; color:#334155; margin-bottom:14px;">Aşağıdaki komut butonlarına tıklayarak defterdeki <b>A</b> matrisi ve `sortrows` matrisinde hangi hücrelerin seçildiğini ve MATLAB'ın ürettiği <code>ans =</code> çıktısını anında gör:</p>
+
+        <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;">
+          <button class="sim-btn active" id="mBtn0" onclick="runMatrixSim(0)">A(:) (vec operatörü)</button>
+          <button class="sim-btn" id="mBtn1" onclick="runMatrixSim(1)">A(:, 2) (2. Sütun)</button>
+          <button class="sim-btn" id="mBtn2" onclick="runMatrixSim(2)">A(2, :) (2. Satır)</button>
+          <button class="sim-btn" id="mBtn3" onclick="runMatrixSim(3)">A(:, [1 3]) (1. ve 3. Sütun)</button>
+          <button class="sim-btn" id="mBtn4" onclick="runMatrixSim(4)">A([1 3], :) (1. ve 3. Satır)</button>
+          <button class="sim-btn" id="mBtn5" onclick="runMatrixSim(5)">A(:, 2) = [] (2. Sütunu Sil)</button>
+          <button class="sim-btn" id="mBtn6" onclick="runMatrixSim(6)">[m,i] = max(A(:,1))</button>
+          <button class="sim-btn" id="mBtn7" onclick="runMatrixSim(7)" style="border-color:#d97706; color:#b45309;">sortrows(a, 1) (Sayfa 4)</button>
+          <button class="sim-btn" id="mBtn8" onclick="runMatrixSim(8)" style="border-color:#e11d48; color:#be123c;">sortrows(a, 2) (Sayfa 4)</button>
+        </div>
+
+        <div class="grid-2" style="align-items:center;">
+          <div id="matrixVisualBox" style="text-align:center; padding:14px; background:#fff; border-radius:16px; border:2px solid #cbd5e1;"></div>
+          <div id="matrixConsoleBox" class="matlab-cmd" style="margin:0; min-height:170px;"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 3. BÖLÜM: SAYFA 4 VE SAYFA 5 ÜST (MATRİS CEBİRİ, .* ./ VE ÖZEL MATRİS)-->
+  <!-- ===================================================================== -->
+  <section id="bolum3" class="chapter">
+    <div class="chapter-banner c3">
+      <span class="chapter-tag">3. BÖLÜM — DEFTER SAYFA 4 & SAYFA 5</span>
+      <h2>Matris Cebiri, Karşılıklı İşlemler (.* ve ./) ve Özel Matris Komutları</h2>
+      <p>Normal çarpma (<code>a*b</code>) ile noktalı çarpma (<code>a.*b</code>) arasındaki hayati fark, <code>trace</code>, <code>diag</code>, <code>sum</code>, <code>triu/tril</code> ve <code>zeros/ones/eye</code>.</p>
+    </div>
+
+    <div class="doc-card">
+      <h3><span>⚡</span> 3.1. Matris Cebiri ve Noktalı (Eleman-Elemana) Operatörler (Sayfa 4–5)</h3>
+
+      <div class="trap-box">
+        <div class="trap-title">🚨 VİZEDE %100 SORULAN FARK: <code>a * b</code> ile <code>a .* b</code> Arasındaki Fark Nedir?</div>
+        <p>• <b><code>a * b</code> (Noktasız):</b> Bildiğimiz <b>lineer cebir matris çarpımı</b> yapar (<b>a</b>'nın sütun sayısı <b>m</b> ile <b>b</b>'nin satır sayısı <b>m</b> eşit olmalıdır).<br>
+        • <b><code>a .* b</code> (Noktalı):</b> Boyutları birebir aynı olan <b>a</b> ve <b>b</b> matrislerinin <b>aynı konumdaki elemanlarını KARŞILIKLI ÇARPAR!</b><br>
+        • <b><code>a / b</code> (Noktasız Bölme):</b> <b>b</b> düzenli bir kare matrisse <b><code>a * inv(b)</code></b> (<b>A · B⁻¹</b>) işlemi yapar!<br>
+        • <b><code>a ./ b</code> (Noktalı Bölme):</b> Boyutları aynı olan <b>a</b> ve <b>b</b> matrislerinin <b>elemanlarını KARŞILIKLI ORANLAR (böler)!</b></p>
+      </div>
+
+      <div class="table-wrap">
+        <table class="clean-table">
+          <thead>
+            <tr>
+              <th style="width:24%;">Komut / Operatör</th>
+              <th style="width:44%;">Defterdeki Birebir Tanımı (Sayfa 4–5)</th>
+              <th>Mala Anlatır Gibi Örnek & İpucu</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>inv(a)</code></td>
+              <td>Bir <code>a</code> kare matrisinin <b>tersini</b> (<b>A⁻¹</b>) alır.</td>
+              <td>Determinantı 0 olmayan kare matrislerin çarpmaya göre tersini bulur.</td>
+            </tr>
+            <tr>
+              <td><code>a'</code></td>
+              <td><code>a</code> matrisinin <b>devriğini (transpozunu)</b> (<b>Aᵀ</b>) alır.</td>
+              <td>Tek tırnak <code>'</code> satırları sütun, sütunları satır yapar!</td>
+            </tr>
+            <tr>
+              <td><code>det(a)</code></td>
+              <td><code>a</code> matrisinin <b>determinantını</b> hesaplar.</td>
+              <td>2x2 matriste <b>det([a b ; c d]) = a·d - b·c</b>.</td>
+            </tr>
+            <tr>
+              <td><code>a + b</code><br><code>a - b</code></td>
+              <td>Boyutları aynı olan <code>a</code> ve <code>b</code> matrisini <b>toplar / çıkarır</b>.</td>
+              <td>Aynı satır ve sütundaki elemanlar birbiriyle toplanır veya çıkarılır.</td>
+            </tr>
+            <tr>
+              <td><code>a * b</code></td>
+              <td>Sütun sayısı <b>m</b> olan <code>a</code> matrisiyle satır sayısı <b>m</b> olan <code>b</code> matrisini <b>çarpar</b>.</td>
+              <td>Satır × Sütun kuralıyla standart matris çarpımı.</td>
+            </tr>
+            <tr>
+              <td><code>a / b</code></td>
+              <td><code>b</code> düzenli bir kare matrisse aynı boyutlu <code>a</code> matrisiyle <b><code>a * inv(b)</code></b> işlemi yapar.</td>
+              <td>Matrislerde doğrudan bölme yoktur; sağdakinin tersiyle (<code>inv(b)</code>) çarpar.</td>
+            </tr>
+            <tr style="background:#ecfdf5;">
+              <td><b><code>a .* b</code></b></td>
+              <td>Boyutları aynı olan <code>a</code> ve <code>b</code> matrislerinin elemanlarını <b>karşılıklı ÇARPAR</b>.</td>
+              <td>Örn: <code>[2 3] .* [4 5] = [8 15]</code>.</td>
+            </tr>
+            <tr style="background:#ecfdf5;">
+              <td><b><code>a ./ b</code></b></td>
+              <td>Boyutları aynı olan <code>a</code> ve <code>b</code> matrislerinin elemanlarını <b>karşılıklı ORANLAR</b>.</td>
+              <td>Örn: <code>[10 20] ./ [2 5] = [5 4]</code>.</td>
+            </tr>
+            <tr>
+              <td><code>trace(a)</code></td>
+              <td>Bir <code>a</code> matrisinin <b>izini</b> hesaplar.</td>
+              <td><b>İz (trace)</b> = Sol üstten sağ alta inen <b>ana köşegen elemanlarının toplamıdır!</b></td>
+            </tr>
+            <tr>
+              <td><code>diag(a)</code></td>
+              <td>Kare <code>a</code> matrisinin <b>köşegen elemanlarını bir sütun vektöre atar</b>; ya da <code>a</code> bir vektör ise köşegenleri bu vektörün elemanlarından oluşan bir <b>köşegen matris oluşturur</b>.</td>
+              <td>İki yönlü çalışır: Matris verirsen vektör çıkarır; vektör verirsen köşegen matris yapar!</td>
+            </tr>
+            <tr>
+              <td><code>sum(a)</code></td>
+              <td><code>a</code> matrisinin <b>her bir sütununun toplamını</b> hesaplar. <code>a</code> bir vektör ise sonuç vektör elemanlarının toplamı olur.</td>
+              <td>🚨 <b>Dikkat:</b> Matriste satırları değil, <b>SÜTUNLARI</b> yukarıdan aşağıya toplar!</td>
+            </tr>
+            <tr>
+              <td><code>triu(a)</code></td>
+              <td>Bir matrisin <b>üst üçgen</b> matrisini oluşturur.</td>
+              <td>Sonundaki <b><code>u</code> = Upper (Üst)</b>! Köşegenin altındaki elemanları <code>0</code> yapar.</td>
+            </tr>
+            <tr>
+              <td><code>tril(a)</code></td>
+              <td>Bir matrisin <b>alt üçgen</b> matrisini oluşturur.</td>
+              <td>Sonundaki <b><code>l</code> = Lower (Alt)</b>! Köşegenin üstündeki elemanları <code>0</code> yapar.</td>
+            </tr>
+            <tr style="background:#eef2ff;">
+              <td><b><code>zeros(m, n)</code></b></td>
+              <td><b>m × n</b> boyutlu <b>sıfır matrisi</b> oluşturur (Sayfa 5).</td>
+              <td>Tüm elemanları <code>0</code> olan <b>m</b> satır, <b>n</b> sütunlu matris.</td>
+            </tr>
+            <tr style="background:#eef2ff;">
+              <td><b><code>ones(m, n)</code></b></td>
+              <td><b>m × n</b> boyutlu <b>elemanları 1 olan matrisi</b> oluşturur (Sayfa 5).</td>
+              <td>Tüm elemanları <code>1</code> olan <b>m</b> satır, <b>n</b> sütunlu matris.</td>
+            </tr>
+            <tr style="background:#eef2ff;">
+              <td><b><code>eye(m)</code></b></td>
+              <td><b>m × n</b> (veya <b>m × m</b>) boyutlu <b>birim matris</b> oluşturur (Sayfa 5).</td>
+              <td>Ana köşegeni <code>1</code>, diğer her yeri <code>0</code> olan birim matris (<b>I</b>).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- İNTERAKTİF MATRİS CEBİRİ SİMÜLATÖRÜ -->
+      <div class="sim-panel">
+        <h4 style="font-size:1.1rem; font-weight:800; color:#1e1b4b; margin-bottom:8px;">🧮 Canlı Matris Cebiri & Özel Matris Hesaplayıcı (<code>a = [2  4 ; 1  3]</code> ve <code>b = [1  2 ; 5  6]</code>)</h4>
+        <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px;">
+          <button class="sim-btn active" id="algBtn0" onclick="runAlgSim(0)">a * b vs a .* b</button>
+          <button class="sim-btn" id="algBtn1" onclick="runAlgSim(1)">a ./ b ve a / b</button>
+          <button class="sim-btn" id="algBtn2" onclick="runAlgSim(2)">trace(a), det(a), a'</button>
+          <button class="sim-btn" id="algBtn3" onclick="runAlgSim(3)">diag(a) ve sum(a)</button>
+          <button class="sim-btn" id="algBtn4" onclick="runAlgSim(4)">triu(a) ve tril(a)</button>
+          <button class="sim-btn" id="algBtn5" onclick="runAlgSim(5)">zeros(2,3), ones(2,3), eye(3)</button>
+        </div>
+        <div id="algSimOutput" class="matlab-cmd" style="margin:0;"></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================================================================== -->
+  <!-- 4. BÖLÜM: SAYFA 2, 5, 6, 7 (TÜM GRAFİK KOMUTLARI & KARMAŞIK SAYILAR)   -->
+  <!-- ===================================================================== -->
+  <section id="bolum4" class="chapter">
+    <div class="chapter-banner c4">
+      <span class="chapter-tag">4. BÖLÜM — DEFTER SAYFA 2, 5, 6 & 7 (EKSİKSİZ 26 GRAFİK KOMUTU + KARMAŞIK SAYILAR)</span>
+      <h2>2B/3B Grafik Çizimi, subplot, legend Konum Şeması ve Tüm Grafik/Karmaşık Sayı Tabloları</h2>
+      <p>Defterdeki <code>plot(x,y,'c')</code> ok şeması, <code>fplot</code>, <code>legend</code> konum kutusu, <code>subplot(m,n,p)</code>, 26 grafik fonksiyonu tablosu ve 5 karmaşık sayı komutu.</p>
+    </div>
+
+    <!-- 4.1 PLOT, FPLOT, LEGEND, SUBPLOT -->
+    <div class="doc-card">
+      <h3><span>📈</span> 4.1. plot, fplot, ezplot, Eksen Ayarları, legend Konumları ve subplot (Sayfa 2 & 5)</h3>
+
+      <div class="grid-2" style="margin-bottom:18px;">
+        <div class="mini-card" style="border-left:5px solid #d97706;">
+          <h4>🎯 Defter Sayfa 2: <code>plot(x, y, 'c')</code> Şeması</h4>
+          <p style="font-size:0.93rem;">
+            • <b><code>x</code></b> ⟶ <b>x</b> eksenine ait vektörel ifade<br>
+            • <b><code>y</code></b> ⟶ <b>y</b> eksenine ait vektörel ifade<br>
+            • <b><code>'c'</code></b> ⟶ çizimin çizgi / renk tanımlaması<br>
+            <b>Not:</b> Çoğunlukla renklerin İngilizcelerinin baş harfleri kullanılır (<code>r</code>=red, <code>g</code>=green, <code>b</code>=blue, <code>c</code>=cyan, <code>m</code>=magenta, <code>y</code>=yellow, <code>k</code>=black).<br>
+            <b>Çoklu Çizim Örneği:</b><br>
+            <code>plot(x1, y1, 'c1', x2, y2, 'c2', ... xn, yn, 'cn')</code>
+          </p>
+        </div>
+
+        <div class="mini-card" style="border-left:5px solid #4f46e5;">
+          <h4>🎯 Defter Sayfa 5: <code>fplot</code> ve <code>ezplot</code> Şeması</h4>
+          <p style="font-size:0.93rem;">
+            • <b><code>fplot('F', [x1, x2])</code></b>: Bir fonksiyona ait grafiğin tanımlanan <b>[x₁, x₂]</b> sınır değerlerine göre çizim yapar.<br>
+            • <b><code>fplot('F', [x1, x2], tol, 'çri')</code></b>:<br>
+            &nbsp;&nbsp;↳ <b><code>tol</code></b>: tanımlanan tolerans aralığı<br>
+            &nbsp;&nbsp;↳ <b><code>'çri'</code></b>: çizgi çeşidi, renk, işaretleme çeşidi<br>
+            • <b><code>ezplot</code></b> = <code>fplot</code> + fonksiyonda kullanılan sembol <b><code>syms</code></b> komutu ile önceden tanımlanabilir.
+          </p>
+        </div>
+      </div>
+
+      <!-- LEGEND KONUM KUTUSU VE SUBPLOT AÇIKLAMASI -->
+      <div class="grid-2" style="margin-bottom:18px;">
+        <div class="mini-card" style="background:#fffbeb; border-color:#fcd34d;">
+          <h4>🗺️ Defter Sayfa 5 Sağ Alt Şema: <code>legend</code> Konum Kodları</h4>
+          <p style="font-size:0.92rem; margin-bottom:10px;"><code>legend('Açıklama 1', 'Açıklama 2', konum)</code> komutunda tanımlanan konuma göre açıklama kutusunun yerleştiği yerler:</p>
+          <div style="border:3px solid #1e293b; border-radius:10px; padding:12px; background:#fff; position:relative; font-family:'JetBrains Mono',monospace; font-weight:800;">
+            <div style="position:absolute; top:4px; right:-38px; background:#fee2e2; color:#be123c; padding:2px 8px; border:2px solid #be123c; border-radius:6px;">-1</div>
+            <div style="display:flex; justify-content:space-between;">
+              <span style="background:#dbeafe; color:#1d4ed8; padding:2px 8px; border-radius:6px;">2 (Sol Üst)</span>
+              <span style="background:#dbeafe; color:#1d4ed8; padding:2px 8px; border-radius:6px;">1 (Sağ Üst)</span>
+            </div>
+            <div style="text-align:center; margin:10px 0;">
+              <span style="background:#d1fae5; color:#047857; padding:3px 10px; border-radius:6px;">0 (En Uygun / Orta)</span>
+            </div>
+            <div style="display:flex; justify-content:space-between;">
+              <span style="background:#dbeafe; color:#1d4ed8; padding:2px 8px; border-radius:6px;">3 (Sol Alt)</span>
+              <span style="background:#dbeafe; color:#1d4ed8; padding:2px 8px; border-radius:6px;">4 (Sağ Alt)</span>
+            </div>
+          </div>
+          <p style="font-size:0.84rem; margin-top:8px; color:#78350f;">* Sağ üst dışarıdaki <b><code>-1</code></b> kodu lejantı grafik çerçevesinin sağ dışına koyar!</p>
+        </div>
+
+        <div class="mini-card" style="background:#eef2ff; border-color:#a5b4fc;">
+          <h4>🪟 Defter Sayfa 5: <code>subplot(m, n, p)</code> ve Yazı Stilleri</h4>
+          <p style="font-size:0.92rem;">
+            <b><code>subplot(m, n, p)</code></b> = Figür penceresinde istenilen sayıda pencerelere bölerek çizimin yapılacağı pencerenin adreslenmesini sağlar:<br>
+            • <b><code>m</code></b> = satır sayısı<br>
+            • <b><code>n</code></b> = sütun sayısı<br>
+            • <b><code>p</code></b> = çizimin yapılacağı pencerenin numarası<br><br>
+            <b>Yazı Biçimlendirme (Sayfa 5):</b><br>
+            • <b><code>\bf</code></b> = Yazı tipini <b>kalınlaştırır</b> (bold).<br>
+            • <b><code>\it</code></b> <i>(defterde <code>\if</code>)</i> = Yazının şeklini <i>italik</i> yapar.<br>
+            • <b><code>\rm</code></b> = Başlık yazısını normal ölçüsüne geri döndürür.
+          </p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="clean-table">
+          <thead>
+            <tr>
+              <th style="width:28%;">Grafik Ayar Komutu</th>
+              <th>Defterdeki Birebir Açıklaması (Sayfa 2 & 5)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>title('...')</code></td><td>Grafiğe başlık atar.</td></tr>
+            <tr><td><code>xlabel('...')</code> / <code>ylabel('...')</code></td><td><b>x</b> eksenine başlık atar / <b>y</b> eksenine başlık atar.</td></tr>
+            <tr><td><code>fontsize</code> (istenen punto)</td><td>Eksen ve başlık isimlerinin boyutu / koyuluğunu ayarlar.</td></tr>
+            <tr><td><code>grid on</code> / <code>grid off</code></td><td>Kılavuz çizgilerini ekler / kaldırır.</td></tr>
+            <tr><td><code>axis([xmin xmax ymin ymax])</code></td><td>Grafiğe ait eksen ölçeklendirmesini istenilen değerlere göre yeniden düzeltir.</td></tr>
+            <tr><td><code>gtext('açıklama metni')</code></td><td>Grafik penceresi üzerinde (fare ile tıklanan yere) açıklama yazılmasını sağlar.</td></tr>
+            <tr><td><code>ginput(n)</code></td><td>Grafik üzerinde fare vasıtasıyla belirtilen (<b>n</b> adet) nokta veya noktaların koordinatlarını komut penceresinde sayısal olarak elde etmeyi sağlar.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- İNTERAKTİF SUBPLOT VE GRAFİK ÇİZİCİ -->
+      <div class="sim-panel">
+        <h4 style="font-size:1.1rem; font-weight:800; color:#1e1b4b; margin-bottom:8px;">🎨 Canlı <code>subplot(m, n, p)</code> ve Grafik Türü Görselleştirici</h4>
+        <div class="grid-2" style="align-items:center;">
+          <div>
+            <p style="font-size:0.9rem; margin-bottom:8px;"><b>1. <code>subplot(m, n, p)</code> Seçimi:</b></p>
+            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:12px;">
+              <span>m (Satır):</span>
+              <select id="subM" onchange="updateSubplotSim()" style="padding:6px; border-radius:8px; font-weight:700;"><option value="2" selected>2</option><option value="3">3</option></select>
+              <span>n (Sütun):</span>
+              <select id="subN" onchange="updateSubplotSim()" style="padding:6px; border-radius:8px; font-weight:700;"><option value="2" selected>2</option><option value="3">3</option></select>
+              <span>p (Pencere):</span>
+              <input type="number" id="subP" value="3" min="1" max="9" onchange="updateSubplotSim()" style="width:60px; padding:6px; border-radius:8px; font-weight:700;">
+            </div>
+            <div id="subplotGridBox" style="background:#fff; padding:12px; border-radius:12px; border:2px solid #cbd5e1; margin-bottom:12px;"></div>
+            <p style="font-size:0.9rem; margin-bottom:8px;"><b>2. Çizilecek Grafik Komutunu Seç:</b></p>
+            <div style="display:flex; flex-wrap:wrap; gap:6px;">
+              <button class="sim-btn active" id="pType0" onclick="drawPlotType(0)">plot(x,y)</button>
+              <button class="sim-btn" id="pType1" onclick="drawPlotType(1)">stem(x,y)</button>
+              <button class="sim-btn" id="pType2" onclick="drawPlotType(2)">stairs(x,y)</button>
+              <button class="sim-btn" id="pType3" onclick="drawPlotType(3)">bar(x,y)</button>
+              <button class="sim-btn" id="pType4" onclick="drawPlotType(4)">pie3(x,explode)</button>
+              <button class="sim-btn" id="pType5" onclick="drawPlotType(5)">compass / polar</button>
+            </div>
+          </div>
+          <div style="text-align:center; background:#fff; padding:12px; border-radius:16px; border:2px solid #cbd5e1;">
+            <canvas id="matlabPlotCanvas" width="420" height="250" style="max-width:100%; height:auto;"></canvas>
+            <div id="plotCaption" style="font-size:0.88rem; font-weight:700; color:#4f46e5; margin-top:6px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4.2 DEFTER SAYFA 6 & 7: TÜM GRAFİK FONKSİYONLARI VE KARMAŞIK SAYI TABLOSU -->
+    <div class="doc-card">
+      <h3><span>📊</span> 4.2. Defter Sayfa 6 & 7: Tüm 26 Grafik Komutu ve Karmaşık Sayı Fonksiyonları</h3>
+
+      <div class="eli5-box">
+        <div class="eli5-title">📝 Defter Sayfa 6 El Yazısı Özel Notları (Sınavda Parametre Sorulursa!)</div>
+        <ul style="padding-left:20px; font-size:0.94rem;">
+          <li><b><code>plot3(x, y, z)</code></b> = 3 boyutlu grafik çizimini sağlar (<code>x / y / z</code> = vektörel ifade).</li>
+          <li><b><code>bar(x, y)</code></b> = Çubuk grafik çizimini sağlar (<code>x</code> = <b>x</b> eksenine ait değerler, <code>y</code> = <b>y</b> eksenine ait değerler).</li>
+          <li><b><code>barh(x, y)</code></b> = <b>Yatay</b> çubuk grafik çizimini sağlar.</li>
+          <li><b><code>bar3(Y)</code></b> = <b>3 boyutlu</b> çubuk grafik çizimini sağlar (<code>Y</code> = <b>x, y, z</b> koordinat değerlerine sahip matris).</li>
+          <li><b><code>stem(x, y)</code></b> = İnce çubuk (gövde) grafik çizimini sağlar. | <b><code>stem3(x, y, z)</code></b> = 3 boyutlu ince çubuk grafik çizimini sağlar.</li>
+          <li><b><code>pie(X)</code></b> = Pasta grafik çizimini sağlar (<code>X</code> = pasta grafikteki her bir dilime ait yüzdeyi içeren matris).</li>
+          <li><b><code>pie3(x, explode)</code></b> = 3 boyutlu pasta grafik çizer (<b><code>explode</code></b> = <b>x</b> ile aynı boyutlu, <b>dilimler arasındaki boşluğu</b> gösterir).</li>
+          <li><b><code>hist(x)</code></b> = İstatistiksel grafik (histogram) çizer.</li>
+          <li><b><code>polar(x, y)</code></b> = Kutupsal koordinatlı grafik çizer. <i>(Defter notunda: <code>x</code> = kutupsal koordinatın büyüklük değeri, <code>y</code> = kutupsal koordinatın açı değeri olarak yazılmıştır; standart MATLAB'da <code>polar(theta, rho)</code> şeklindedir).</i></li>
+        </ul>
+      </div>
+
+      <h4 style="font-size:1.08rem; font-weight:800; margin:16px 0 10px; color:#0f172a;">📋 Sayfa 6 ve Sayfa 7'deki Basılı Grafik Fonksiyonları Tablosu (A'dan Z'ye Eksiksiz):</h4>
+      <div class="table-wrap">
+        <table class="clean-table">
+          <thead>
+            <tr>
+              <th style="width:22%;">Fonksiyon</th>
+              <th style="width:45%;">Defterdeki Birebir Açıklaması</th>
+              <th>Akılda Tutma Şifresi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>area</code></td><td>Dolu alan grafiği oluşturur.</td><td>Eğrinin altındaki alanı boyar (Area = Alan).</td></tr>
+            <tr><td><code>bar</code></td><td>Sütun (çubuk) grafiği oluşturur.</td><td>Dikey çubuk grafik.</td></tr>
+            <tr><td><code>barh</code></td><td>Yatay sütun grafiği oluşturur.</td><td>Sonundaki <code>h</code> = Horizontal (Yatay).</td></tr>
+            <tr><td><code>comet</code></td><td>Hareketli bir 2 boyutlu grafik yapar.</td><td>Kuyruklu yıldız (comet) gibi animasyonlu çizer.</td></tr>
+            <tr><td><code>compass</code></td><td>Karmaşık sayılar için ok grafiği oluşturur.</td><td>Pusula (compass) gibi merkezden çıkan oklar çizer.</td></tr>
+            <tr><td><code>contour</code></td><td>Kontur grafikleri yapar.</td><td>Haritadaki eş yükselti eğrileri (içi boş).</td></tr>
+            <tr><td><code>contourf</code></td><td>Dolu kontur grafikleri yapar.</td><td>Sonundaki <code>f</code> = Filled (İçi boyalı kontur).</td></tr>
+            <tr><td><code>errorbar</code></td><td>Grafik çizer ve hata çubukları ekler.</td><td>Ölçüm belirsizliği / hata payı çubukları.</td></tr>
+            <tr><td><code>feather</code></td><td>Tüy (feather) grafiği yapar.</td><td>Yatay eksen boyunca dizilmiş hız/yön okları.</td></tr>
+            <tr><td><code>fill</code></td><td>Belirtilen renkte içi dolu çokgenler çizer.</td><td>Çokgenin içini renkle doldurur (Fill = Doldur).</td></tr>
+            <tr><td><code>fplot</code></td><td>Tek değişkenli bir fonksiyonun grafiğini çizer.</td><td>Fonksiyon (Function) grafiği.</td></tr>
+            <tr><td><code>hist</code></td><td>Histogramlar yapar.</td><td>Verilerin frekans dağılım (istatistik) grafiği.</td></tr>
+            <tr><td><code>loglog</code></td><td>Hem <b>x</b> hem de <b>y</b> eksenlerinde logaritmik ölçekte grafik oluşturur.</td><td>İki kere <code>log</code> yazıldığı için iki eksen de logaritmik!</td></tr>
+            <tr><td><code>pareto</code></td><td>Pareto grafikleri yapar.</td><td>Büyükten küçüğe sütun + kümülatif yüzde çizgisi.</td></tr>
+            <tr><td><code>pcolor</code></td><td>Matrisin sahte renk (pseudo color) grafiğini yapar.</td><td>Matris değerlerini renkli dama tahtası gibi gösterir.</td></tr>
+            <tr><td><code>pie</code></td><td>Pasta grafiği oluşturur.</td><td>Yüzdelik dilimler (Pie = Pasta).</td></tr>
+            <tr><td><code>plotyy</code></td><td>Çift <b>y</b>-eksenli grafik yapar.</td><td>Sonunda iki tane <code>yy</code> var → Sol ve sağda iki <b>y</b> ekseni!</td></tr>
+            <tr><td><code>plotmatrix</code></td><td>Bir matrisin serpme (scatter) grafiğini yapar.</td><td>Sütun çiftlerinin birbirine göre nokta dağılım matrisi.</td></tr>
+            <tr><td><code>polar</code></td><td>Kutupsal koordinatlarda eğriler çizer.</td><td>Derece/radyan dairesel ızgara üzerinde çizim.</td></tr>
+            <tr><td><code>quiver</code></td><td>Vektör alanlarını çizer.</td><td>2B düzlemde <b>(u, v)</b> oklarıyla vektör alanı (ok kılıfı).</td></tr>
+            <tr><td><code>rose</code></td><td>Açılı histogramlar yapar.</td><td>Kutupsal daire içinde gül (rose) yaprağı gibi histogram.</td></tr>
+            <tr><td><code>scatter</code></td><td>Serpme (scatter) grafiği oluşturur.</td><td>Verileri çizgisiz, tek tek noktalar/daireler halinde saçar.</td></tr>
+            <tr><td><code>semilogx</code></td><td><b>x</b>-ekseninde logaritmik ölçekle yarı-logaritmik (semilog) grafik yapar.</td><td>Sonunda <code>x</code> var → Sadece <b>x</b> ekseni logaritmik!</td></tr>
+            <tr><td><code>semilogy</code></td><td><b>y</b>-ekseninde logaritmik ölçekle yarı-logaritmik (semilog) grafik yapar.</td><td>Sonunda <code>y</code> var → Sadece <b>y</b> ekseni logaritmik!</td></tr>
+            <tr><td><code>stairs</code></td><td>Merdiven grafiği çizer.</td><td>Basamak basamak (merdiven = stairs) sinyal grafiği.</td></tr>
+            <tr><td><code>stem</code></td><td>Gövde (stem) grafiği çizer.</td><td>Ayrık zamanlı sinyaller için ucunda yuvarlak olan ince çubuk.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4 style="font-size:1.08rem; font-weight:800; margin:20px 0 10px; color:#be123c;">🔢 Sayfa 7 Alt Tablo: Karmaşık Sayı (<b>x = a + ib</b>) Fonksiyonları:</h4>
+      <div class="table-wrap">
+        <table class="clean-table">
+          <thead>
+            <tr>
+              <th style="width:22%;">Fonksiyon</th>
+              <th style="width:50%;">Defterdeki Birebir Açıklaması (Sayfa 7)</th>
+              <th>Örnek (<b>x = 3 + 4i</b> için)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>conj(x)</code></td>
+              <td><b>x</b> karmaşık sayısının <b>karmaşık eşleniğini (conjugate)</b> hesaplar. Böylece, eğer <b>x</b> sayısı <b>a + ib</b>'ye eşitse, <code>conj(x)</code> değeri <b>a - ib</b>'ye eşit olacaktır.</td>
+              <td><code>conj(3 + 4i) = 3 - 4i</code></td>
+            </tr>
+            <tr>
+              <td><code>real(x)</code></td>
+              <td><b>x</b> karmaşık sayısının <b>gerçek (reel)</b> kısmını hesaplar.</td>
+              <td><code>real(3 + 4i) = 3</code></td>
+            </tr>
+            <tr>
+              <td><code>imag(x)</code></td>
+              <td><b>x</b> karmaşık sayısının <b>sanal (imajiner)</b> kısmını hesaplar.</td>
+              <td><code>imag(3 + 4i) = 4</code> <i>(Yanına <b>i</b> yazılmaz!)</i></td>
+            </tr>
+            <tr>
+              <td><code>abs(x)</code></td>
+              <td><b>x</b> karmaşık sayısının <b>mutlak değerini (büyüklüğünü)</b> hesaplar.</td>
+              <td><code>abs(3 + 4i) = 5</code> (<b>√(3² + 4²) = 5</b>)</td>
+            </tr>
+            <tr>
+              <td><code>angle(x)</code></td>
+              <td>Açıyı <b><code>atan2(imag(x), real(x))</code></b> değerini kullanarak hesaplar; böylece, açı değeri <b><b>-π</b> ile <b>π</b></b> arasındadır.</td>
+              <td><code>angle(3 + 4i) = 0.9273</code> radyan</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================================================================== -->
+  <!-- 5. BÖLÜM: SAYFA 8, 9, 10 (SİMULİNK BLOKLARI VE DİFERANSİYEL DENKLEM)  -->
+  <!-- ===================================================================== -->
+  <section id="bolum5" class="chapter">
+    <div class="chapter-banner c5">
+      <span class="chapter-tag">5. BÖLÜM — DEFTER SAYFA 8, 9 & 10 (KLASİK SORU ADAYI!)</span>
+      <h2>Simulink Blokları ve 3. Dereceden Diferansiyel Denklem Modellemesi</h2>
+      <p>Defterin son 3 sayfasında adım adım anlatılan Simulink blokları ve <b>y''' = √(t' - y²) + sin(t · y') + e<sup>-2t</sup> - cos(y)</b> denkleminin blok şeması.</p>
+    </div>
+
+    <!-- 5.1 TEMEL SİMULİNK BLOKLARI -->
+    <div class="doc-card">
+      <h3><span>🧱</span> 5.1. Defter Sayfa 8: Temel Simulink Blokları ve Step Parametreleri</h3>
+
+      <div class="grid-3" style="margin-bottom:16px;">
+        <div class="mini-card" style="border-top:4px solid #4f46e5;">
+          <h4>1. <code>Integrator</code> (<b>1/s</b> Bloğu)</h4>
+          <p style="font-size:0.9rem;"><b>Defter:</b> <i>"İntegral bloğu."</i><br>Girişine gelen türev sinyalinin integralini alır: <div style='font-weight:800; color:#4f46e5; margin:6px 0;'>y''' ──[ 1/s ]──▶ y'' ──[ 1/s ]──▶ y' ──[ 1/s ]──▶ y</div> Denklem kaçıncı derecedense o kadar Integrator yan yana bağlanır!</p>
+        </div>
+        <div class="mini-card" style="border-top:4px solid #0d9488;">
+          <h4>2. <code>Constant</code> (<code>1</code> Bloğu)</h4>
+          <p style="font-size:0.9rem;"><b>Defter:</b> <i>"Değer atama bloğu."</i><br>Sisteme sabit bir sayı (örneğin 1, 5, -3) vermek için kullanılır.</p>
+        </div>
+        <div class="mini-card" style="border-top:4px solid #e11d48;">
+          <h4>3. <code>Product</code> (<code>×</code> Bloğu)</h4>
+          <p style="font-size:0.9rem;"><b>Defter:</b> <i>"Çarpım bloğu."</i><br>İki veya daha fazla sinyali birbiriyle çarpar (Örn: <b>t</b> ile <b>y'</b> sinyalini çarpıp <b>t·y'</b> üretir).</p>
+        </div>
+        <div class="mini-card" style="border-top:4px solid #d97706;">
+          <h4>4. <code>Math Function</code> (<b>e<sup>u</sup></b> Bloğu)</h4>
+          <p style="font-size:0.9rem;"><b>Defter:</b> <i>"Matematik bloğu (İçerisinde <b>14 adet dönüşüm</b> var)."</i><br>Çift tıklayıp ayarlardan <b>e<sup>u</sup></b> (<code>exp</code>), <b>u²</b> (<code>square</code>), <code>log</code>, <code>10^u</code> vb. seçilebilir.</p>
+        </div>
+        <div class="mini-card" style="border-top:4px solid #7c3aed;">
+          <h4>5. <code>Step</code> (Basamak Bloğu)</h4>
+          <p style="font-size:0.9rem;"><b>Defter:</b> <i>"Step bloğu (Adım bloğu)."</i><br>• <b>Step time (Adım zamanı):</b> Sinyalin değer değiştireceği saniye cinsinden zaman anıdır.<br>• <b>Initial value (Başlangıç değeri):</b> Adım zamanından önceki (<b>t &lt; step time</b>) sinyal seviyesidir.<br>• <b>Final value (Bitiş/Son değer):</b> Adım zamanı geldiğinde (<b>t ≥ step time</b>) sinyalin çıkacağı veya ineceği yeni seviyedir.</p>
+        </div>
+        <div class="mini-card" style="border-top:4px solid #059669;">
+          <h4>6. <code>Sum</code> / <code>Subtract</code> (<code>+ / -</code>)</h4>
+          <p style="font-size:0.9rem;"><b>Defter:</b> <i>"Birnevi işlem bloğu. Girişleri <code>+</code> ve <code>-</code> olarak değişebilir."</i><br>Birden fazla kolu toplamak (<code>+</code>) veya çıkarmak (<code>-</code>) için kullanılır.</p>
+        </div>
+      </div>
+
+      <div class="eli5-box">
+        <div class="eli5-title">🔍 Diyagramda Kullanılan Diğer 5 Yardımcı Blok (Sayfa 8–10):</div>
+        <div class="grid-2" style="margin-top:6px; font-size:0.92rem;">
+          <div>• <b><code>Clock</code> (Saat Simgesi):</b> Simülasyon zamanı olan <b><b>t</b></b> değişkenini üretir.</div>
+          <div>• <b><code>Derivative</code> (<b>du/dt</b>):</b> Girişin zamana göre türevini alır (<b>t → t'</b>).</div>
+          <div>• <b><code>Sqrt</code> (<b>√u</b>):</b> Giriş sinyalinin karekökünü alır.</div>
+          <div>• <b><code>Trigonometric Function</code> (<code>sin</code> / <code>cos</code>):</b> İçeriği <code>sin</code> veya <code>cos</code> olarak seçilebilir.</div>
+          <div>• <b><code>Gain</code> (Üçgen <code>-2</code> Bloğu):</b> Sinyali sabit bir katsayı ile çarpar (<b>t → -2t</b>).</div>
+          <div>• <b><code>Scope</code> (Osiloskop Ekranı):</b> <b>y, y', y'', y'''</b> çıkış grafiklerini ekranda gösterir.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5.2 ADIM ADIM İNTERAKTİF SİMULİNK DİFERANSİYEL DENKLEM MODELİ -->
+    <div class="doc-card">
+      <h3><span>🔌</span> 5.2. Sayfa 8–9–10'daki 3. Denklem: Adım Adım Simulink Modellemesi</h3>
+
+      <div style="background:#0f172a; color:#fff; padding:18px 22px; border-radius:16px; margin-bottom:18px; text-align:center;">
+        <div style="font-size:0.85rem; color:#94a3b8; font-weight:700; margin-bottom:6px;">DEFTER SAYFA 8–9–10'DAKİ BİREBİR DENKLEM (3. DENKLEM):</div>
+        <div style="font-size:clamp(1.1rem, 2.5vw, 1.5rem); font-weight:800; font-family:'JetBrains Mono',monospace; color:#facc15;">
+          y''' = <span style="color:#38bdf8;">√(t' - y²)</span> + <span style="color:#4ade80;">sin(t · y')</span> + <span style="color:#f472b6;">e^(-2t)</span> - <span style="color:#fb923c;">cos(y)</span>
+        </div>
+        <div style="display:flex; justify-content:center; gap:18px; flex-wrap:wrap; margin-top:8px; font-size:0.85rem;">
+          <span style="color:#38bdf8;">(1. İfade)</span>
+          <span style="color:#4ade80;">(2. İfade)</span>
+          <span style="color:#f472b6;">(3. İfade)</span>
+          <span style="color:#fb923c;">(4. İfade)</span>
+        </div>
+      </div>
+
+      <!-- İNTERAKTİF ADIM SEÇİCİ -->
+      <div class="sim-panel" style="margin-top:0;">
+        <h4 style="font-size:1.08rem; font-weight:800; color:#1e1b4b; margin-bottom:10px;">🕹️ İnteraktif Simulink Blok Diyagramı (Adımlara Tıkla, Bağlantıları Canlı İzle!):</h4>
+        <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px;">
+          <button class="sim-btn active" id="simStepBtn0" onclick="setSimStep(0)">🌟 Tüm Şemayı Göster</button>
+          <button class="sim-btn" id="simStepBtn1" onclick="setSimStep(1)">1. İntegratör Zinciri (y'''→y)</button>
+          <button class="sim-btn" id="simStepBtn2" onclick="setSimStep(2)">2. Birinci İfade: √(t' - y²)</button>
+          <button class="sim-btn" id="simStepBtn3" onclick="setSimStep(3)">3. İkinci İfade: sin(t·y')</button>
+          <button class="sim-btn" id="simStepBtn4" onclick="setSimStep(4)">4. Üçüncü İfade: e^(-2t)</button>
+          <button class="sim-btn" id="simStepBtn5" onclick="setSimStep(5)">5. Dördüncü İfade: -cos(y) (S.9)</button>
+          <button class="sim-btn" id="simStepBtn6" onclick="setSimStep(6)">6. y''' Geri Besleme & Scope (S.9-10)</button>
+        </div>
+
+        <div id="simStepDescBox" style="background:#fff; border-left:5px solid #4f46e5; padding:14px 18px; border-radius:12px; margin-bottom:14px; font-size:0.95rem;"></div>
+
+        <!-- SVG BİREBİR SİMULİNK DİYAGRAMI -->
+        <div style="background:#ffffff; border:2px solid #94a3b8; border-radius:16px; padding:12px; overflow-x:auto;">
+          <svg id="simulinkSvg" viewBox="0 0 980 500" style="width:100%; min-width:780px; height:auto; font-family:'Plus Jakarta Sans',sans-serif;">
+            <defs>
+              <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 1 L 10 5 L 0 9 z" fill="#1e293b"/>
+              </marker>
+              <marker id="arrowRed" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 1 L 10 5 L 0 9 z" fill="#e11d48"/>
+              </marker>
+              <marker id="arrowBlue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 1 L 10 5 L 0 9 z" fill="#0284c7"/>
+              </marker>
+            </defs>
+
+            <!-- ARKA PLAN IZGARASI -->
+            <rect x="0" y="0" width="980" height="500" fill="#f8fafc"/>
+
+            <!-- ADIM 6: GERİ BESLEME HATTI (Subtract2 çıkışından en soldaki y''' girişine) -->
+            <g id="svgGroup6" opacity="1">
+              <polyline points="905,220 955,220 955,55 45,55 45,115 95,115" fill="none" stroke="#e11d48" stroke-width="3.5" marker-end="url(#arrowRed)"/>
+              <text x="480" y="45" fill="#be123c" font-weight="800" font-size="13" text-anchor="middle">Kırmızı Geri Besleme Hattı: Subtract2 çıkışı = y''' olduğu için 1. Integrator girişine bağlanır! (Sayfa 9)</text>
+              <!-- Scope -->
+              <rect x="690" y="18" width="55" height="48" rx="6" fill="#fff" stroke="#1e293b" stroke-width="2.5"/>
+              <rect x="698" y="25" width="39" height="24" rx="3" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/>
+              <path d="M 702 40 Q 710 26 718 38 T 734 32" fill="none" stroke="#0284c7" stroke-width="2"/>
+              <text x="717" y="80" font-size="12" font-weight="800" text-anchor="middle">Scope</text>
+              <polyline points="435,115 435,42 690,42" fill="none" stroke="#059669" stroke-width="2.5" marker-end="url(#arrow)"/>
+              <text x="560" y="36" fill="#047857" font-weight="800" font-size="12">y (veya y', y'', y''')</text>
+            </g>
+
+            <!-- ADIM 1: INTEGRATOR ZİNCİRİ -->
+            <g id="svgGroup1" opacity="1">
+              <circle cx="80" cy="115" r="11" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+              <text x="78" y="138" font-size="13" font-weight="800" fill="#1e3a8a" text-anchor="middle">y'''</text>
+
+              <!-- Integrator 1 -->
+              <rect x="100" y="92" width="52" height="46" fill="#fff" stroke="#1e293b" stroke-width="2.2"/>
+              <text x="126" y="111" font-size="13" font-weight="800" text-anchor="middle">1</text>
+              <line x1="115" y1="115" x2="137" y2="115" stroke="#1e293b" stroke-width="2"/>
+              <text x="126" y="130" font-size="13" font-weight="800" text-anchor="middle">s</text>
+              <text x="126" y="153" font-size="11.5" font-weight="800" text-anchor="middle">Integrator</text>
+
+              <line x1="152" y1="115" x2="210" y2="115" stroke="#1e293b" stroke-width="2.2" marker-end="url(#arrow)"/>
+              <circle cx="180" cy="115" r="11" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+              <text x="180" y="138" font-size="13" font-weight="800" fill="#1e3a8a" text-anchor="middle">y''</text>
+
+              <!-- Integrator 2 -->
+              <rect x="215" y="92" width="52" height="46" fill="#fff" stroke="#1e293b" stroke-width="2.2"/>
+              <text x="241" y="111" font-size="13" font-weight="800" text-anchor="middle">1</text>
+              <line x1="230" y1="115" x2="252" y2="115" stroke="#1e293b" stroke-width="2"/>
+              <text x="241" y="130" font-size="13" font-weight="800" text-anchor="middle">s</text>
+              <text x="241" y="153" font-size="11.5" font-weight="800" text-anchor="middle">Integrator1</text>
+
+              <line x1="267" y1="115" x2="325" y2="115" stroke="#1e293b" stroke-width="2.2" marker-end="url(#arrow)"/>
+              <circle cx="295" cy="115" r="11" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+              <text x="295" y="138" font-size="13" font-weight="800" fill="#1e3a8a" text-anchor="middle">y'</text>
+
+              <!-- Integrator 3 -->
+              <rect x="330" y="92" width="52" height="46" fill="#fff" stroke="#1e293b" stroke-width="2.2"/>
+              <text x="356" y="111" font-size="13" font-weight="800" text-anchor="middle">1</text>
+              <line x1="345" y1="115" x2="367" y2="115" stroke="#1e293b" stroke-width="2"/>
+              <text x="356" y="130" font-size="13" font-weight="800" text-anchor="middle">s</text>
+              <text x="356" y="153" font-size="11.5" font-weight="800" text-anchor="middle">Integrator2</text>
+
+              <line x1="382" y1="115" x2="475" y2="115" stroke="#1e293b" stroke-width="2.2" marker-end="url(#arrow)"/>
+              <circle cx="415" cy="115" r="11" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+              <text x="415" y="138" font-size="13" font-weight="800" fill="#1e3a8a" text-anchor="middle">y</text>
+            </g>
+
+            <!-- CLOCK BLOĞU -->
+            <g id="svgClock" opacity="1">
+              <circle cx="385" cy="215" r="20" fill="#fff" stroke="#1e293b" stroke-width="2.2"/>
+              <polyline points="385,202 385,215 395,215" fill="none" stroke="#1e293b" stroke-width="2"/>
+              <text x="385" y="250" font-size="11.5" font-weight="800" text-anchor="middle">Clock</text>
+              <line x1="405" y1="215" x2="475" y2="215" stroke="#1e293b" stroke-width="2" marker-end="url(#arrow)"/>
+              <text x="428" y="210" font-size="12.5" font-weight="800">t</text>
+            </g>
+
+            <!-- ADIM 2: 1. İFADE sqrt(t' - y^2) -->
+            <g id="svgGroup2" opacity="1">
+              <!-- Math Function u^2 -->
+              <rect x="480" y="92" width="54" height="46" fill="#e0f2fe" stroke="#0284c7" stroke-width="2.2"/>
+              <text x="507" y="120" font-size="14" font-weight="800" text-anchor="middle">u²</text>
+              <text x="507" y="152" font-size="11" font-weight="800" text-anchor="middle">Math</text>
+              <text x="507" y="164" font-size="11" font-weight="800" text-anchor="middle">Function</text>
+
+              <!-- Derivative du/dt -->
+              <rect x="480" y="192" width="54" height="46" fill="#e0f2fe" stroke="#0284c7" stroke-width="2.2"/>
+              <text x="507" y="219" font-size="12" font-weight="800" text-anchor="middle">du/dt</text>
+              <text x="507" y="252" font-size="11.5" font-weight="800" text-anchor="middle">Derivative</text>
+
+              <!-- Subtract1 -->
+              <rect x="575" y="110" width="42" height="55" fill="#e0f2fe" stroke="#0284c7" stroke-width="2.2"/>
+              <text x="585" y="128" font-size="14" font-weight="800">+</text>
+              <text x="585" y="152" font-size="15" font-weight="800">-</text>
+              <text x="596" y="180" font-size="11.5" font-weight="800" text-anchor="middle">Subtract1</text>
+
+              <!-- Bağlantılar y^2 ve t' -->
+              <polyline points="534,115 555,115 555,147 575,147" fill="none" stroke="#0284c7" stroke-width="2" marker-end="url(#arrowBlue)"/>
+              <text x="548" y="108" font-size="12" font-weight="800" fill="#0369a1">y^2</text>
+
+              <polyline points="534,215 562,215 562,123 575,123" fill="none" stroke="#0284c7" stroke-width="2" marker-end="url(#arrowBlue)"/>
+              <text x="548" y="232" font-size="12" font-weight="800" fill="#0369a1">t'</text>
+
+              <!-- Sqrt -->
+              <rect x="665" y="114" width="48" height="46" fill="#e0f2fe" stroke="#0284c7" stroke-width="2.2"/>
+              <text x="689" y="142" font-size="14" font-weight="800" text-anchor="middle">√u</text>
+              <text x="689" y="175" font-size="11.5" font-weight="800" text-anchor="middle">Sqrt</text>
+
+              <line x1="617" y1="137" x2="665" y2="137" stroke="#0284c7" stroke-width="2" marker-end="url(#arrowBlue)"/>
+              <text x="641" y="130" font-size="11.5" font-weight="800" fill="#0369a1" text-anchor="middle">t'-y^2</text>
+
+              <polyline points="713,137 835,137 835,175" fill="none" stroke="#0284c7" stroke-width="2.2" marker-end="url(#arrowBlue)"/>
+              <text x="772" y="130" font-size="12" font-weight="800" fill="#0369a1" text-anchor="middle">sqrt(t'-y^2)</text>
+            </g>
+
+            <!-- ADIM 3: 2. İFADE sin(t * y') -->
+            <g id="svgGroup3" opacity="1">
+              <!-- Dot Product -->
+              <rect x="480" y="285" width="48" height="46" fill="#dcfce7" stroke="#15803d" stroke-width="2.2"/>
+              <text x="504" y="313" font-size="18" font-weight="800" text-anchor="middle">·</text>
+              <text x="504" y="346" font-size="11.5" font-weight="800" text-anchor="middle">Dot Product</text>
+
+              <!-- t hattı -->
+              <polyline points="445,215 445,297 480,297" fill="none" stroke="#15803d" stroke-width="2" marker-end="url(#arrow)"/>
+              <text x="462" y="292" font-size="11.5" font-weight="800" fill="#15803d">t</text>
+
+              <!-- y' hattı -->
+              <polyline points="308,115 308,318 480,318" fill="none" stroke="#15803d" stroke-width="2" marker-end="url(#arrow)"/>
+              <text x="395" y="332" font-size="12" font-weight="800" fill="#15803d">y'</text>
+
+              <!-- Trigonometric Function (sin) -->
+              <rect x="580" y="285" width="52" height="46" fill="#dcfce7" stroke="#15803d" stroke-width="2.2"/>
+              <text x="606" y="313" font-size="13" font-weight="800" text-anchor="middle">sin</text>
+              <text x="606" y="345" font-size="11" font-weight="800" text-anchor="middle">Trigonometric</text>
+              <text x="606" y="357" font-size="11" font-weight="800" text-anchor="middle">Function</text>
+
+              <line x1="528" y1="308" x2="580" y2="308" stroke="#15803d" stroke-width="2" marker-end="url(#arrow)"/>
+              <text x="554" y="302" font-size="11.5" font-weight="800" fill="#15803d" text-anchor="middle">t * y'</text>
+
+              <polyline points="632,308 725,308 725,198 835,198" fill="none" stroke="#15803d" stroke-width="2.2" marker-end="url(#arrow)"/>
+              <text x="772" y="191" font-size="12" font-weight="800" fill="#15803d" text-anchor="middle">sin(t * y')</text>
+            </g>
+
+            <!-- ADIM 4: 3. İFADE e^(-2t) -->
+            <g id="svgGroup4" opacity="1">
+              <!-- Gain (-2) Üçgen Blok -->
+              <polygon points="480,368 480,418 532,393" fill="#fce7f3" stroke="#be185d" stroke-width="2.2"/>
+              <text x="497" y="398" font-size="12" font-weight="800" text-anchor="middle">-2</text>
+
+              <polyline points="445,297 445,393 480,393" fill="none" stroke="#be185d" stroke-width="2" marker-end="url(#arrow)"/>
+              <text x="462" y="388" font-size="11.5" font-weight="800" fill="#be185d">t</text>
+
+              <!-- Math Function1 (e^u) -->
+              <rect x="580" y="370" width="52" height="46" fill="#fce7f3" stroke="#be185d" stroke-width="2.2"/>
+              <text x="606" y="398" font-size="13" font-weight="800" text-anchor="middle">e^u</text>
+              <text x="606" y="429" font-size="11" font-weight="800" text-anchor="middle">Math</text>
+              <text x="606" y="441" font-size="11" font-weight="800" text-anchor="middle">Function1</text>
+
+              <line x1="532" y1="393" x2="580" y2="393" stroke="#be185d" stroke-width="2" marker-end="url(#arrow)"/>
+              <text x="556" y="387" font-size="11.5" font-weight="800" fill="#be185d" text-anchor="middle">-2*t</text>
+
+              <polyline points="632,393 745,393 745,222 835,222" fill="none" stroke="#be185d" stroke-width="2.2" marker-end="url(#arrow)"/>
+              <text x="785" y="216" font-size="12" font-weight="800" fill="#be185d" text-anchor="middle">e^-2*t</text>
+            </g>
+
+            <!-- ADIM 5: 4. İFADE -cos(y) -->
+            <g id="svgGroup5" opacity="1">
+              <!-- Trigonometric Function1 (cos) -->
+              <rect x="495" y="442" width="52" height="38" fill="#ffedd5" stroke="#c2410c" stroke-width="2.2"/>
+              <text x="521" y="466" font-size="13" font-weight="800" text-anchor="middle">cos</text>
+              <text x="521" y="493" font-size="11" font-weight="800" text-anchor="middle">Trigonometric Function1</text>
+
+              <!-- y hattı aşağıya -->
+              <polyline points="428,115 428,461 495,461" fill="none" stroke="#c2410c" stroke-width="2" marker-end="url(#arrow)"/>
+
+              <polyline points="547,461 775,461 775,246 835,246" fill="none" stroke="#c2410c" stroke-width="2.2" marker-end="url(#arrow)"/>
+              <text x="802" y="262" font-size="12" font-weight="800" fill="#c2410c" text-anchor="middle">cos(y)</text>
+            </g>
+
+            <!-- ANA SUBTRACT2 BLOĞU (SAĞDA) -->
+            <g opacity="1">
+              <rect x="840" y="155" width="65" height="115" fill="#fef3c7" stroke="#b45309" stroke-width="2.8"/>
+              <text x="852" y="180" font-size="15" font-weight="800" fill="#047857">+</text>
+              <text x="852" y="203" font-size="15" font-weight="800" fill="#047857">+</text>
+              <text x="852" y="227" font-size="15" font-weight="800" fill="#047857">+</text>
+              <text x="852" y="251" font-size="17" font-weight="800" fill="#e11d48">-</text>
+              <text x="872" y="286" font-size="12.5" font-weight="800" text-anchor="middle">Subtract2</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <!-- SAYFA 8, 9, 10'DAKİ RENKLİ NOTLARIN BİREBİR ÖZETİ -->
+      <div class="steps-list" style="margin-top:18px;">
+        <div class="step-row blue">
+          <span class="step-num">SAYFA 8</span>
+          <div class="step-body">
+            <b>İntegratörler ve İlk 3 Kol:</b> Sol tarafta 3 adet <code>Integrator (1/s)</code> bloğu ile <b>y''' → y'' → y' → y</b> elde edilir. 1. ifade için <code>Clock</code> (<b>t</b>) → <code>Derivative</code> (<b>t'</b>) ile <code>Math Function</code> (<b>y²</b>) <code>Subtract1</code>'de çıkarılıp <code>Sqrt</code>'a girer (<b>√(t' - y²)</b>). 2. ifade için <b>t</b> ve <b>y'</b> <code>Dot Product</code>'ta çarpılıp <code>sin</code> bloğuna girer. 3. ifade için <b>t</b>, <code>-2</code> üçgen (Gain) bloğuyla çarpılıp <code>Math Function1</code> (<b>e<sup>u</sup></b>) bloğuna girer.
+          </div>
+        </div>
+        <div class="step-row green">
+          <span class="step-num">SAYFA 9 ÜST</span>
+          <div class="step-body">
+            <b>Defterdeki Birebir Not:</b> <i>"Dördüncü ifadedeki <b>-cos(y)</b> için trigonometrik fonksiyonun içeriği <code>cos</code> olarak değiştirilir. Son olarak elde ettiğimiz çıkışı <code>Subtract2</code> bloğunun <b><code>-</code> (eksi)</b> girişine bağlıyoruz."</i>
+          </div>
+        </div>
+        <div class="step-row red">
+          <span class="step-num">SAYFA 9 ALT</span>
+          <div class="step-body">
+            <b>Defterdeki Birebir Not:</b> <i>"Son olarak <code>Subtract2</code> bloğunun çıkışını <b><b>y'''</b> girişine</b> bağlıyoruz. Çünkü elde ettiğimiz blok çıkışı denklemin sol tarafında bulunan <b>y'''</b> ifadesinin eşitidir. Denklemin modellenmesini bitirmiş olduk."</i>
+          </div>
+        </div>
+        <div class="step-row amber">
+          <span class="step-num">SAYFA 10</span>
+          <div class="step-body">
+            <b>Defterdeki Birebir Not:</b> <i>"Şimdi <b>y</b>'nin çıkışını veya <b>y', y'', y'''</b> değerlerini <b><code>Scope</code></b> ekranında görebiliriz."</i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================================================================== -->
+  <!-- 6. BÖLÜM: 5 ADET VİZE DENEME SINAVI (HER BİRİ 8 TEST + 2 KLASİK = 50)   -->
+  <!-- ===================================================================== -->
+  <section id="denemeler" class="chapter">
+    <div class="chapter-banner c6">
+      <span class="chapter-tag">6. BÖLÜM — GERÇEK SINAV PROVALARI (5 DENEME × 10 SORU = 50 ÇÖZÜMLÜ SORU)</span>
+      <h2>Birebir Vize Formatında 5 Deneme Sınavı (8 Test + 2 Klasik)</h2>
+      <p>10 sayfalık defter notundaki her komutu, her tabloyu ve Simulink modellemesini kapsayan 50 soruluk dev soru bankası. <b>Varsayılan olarak "Döküman Modu (Tüm Çözümler Açık)"</b> gelir; istersen tek tıkla gizleyip kendini test edebilirsin!</p>
+    </div>
+
+    <div class="exam-toolbar">
+      <div class="exam-tabs" id="examTabs"></div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <button class="mode-btn" id="toggleAllSolBtn" onclick="toggleAllSolutions()">🙈 Çözümleri Gizle (Kendim Çözeceğim)</button>
+        <button class="mode-btn" style="background:#0d9488; border-color:#0d9488;" onclick="window.print()">🖨️ PDF Olarak Kaydet / Yazdır</button>
+      </div>
+    </div>
+
+    <div id="examHeaderBox" class="doc-card" style="background:#f8fafc; padding:18px 24px; margin-bottom:20px;"></div>
+    <div id="examQuestionsContainer"></div>
+  </section>
+
+</div>
+<script>
+const EXAMS = [{"id": 1, "title": "1. Vize Deneme Sınavı (Temel Komutlar, Matris İndisleme & Simulink — 8 Test + 2 Klasik)", "desc": "Defterin 1-10. sayfalarındaki en çekirdek komutları, yuvarlama farklarını, matris eleman seçmeyi ve Simulink diferansiyel denklem modellemesini ölçer.", "test_questions": [{"q": "1. [TEST] MATLAB'da Çalışma Ortamı (Workspace) penceresindeki TÜM değişkenleri silen komut ile Komut Penceresi (Command Window) ekranını temizleyen komut sırasıyla hangisidir?", "options": ["A) clc — clear", "B) clear — clc", "C) whos — clc", "D) exit — clear a"], "ans": 1, "steps": ["<b>1. Adım (Defter Sayfa 1):</b> <code>clear</code> komutu Çalışma Ortamı Penceresindeki (Workspace) değişkenleri hafızadan temizler (<code>clear a</code> yazılırsa yalnızca <code>a</code> değişkenini siler).", "<b>2. Adım:</b> <code>clc</code> komutu ise sadece Komut Penceresini (Command Window) görsel olarak temizler, değişkenleri silmez.", "<b>3. Adım (Sıraya Dikkat!):</b> Önce değişkenleri silen (<code>clear</code>), sonra ekranı temizleyen (<code>clc</code>) sorulduğu için cevap <b>clear — clc</b> (B şıkkı)."]}, {"q": "2. [TEST] MATLAB'da doğal logaritma ln(x) ve 10 tabanında logaritma log₁₀(x) hesaplamak için kullanılan fonksiyonlar sırasıyla hangisidir?", "options": ["A) ln(x) ve log(x)", "B) log(x) ve log10(x)", "C) exp(x) ve log(x)", "D) ln(x) ve log10(x)"], "ans": 1, "steps": ["<b>1. Adım (En Büyük Sınav Tuzağı - Sayfa 1):</b> MATLAB'da <code>ln(x)</code> diye bir komut <b>YOKTUR!</b>", "<b>2. Adım:</b> Doğal logaritma (<b>e</b> tabanında <b>ln(x)</b>) için <b><code>log(x)</code></b> kullanılır. 10 tabanında logaritma için ise <b><code>log10(x)</code></b> kullanılır (B şıkkı)."]}, {"q": "3. [TEST] x = -2.7 sayısı için MATLAB'da [ round(x), fix(x), floor(x), ceil(x) ] komutlarının üreteceği sonuçlar sırasıyla nedir?", "options": ["A) -3, -2, -3, -2", "B) -3, -3, -2, -2", "C) -2, -2, -3, -3", "D) -3, -2, -2, -3"], "ans": 0, "steps": ["<b>1. Adım (round):</b> <code>round(-2.7)</code> en yakın tam sayıya yuvarlar → <b>-3</b>.", "<b>2. Adım (fix):</b> <code>fix(-2.7)</code> ondalık kısmı (<code>.7</code>'yi) direkt çöpe atar → <b>-2</b>.", "<b>3. Adım (floor - Taban):</b> <code>floor(-2.7)</code> sayıdan (-2.7'den) KÜÇÜK olan en büyük tam sayıyı verir. Sayı doğrusunda -2.7'nin solunda <b>-3</b> vardır → <b>-3</b>.", "<b>4. Adım (ceil / Ciel - Tavan):</b> <code>ceil(-2.7)</code> sayıdan (-2.7'den) BÜYÜK olan en küçük tam sayıyı verir. -2.7'nin sağında <b>-2</b> vardır → <b>-2</b>. Sırasıyla: <b>-3, -2, -3, -2</b> (A şıkkı)."]}, {"q": "4. [TEST] (Defter Sayfa 3) P(x) = x⁴ + 4x³ - 5x² + 6x - 1 polinomunun MATLAB'da vektör olarak tanımlanışı aşağıdakilerden hangisidir?", "options": ["A) A = [-1  6  -5  4  1]", "B) A = [1  4  -5  6  -1]", "C) A = (1, 4, -5, 6, -1)", "D) A = [4  3  2  1  0]"], "ans": 1, "steps": ["<b>1. Adım (Kural - Sayfa 3):</b> MATLAB'da polinomlar en yüksek dereceli terimin katsayısından sabit terime doğru <b>köşeli parantez <code>[ ]</code></b> içinde yazılır.", "<b>2. Adım:</b> <b>x⁴</b> katsayısı <code>1</code>, <b>x³</b> katsayısı <code>4</code>, <b>x²</b> katsayısı <code>-5</code>, <b>x</b> katsayısı <code>6</code>, sabit terim <code>-1</code> → <b><code>A = [1  4  -5  6  -1]</code></b> (B şıkkı)."]}, {"q": "5. [TEST] A = [1 3 5 ; 7 8 11 ; 100 1 4] matrisi veriliyor. MATLAB'da A(:, 2) ve A(3, :) komutlarının çıktıları sırasıyla nedir?", "options": ["A) A'nın 2. satırı ve A'nın 3. sütunu", "B) A'nın 2. sütunu [3; 8; 1] ve A'nın 3. satırı [100  1  4]", "C) Sadece 8 elemanı ve 100 elemanı", "D) A'nın 2. sütununu ve 3. satırını siler"], "ans": 1, "steps": ["<b>1. Adım (Altın Kural: Önce SATIR, Sonra SÜTUN!):</b> MATLAB'da parantez içi her zaman <code>A(satır, sütun)</code> şeklindedir. İki nokta <code>:</code> ise 'tamamını al' demektir.", "<b>2. Adım (A(:, 2)):</b> Satır kısmında <code>:</code> (tüm satırlar), sütun kısmında <code>2</code> var → <b>A matrisinin 2. sütununu alır: <code>[3; 8; 1]</code></b>.", "<b>3. Adım (A(3, :)):</b> Satır kısmında <code>3</code>, sütun kısmında <code>:</code> (tüm sütunlar) var → <b>A matrisinin 3. satırını alır: <code>[100  1  4]</code></b> (B şıkkı)."]}, {"q": "6. [TEST] (Defter Sayfa 4) Aynı boyutlu a ve b matrislerinin elemanlarını KARŞILIKLI (eleman-elemana) çarpmak ve oranlamak için hangi operatörler kullanılır?", "options": ["A) a * b  ve  a / b", "B) a .* b  ve  a ./ b", "C) dot(a,b)  ve  inv(a)*b", "D) a' * b  ve  a \\ b"], "ans": 1, "steps": ["<b>1. Adım (Sayfa 4):</b> Normal <code>a * b</code> matris çarpımı yapar, <code>a / b</code> ise <code>a * inv(b)</code> işlemini yapar.", "<b>2. Adım (Noktalı Operatörler):</b> Boyutları aynı olan iki matrisin karşılıklı elemanlarını çarpmak için <b><code>a .* b</code></b>, karşılıklı oranlamak (bölmek) için <b><code>a ./ b</code></b> kullanılır (B şıkkı)."]}, {"q": "7. [TEST] (Defter Sayfa 5) Figür penceresini 3 satır ve 2 sütunluk alt pencerelere bölüp 4. pencerede çizim yapılmasını sağlayan komut hangisidir?", "options": ["A) plot(3, 2, 4)", "B) subplot(3, 2, 4)", "C) subplot(2, 3, 4)", "D) axis([3 2 4])"], "ans": 1, "steps": ["<b>1. Adım (Sayfa 5):</b> Alt grafik penceresi komutu <code>subplot(m, n, p)</code>'dir.", "<b>2. Adım:</b> Burada <code>m = satır sayısı (3)</code>, <code>n = sütun sayısı (2)</code> ve <code>p = çizimin yapılacağı pencere numarası (4)</code> olduğundan cevap <b><code>subplot(3, 2, 4)</code></b> olur (B şıkkı)."]}, {"q": "8. [TEST] (Defter Sayfa 8) Simulink'te 'Step' (Adım) bloğunun 3 temel parametresi aşağıdakilerden hangisinde doğru verilmiştir?", "options": ["A) Start time, Stop time, Tolerance", "B) Step time (Adım zamanı), Initial value (Başlangıç değeri), Final value (Bitiş/Son değer)", "C) Minimum, Maximum, Sample time", "D) Gain, Integrator, Constant"], "ans": 1, "steps": ["<b>1. Adım (Defter Sayfa 8 Siyah Kutu):</b> Step (Adım) bloğunun temel parametreleri şunlardır:", "• <b>Step time (Adım zamanı):</b> Sinyalin değer değiştireceği saniye cinsinden zaman anıdır.<br>• <b>Initial value (Başlangıç değeri):</b> Adım zamanından önceki (<b>t < step time</b>) sinyal seviyesidir.<br>• <b>Final value (Bitiş/Son değer):</b> Adım zamanı geldiğinde (<b>t ≥ step time</b>) sinyalin çıkacağı veya ineceği yeni seviyedir (B şıkkı)."]}], "classic_questions": [{"q": "9. [KLASİK SORU 1 - DEFTER SAYFA 4] a = [1  1000 ; 3  10 ; 2  5 ; 4  1] matrisi veriliyor. MATLAB komut penceresine a) sortrows(a, 1) ve b) sortrows(a, 2) yazıldığında oluşacak 'ans' matrislerini adım adım yazınız.", "answer_summary": "sortrows(a,1) → 1. sütuna göre (1,2,3,4) sıralar | sortrows(a,2) → 2. sütuna göre (1,5,10,1000) sıralar", "steps": ["<b>1. Adım (Kuralı Açıkla - 5 Puan):</b><br><code>sortrows(a, i)</code> komutu, bir <code>a</code> matrisinin satırlarını bozmadan <b><code>i</code>. sütundaki elemanlara göre küçükten büyüğe</b> sıralar.", "<b>2. Adım (a Şıkkı: <code>sortrows(a, 1)</code> Çıktısı - 7.5 Puan):</b><br>1. sütundaki sayılar <code>[1; 3; 2; 4]</code>'tür. Bunlar küçükten büyüğe <code>1, 2, 3, 4</code> diye sıralanırsa satırların yeni hali:<br><code>ans = [ 1   1000 ; 2   5 ; 3   10 ; 4   1 ]</code>", "<b>3. Adım (b Şıkkı: <code>sortrows(a, 2)</code> Çıktısı - 7.5 Puan):</b><br>2. sütundaki sayılar <code>[1000; 10; 5; 1]</code>'dir. Bunlar küçükten büyüğe <code>1, 5, 10, 1000</code> diye sıralanırsa satırlar komple yer değiştirir:<br><code>ans = [ 4   1 ; 2   5 ; 3   10 ; 1   1000 ]</code>"]}, {"q": "10. [KLASİK SORU 2 - DEFTER SAYFA 8-9-10] y''' = √(t' - y²) + sin(t·y') + e^(-2t) - cos(y) diferansiyel denklemini Simulink bloklarıyla adım adım nasıl modelleyeceğinizi açıklayınız ve blok bağlantılarını tarif ediniz.", "answer_summary": "3 adet Integrator (1/s) zinciri + 4 kol (Sqrt, sin, e^-2t, -cos) + Subtract2 (+ + + -) + Geri besleme ve Scope", "steps": ["<b>1. Adım (İntegratör Zinciri Kurulumu - 4 Puan):</b><br>Denklem 3. dereceden (<b>y'''</b>) olduğu için yan yana 3 adet <code>Integrator (1/s)</code> bloğu koyarız. 1. Integrator girişine <b>y'''</b> girer, çıkışından <b>y''</b> çıkar. 2. Integrator çıkışından <b>y'</b> çıkar. 3. Integrator çıkışından <b>y</b> çıkar.", "<b>2. Adım (1. İfade <b>√(t' - y²)</b> Kolu - 4 Puan):</b><br><code>Clock</code> bloğundan alınan <b>t</b> sinyali <code>Derivative (du/dt)</code> bloğuna girerek <b>t'</b> elde edilir. <b>y</b> sinyali <code>Math Function (u²)</code> bloğuna girerek <b>y²</b> elde edilir. <code>Subtract1 (+ / -)</code> bloğunda <b>t' - y²</b> bulunur ve <code>Sqrt</code> bloğundan geçirilerek <b>√(t' - y²)</b> elde edilir.", "<b>3. Adım (2. ve 3. İfadeler <b>sin(t·y')</b> ve <b>e<sup>-2t</sup></b> Kolları - 6 Puan):</b><br>• <b>t</b> sinyali ile <b>y'</b> sinyali <code>Dot Product</code> bloğunda çarpılır (<b>t· y'</b>) ve <code>Trigonometric Function (sin)</code> bloğuna sokularak <b>sin(t·y')</b> elde edilir.<br>• <b>t</b> sinyali <code>Gain (-2)</code> üçgen bloğuyla çarpılıp (<b>-2t</b>) <code>Math Function1 (e^u)</code> bloğuna sokularak <b>e<sup>-2t</sup></b> elde edilir.", "<b>4. Adım (4. İfade <b>-cos(y)</b> ve Döngüyü Kapatma - 6 Puan):</b><br>• <b>y</b> sinyali <code>Trigonometric Function (cos)</code> bloğuna girer. Çıkışı, sağdaki ana <code>Subtract2</code> bloğunun <b><code>-</code> (eksi)</b> girişine bağlanır (diğer 3 ifade <code>+</code> girişlerine bağlanır).<br>• Son olarak <code>Subtract2</code> bloğunun çıkışı, en soldaki 1. Integrator'ün <b>y'''</b> girişine geri bağlanır ve <b>y, y', y'', y'''</b> sinyalleri <code>Scope</code> ekranında gözlemlenir."]}]}, {"id": 2, "title": "2. Vize Deneme Sınavı (Matris Operatörleri, Dosya Uzantıları & Grafik Komutları — 8 Test + 2 Klasik)", "desc": "Sayfa 2, 3, 4, 5'teki dosya uzantıları, save/load, vec operatörü a(:), satır/sütun silme, triu/tril ve legend konumlarını ölçer.", "test_questions": [{"q": "1. [TEST] (Defter Sayfa 2) MATLAB'da değişken ve matrislerin kaydedildiği veri dosyalarının uzantısı ile program (script/fonksiyon) dosyalarının uzantısı sırasıyla nedir?", "options": ["A) .m  ve  .mat", "B) .mat  ve  .m", "C) .fig  ve  .p", "D) .mat  ve  .fig"], "ans": 1, "steps": ["<b>1. Adım (Defter Sayfa 2'deki 4 Uzantı):</b><br>• <b><code>.m</code></b> = MATLAB program dosyaları<br>• <b><code>.mat</code></b> = Değişken ve matris dosyaları<br>• <b><code>.fig</code> (<code>.fi</code>)</b> = Grafik dosyaları ve GUI'lerin grafik parçaları<br>• <b><code>.p</code></b> = Pre-parsed pseudo-code dosyaları", "<b>2. Adım:</b> Önce değişken/matris (<code>.mat</code>), sonra program dosyası (<code>.m</code>) sorulduğu için cevap <b>.mat ve .m</b> (B şıkkı)."]}, {"q": "2. [TEST] (Defter Sayfa 2) MATLAB'da 'a' değişkenini 'd' dosya ismiyle .mat uzantılı olarak kaydeden ve daha sonra geri çağıran komut çifti hangisidir?", "options": ["A) save d a  —  load d", "B) load d a  —  save d", "C) fprintf d a  —  sprintf d", "D) demo d  —  help a"], "ans": 0, "steps": ["<b>1. Adım (Sayfa 2):</b> <code>save d a</code> komutu, <code>a</code> değişkenini <code>d</code> dosya ismiyle <code>.mat</code> uzantılı olarak (<code>d.mat</code>) kaydeder.", "<b>2. Adım:</b> <code>load d</code> komutu ise değişkeni <code>d</code> dosyasından geri çağırır (A şıkkı)."]}, {"q": "3. [TEST] (Defter Sayfa 3) a = [1  3 ; 7  8] matrisi için MATLAB'da a(:) komutu (vec operatörü) çalıştırılırsa hangi çıktı elde edilir?", "options": ["A) [1  3  7  8] satır vektörü", "B) [1 ; 7 ; 3 ; 8] sütun vektörü (sütunlar alt alta dizilir)", "C) [1 ; 3 ; 7 ; 8] sütun vektörü (satırlar alt alta dizilir)", "D) Matrisin tüm elemanlarını siler"], "ans": 1, "steps": ["<b>1. Adım (Sayfa 3 - Çok Önemli Kural!):</b> <code>a(:)</code> komutu (<b>vec operatörü</b>), <code>a</code> matrisinin <b>SÜTUNLARININ</b> ard arda (alt alta) dizilmesi ile oluşan bir sütun vektör oluşturur!", "<b>2. Adım (Uygula):</b> 1. sütun <code>[1; 7]</code>, 2. sütun <code>[3; 8]</code>'dir. Alt alta dizilince <b><code>[1 ; 7 ; 3 ; 8]</code></b> sütun vektörü oluşur (B şıkkı)."]}, {"q": "4. [TEST] (Defter Sayfa 3) Bir A matrisinin 3. sütununu tamamen silmek için hangi komut yazılmalıdır?", "options": ["A) clear A(3)", "B) A(3, :) = []", "C) A(:, 3) = []", "D) A(:, 3) = 0"], "ans": 2, "steps": ["<b>1. Adım (Sayfa 3 'Ayrıntı ama Oku' Kutusu):</b><br>• <code>a(:, i) = []</code> → A'nın <b>i. sütununu</b> siler.<br>• <code>a(i, :) = []</code> → A'nın <b>i. satırını</b> siler.", "<b>2. Adım:</b> 3. sütunu silmek istendiği için sütun indisine 3, karşısına boş köşeli parantez <code>[]</code> yazılır: <b><code>A(:, 3) = []</code></b> (C şıkkı)."]}, {"q": "5. [TEST] (Defter Sayfa 4) Bir kare A matrisinin ana köşegen (diyagonal) elemanlarının toplamını (izini) hesaplayan ve üst üçgen matrisini oluşturan komutlar sırasıyla hangisidir?", "options": ["A) sum(A)  ve  tril(A)", "B) trace(A)  ve  triu(A)", "C) diag(A)  ve  tril(A)", "D) det(A)  ve  triu(A)"], "ans": 1, "steps": ["<b>1. Adım (Sayfa 4):</b> <code>trace(a)</code> bir <code>a</code> matrisinin <b>izini</b> (ana köşegen elemanlarının toplamını) hesaplar.", "<b>2. Adım (triu vs tril):</b> <code>triu(a)</code> (upper) matrisin <b>üst üçgen</b> matrisini oluşturur; <code>tril(a)</code> (lower) ise <b>alt üçgen</b> matrisini oluşturur (B şıkkı)."]}, {"q": "6. [TEST] (Defter Sayfa 5) 4x4 boyutlu birim matris (köşegenleri 1, diğer elemanları 0) oluşturmak için hangi komut kullanılır?", "options": ["A) ones(4, 4)", "B) zeros(4, 4)", "C) eye(4)", "D) unit(4)"], "ans": 2, "steps": ["<b>1. Adım (Sayfa 5):</b><br>• <code>zeros(m,n)</code> → sıfır matrisi<br>• <code>ones(m,n)</code> → tüm elemanları 1 olan matris<br>• <b><code>eye(m)</code></b> → birim matris (köşegeni 1, kalanı 0).", "<b>2. Adım:</b> 4x4 birim matris için <b><code>eye(4)</code></b> (veya <code>eye(4,4)</code>) kullanılır (C şıkkı)."]}, {"q": "7. [TEST] (Defter Sayfa 5) Grafik üzerinde FARE (MOUSE) vasıtasıyla tıklanan yerde açıklama metni yazılmasını sağlayan komut ile tıklanan n adet noktanın (x,y) koordinatlarını sayısal olarak veren komut sırasıyla hangisidir?", "options": ["A) title  —  xlabel", "B) gtext('metin')  —  ginput(n)", "C) legend  —  axis", "D) ginput(n)  —  gtext('metin')"], "ans": 1, "steps": ["<b>1. Adım (Sayfa 5):</b> <code>gtext('açıklama metni')</code> grafik penceresi üzerinde fare ile tıklanan yere açıklama yazılmasını sağlar.", "<b>2. Adım:</b> <code>ginput(n)</code> ise grafik üzerinde fare vasıtasıyla belirtilen <code>n</code> adet noktanın koordinatlarını komut penceresinde sayısal olarak elde etmeyi sağlar (B şıkkı)."]}, {"q": "8. [TEST] (Defter Sayfa 5) legend('Açıklama 1', 'Açıklama 2', konum) komutunda konum parametresi olarak 0, 1, 2, 3, 4 ve -1 sayıları neyi ifade eder?", "options": ["A) Çizgi kalınlığını", "B) 0: En uygun boş yer, 1: Sağ üst, 2: Sol üst, 3: Sol alt, 4: Sağ alt, -1: Grafik dışı", "C) Renk kodlarını", "D) Alt pencere (subplot) numaralarını"], "ans": 1, "steps": ["<b>1. Adım (Sayfa 5 Sağ Alttaki Kutu Şeması!):</b> Defterde sağ altta çizilen dikdörtgen kutu şeması <code>legend</code> konum kodlarını gösterir:", "<b>2. Adım (Saat Yönünün Tersine Köşeler):</b><br>• <b><code>1</code></b>: Sağ üst köşe<br>• <b><code>2</code></b>: Sol üst köşe<br>• <b><code>3</code></b>: Sol alt köşe<br>• <b><code>4</code></b>: Sağ alt köşe<br>• <b><code>0</code></b>: Grafiğin ortasında/en uygun boş yerde<br>• <b><code>-1</code></b>: Grafik çerçevesinin sağ dışında (B şıkkı)."]}], "classic_questions": [{"q": "9. [KLASİK SORU 1 - DEFTER SAYFA 3] A = [1  3  5 ; 7  8  11 ; 100  1  4] matrisini MATLAB'a girmenin 3 FARKLI YOLUNU defterdeki gibi ayrı ayrı yazınız ve A(:,[1 3]) ile [m,i] = max(A(:,1)) komutlarının ne üreteceğini gösteriniz.", "answer_summary": "1. Yol: Alt alta satırlar | 2. Yol: Noktalı virgül (;) | 3. Yol: A(i,j) indis ataması", "steps": ["<b>1. Yol (Alt Alta Satırlar Halinde Yazma - 5 Puan):</b><br><code>A = [1   3   5<br>     7   8  11<br>   100   1   4]</code>", "<b>2. Yol (Noktalı Virgül <code>;</code> İle Tek Satırda Yazma - 5 Puan):</b><br><code>A = [1  3  5 ; 7  8  11 ; 100  1  4]</code>", "<b>3. Yol (İndislerle Tek Tek Eleman Atama - 5 Puan):</b><br><code>A(1,1)=1; A(1,2)=3; A(1,3)=5;</code><br><code>A(2,1)=7; A(2,2)=8; A(2,3)=11;</code><br><code>A(3,1)=100; A(3,2)=1; A(3,3)=4;</code>", "<b>4. Adım (İstenen Komut Çıktıları - 5 Puan):</b><br>• <code>A(:, [1 3])</code> → A matrisinin <b>1. ve 3. sütununu</b> alır: <code>[1  5 ; 7  11 ; 100  4]</code>.<br>• <code>[m, i] = max(A(:,1))</code> → 1. sütun <code>[1; 7; 100]</code> içindeki en büyük elemanı (<code>m = 100</code>) ve onun satır numarasını (<code>i = 3</code>) verir."]}, {"q": "10. [KLASİK SORU 2 - DEFTER SAYFA 4] MATLAB'da diag(a) ve sum(a) komutlarının girdi olarak a) bir Vektör verildiğinde, b) bir Kare Matris verildiğinde nasıl farklı çalıştığını örneklerle açıklayınız.", "answer_summary": "diag(matris)→köşegen vektörü, diag(vektör)→köşegen matris | sum(matris)→sütun toplamları, sum(vektör)→elemanlar toplamı", "steps": ["<b>1. Adım (<code>diag(a)</code> Komutunun İki Görevi - 10 Puan):</b><br>• <b>Eğer <code>a</code> bir kare matris ise:</b> <code>diag(a)</code>, matrisin ana köşegen elemanlarını söküp bir <b>sütun vektöre</b> atar. Örn: <code>a = [1 2; 3 4]</code> ise <code>diag(a) = [1; 4]</code>.<br>• <b>Eğer <code>a</code> bir vektör ise:</b> <code>diag(a)</code>, ana köşegeni bu vektörün elemanlarından oluşan, diğer tüm elemanları 0 olan bir <b>köşegen matris</b> oluşturur! Örn: <code>a = [5 9]</code> ise <code>diag(a) = [5 0; 0 9]</code>.", "<b>2. Adım (<code>sum(a)</code> Komutunun İki Görevi - 10 Puan):</b><br>• <b>Eğer <code>a</code> bir matris ise:</b> <code>sum(a)</code>, matrisin <b>her bir SÜTUNUNUN toplamını</b> ayrı ayrı hesaplayıp satır vektörü verir. Örn: <code>a = [1 2; 3 4]</code> ise <code>sum(a) = [4  6]</code>.<br>• <b>Eğer <code>a</code> bir vektör ise:</b> <code>sum(a)</code>, doğrudan vektörün tüm elemanlarının toplamını (tek bir sayı) verir. Örn: <code>a = [1 2 3]</code> ise <code>sum(a) = 6</code>."]}]}, {"id": 3, "title": "3. Vize Deneme Sınavı (2B/3B Grafikler, Tablo Fonksiyonları & Karmaşık Sayılar — 8 Test + 2 Klasik)", "desc": "Sayfa 6 ve 7'deki tüm grafik fonksiyonları tablosunu (stem, stairs, quiver, contourf, loglog, plotyy, pie3) ve karmaşık sayı komutlarını ölçer.", "test_questions": [{"q": "1. [TEST] (Defter Sayfa 6) Pasta grafiği çiziminde kullanılan pie3(x, explode) komutundaki 'explode' parametresinin görevi nedir?", "options": ["A) Pasta grafiğin renklerini belirler", "B) x ile aynı boyutlu olup, dilimler arasındaki boşluğu (hangi dilimin dışarı ayrılacağını) gösterir", "C) Pasta grafiğin yarıçapını büyütür", "D) Dilimlerin yüzdelerini ekrana yazar"], "ans": 1, "steps": ["<b>1. Adım (Defter Sayfa 6 Ok İşareti):</b> <code>pie3(x, explode)</code> = 3 boyutlu pasta grafik çizer.", "<b>2. Adım:</b> <code>explode</code> parametresi, <code>x</code> ile aynı boyutlu bir vektör olup <b>dilimler arasındaki boşluğu (dilimin merkezden dışarı doğru ayrılmasını)</b> gösterir (B şıkkı)."]}, {"q": "2. [TEST] (Defter Sayfa 6-7 Tablosu) Aşağıdaki grafik fonksiyonlarından hangisi 'Karmaşık sayılar için ok grafiği' ve hangisi 'Vektör alanlarını (oklarla)' çizer?", "options": ["A) compass  —  quiver", "B) feather  —  comet", "C) polar  —  rose", "D) stem  —  stairs"], "ans": 0, "steps": ["<b>1. Adım (Sayfa 6 Tablosu):</b> <b><code>compass</code></b> = Karmaşık sayılar için (merkezden çıkan) ok grafiği oluşturur.", "<b>2. Adım (Sayfa 7 Tablosu):</b> <b><code>quiver</code></b> = Vektör alanlarını çizer (A şıkkı). (Not: <code>feather</code> ise yatay eksen boyunca eşit aralıklı tüy grafiği yapar)."]}, {"q": "3. [TEST] (Defter Sayfa 7 Tablosu) Hem x hem de y ekseninde logaritmik ölçekte grafik oluşturan komut ile SADECE x ekseninde logaritmik ölçekle yarı-logaritmik grafik yapan komut sırasıyla hangisidir?", "options": ["A) log10  —  logx", "B) loglog  —  semilogx", "C) semilogx  —  semilogy", "D) plotyy  —  loglog"], "ans": 1, "steps": ["<b>1. Adım (Sayfa 7 Tablosu):</b><br>• <b><code>loglog</code></b>: Hem x hem de y eksenlerinde logaritmik ölçekte grafik oluşturur.<br>• <b><code>semilogx</code></b>: x-ekseninde logaritmik ölçekle yarı-logaritmik grafik yapar.<br>• <b><code>semilogy</code></b>: y-ekseninde logaritmik ölçekle yarı-logaritmik grafik yapar.", "<b>2. Adım:</b> Sırasıyla <b><code>loglog — semilogx</code></b> (B şıkkı)."]}, {"q": "4. [TEST] (Defter Sayfa 6-7) 'Merdiven grafiği' çizen komut ile 'İnce çubuk / Gövde (ayrık veri) grafiği' çizen komut sırasıyla hangisidir?", "options": ["A) bar  —  barh", "B) stairs  —  stem", "C) stem  —  stairs", "D) area  —  pareto"], "ans": 1, "steps": ["<b>1. Adım (Sayfa 7 Tablosu):</b><br>• <b><code>stairs</code></b> = Merdiven grafiği çizer.<br>• <b><code>stem</code></b> = Gövde (ince çubuk) grafiği çizer (Sayfa 6'da da <code>stem(x,y) = ince çubuk grafik</code> olarak geçer).", "<b>2. Adım:</b> Sırasıyla <b><code>stairs — stem</code></b> (B şıkkı)."]}, {"q": "5. [TEST] (Defter Sayfa 7 Alt Tablo) x = 3 + 4i karmaşık sayısı için MATLAB'da [ conj(x), real(x), imag(x), abs(x) ] komutlarının sonuçları sırasıyla nedir?", "options": ["A) 3 - 4i,  3,  4i,  25", "B) 3 - 4i,  3,  4,  5", "C) -3 - 4i,  3,  -4,  5", "D) 3 + 4i,  4,  3,  5"], "ans": 1, "steps": ["<b>1. Adım (Sayfa 7 Alt Tablo):</b><br>• <code>conj(3 + 4i)</code> → Karmaşık eşleniğini alır (<b>a - ib</b>): <b><code>3 - 4i</code></b>.<br>• <code>real(3 + 4i)</code> → Gerçek (reel) kısmını verir: <b><code>3</code></b>.<br>• <code>imag(3 + 4i)</code> → Sanal (imajiner) kısmın katsayısını verir: <b><code>4</code></b>.<br>• <code>abs(3 + 4i)</code> → Mutlak değerini (büyüklüğünü <b>√(3² + 4²)</b>) verir: <b><code>5</code></b> (B şıkkı)."]}, {"q": "6. [TEST] (Defter Sayfa 7 Alt Tablo) Karmaşık bir x sayısının açısını hesaplayan angle(x) fonksiyonu hakkında aşağıdakilerden hangisi doğrudur?", "options": ["A) Açıyı derece cinsinden 0 ile 360 arasında hesaplar.", "B) Açıyı atan2(imag(x), real(x)) değerini kullanarak hesaplar ve açı değeri -π ile π arasındadır.", "C) Açıyı sin(x)/cos(x) ile hesaplar.", "D) Sadece pozitif sayılarda çalışır."], "ans": 1, "steps": ["<b>1. Adım (Sayfa 7 Alt Tablo Son Satır):</b> <code>angle(x)</code> fonksiyonu açıyı <b><code>atan2(imag(x), real(x))</code></b> değerini kullanarak hesaplar; böylece açı değeri <b><b>-π</b> ile <b>π</b></b> (radyan) arasındadır (B şıkkı)."]}, {"q": "7. [TEST] (Defter Sayfa 5) Grafik başlığı veya metinlerinde yazı tipini KALINLAŞTIRAN (bold), İTALİK yapan ve NORMAL ölçüsüne geri döndüren LaTeX/MATLAB kontrol dizileri sırasıyla hangisidir?", "options": ["A) \\bf  —  \\it (defterde \\if)  —  \\rm", "B) \\bold  —  \\italic  —  \\normal", "C) \\b  —  \\i  —  \\n", "D) \\rm  —  \\bf  —  \\it"], "ans": 0, "steps": ["<b>1. Adım (Defter Sayfa 5):</b><br>• <b><code>\\bf</code></b> = Yazı tipini kalınlaştırır (boldface).<br>• <b><code>\\it</code></b> (defterde <code>\\if</code> şeklinde de not alınmış) = Yazının şeklini italik yapar.<br>• <b><code>\\rm</code></b> = Başlık yazısını normal ölçüsüne geri döndürür (A şıkkı)."]}, {"q": "8. [TEST] (Defter Sayfa 8) Simulink'te içerisinde üstel (e^u), logaritma, kare alma (u²) gibi 14 ADET DÖNÜŞÜM barındıran blok hangisidir?", "options": ["A) Constant bloğu", "B) Math Function bloğu", "C) Integrator bloğu", "D) Step bloğu"], "ans": 1, "steps": ["<b>1. Adım (Defter Sayfa 8):</b> Üzerinde <b>e<sup>u</sup></b> sembolü bulunan <b><code>Math Function</code></b> = Matematik bloğu (içerisinde 14 adet dönüşüm var) olarak tanımlanmıştır (B şıkkı)."]}], "classic_questions": [{"q": "9. [KLASİK SORU 1 - DEFTER SAYFA 2 & 5] a) plot(x, y, 'c') ve b) fplot('F', [x1, x2], tol, 'çri') komutlarındaki tüm parametrelerin ne anlama geldiğini ok çıkararak defterdeki gibi açıklayınız. Grafiğe başlık, eksen isimleri, ızgara çizgisi ve eksen sınırları ekleyen komutları yazınız.", "answer_summary": "plot(x,y,'c') + fplot('F',[x1,x2],tol,'çri') + title, xlabel, ylabel, grid on, axis([xmin xmax ymin ymax])", "steps": ["<b>1. Adım (<code>plot(x, y, 'c')</code> Parametreleri - 6 Puan):</b><br>• <code>x</code> → x eksenine ait vektörel ifade<br>• <code>y</code> → y eksenine ait vektörel ifade<br>• <code>'c'</code> → çizimin çizgi / renk tanımlaması (çoğunlukla renklerin İngilizce baş harfleri kullanılır).<br>• Çoklu çizim: <code>plot(x1, y1, 'c1', x2, y2, 'c2', ... xn, yn, 'cn')</code>", "<b>2. Adım (<code>fplot('F', [x1, x2], tol, 'çri')</code> Parametreleri - 6 Puan):</b><br>• <code>'F'</code> → Çizilecek fonksiyon ifadesi (<code>ezplot</code>'ta ise <code>syms</code> ile sembol önceden tanımlanabilir)<br>• <code>[x1, x2]</code> → Fonksiyonun çizileceği alt ve üst sınır değerleri<br>• <code>tol</code> → Tanımlanan tolerans aralığı<br>• <code>'çri'</code> → Çizgi çeşidi, renk, işaretleme çeşidi.", "<b>3. Adım (Başlık, Eksen ve Izgara Komutları - 8 Puan):</b><br>• <code>title('Başlık')</code>: Grafiğe başlık atar.<br>• <code>xlabel('X Ekseni')</code> ve <code>ylabel('Y Ekseni')</code>: x ve y eksenlerine başlık atar.<br>• <code>grid on / off</code>: Kılavuz çizgilerini ekler / kaldırır.<br>• <code>axis([xmin xmax ymin ymax])</code>: Grafiğe ait eksen ölçeklendirmesini istenilen değerlere göre yeniden düzeltir."]}, {"q": "10. [KLASİK SORU 2 - DEFTER SAYFA 6 & 7 TABLOLARI] Aşağıdaki 10 grafik komutunun ne işe yaradığını kısaca karşılarına yazınız: 1) area, 2) barh, 3) comet, 4) contourf, 5) errorbar, 6) fill, 7) pareto, 8) pcolor, 9) plotyy, 10) rose.", "answer_summary": "Tablodaki 10 özel grafik fonksiyonunun birebir tanımları", "steps": ["<b>1–5 Arası Komutlar (10 Puan):</b><br>1. <b><code>area</code></b>: Dolu alan grafiği oluşturur.<br>2. <b><code>barh</code></b>: Yatay sütun (çubuk) grafiği oluşturur.<br>3. <b><code>comet</code></b>: Hareketli bir 2 boyutlu grafik yapar.<br>4. <b><code>contourf</code></b>: Dolu kontur grafikleri yapar (<code>contour</code> ise boş kontur grafiği yapar).<br>5. <b><code>errorbar</code></b>: Grafik çizer ve hata çubukları ekler.", "<b>6–10 Arası Komutlar (10 Puan):</b><br>6. <b><code>fill</code></b>: Belirtilen renkte içi dolu çokgenler çizer.<br>7. <b><code>pareto</code></b>: Pareto grafikleri yapar.<br>8. <b><code>pcolor</code></b>: Matrisin sahte renk (pseudo color) grafiğini yapar.<br>9. <b><code>plotyy</code></b>: Çift y-eksenli grafik yapar.<br>10. <b><code>rose</code></b>: Açılı histogramlar yapar."]}]}, {"id": 4, "title": "4. Vize Deneme Sınavı (Trigonometri, Vektör Üretimi, Matris Cebiri & Simulink — 8 Test + 2 Klasik)", "desc": "Radyan vs Derece (sin vs sind), sign(x), rem(x,y), e=a:b:n vektörü, a/b matris bölmesi ve Simulink blok detaylarını ölçer.", "test_questions": [{"q": "1. [TEST] (Defter Sayfa 1) MATLAB'da 30 derecelik bir açının sinüsünü (0.5) doğrudan hesaplamak için hangi komut yazılmalıdır?", "options": ["A) sin(30)", "B) sind(30)", "C) asin(30)", "D) sinh(30)"], "ans": 1, "steps": ["<b>1. Adım (Sayfa 1):</b><br>• <code>sin(x), cos(x), tan(x)...</code> → <code>x</code> açısını <b>RADYAN</b> kabul eder.<br>• <code>sind(x), cosd(x), tand(x)...</code> → sonundaki <b><code>d</code> (degree)</b> harfi sayesinde <code>x</code> açısını <b>DERECE</b> kabul eder!", "<b>2. Adım:</b> 30 derece için <b><code>sind(30)</code></b> kullanılır (B şıkkı). (Ters trigonometride de sonuç derece istenirse <code>asind(x)</code> kullanılır)."]}, {"q": "2. [TEST] (Defter Sayfa 1) MATLAB'da [ sign(-15), sign(0), sign(42), rem(17, 5) ] komutlarının üreteceği sonuçlar sırasıyla nedir?", "options": ["A) -1,  0,  1,  2", "B) -15,  0,  42,  3", "C) -1,  1,  1,  2", "D) 1,  0,  -1,  3.4"], "ans": 0, "steps": ["<b>1. Adım (sign(x) - Signum Fonksiyonu):</b> Defter Sayfa 1'de belirtildiği gibi: <b>x &lt; 0</b> ise <b><code>-1</code></b>, <b>x = 0</b> ise <b><code>0</code></b>, <b>x &gt; 0</b> ise <b><code>1</code></b> verir. Dolayısıyla <code>sign(-15) = -1</code>, <code>sign(0) = 0</code>, <code>sign(42) = 1</code>.", "<b>2. Adım (rem(x, y) - Kalan):</b> <code>rem(17, 5)</code> komutu 17'nin 5'e bölümünden kalanı verir: <b>17 = 3 × 5 + 2 ⟹</b> kalan <b><code>2</code></b>'dir (A şıkkı)."]}, {"q": "3. [TEST] (Defter Sayfa 3) MATLAB'da -10'dan başlayıp 0.1 artışla n'ye kadar olan sayılardan oluşan bir satır vektörü tanımlayan komut hangisidir?", "options": ["A) e = [-10, 0.1, n]", "B) e = -10 : 0.1 : n", "C) e = -10 : n : 0.1", "D) e = linspace(-10, 0.1, n)"], "ans": 1, "steps": ["<b>1. Adım (Sayfa 3):</b> İki nokta operatörüyle vektör üretimi <code>e = a : b : n</code> şeklindedir. Burada <code>a</code> başlangıç, <code>b</code> artış miktarı (adım), <code>n</code> bitiş değeridir.", "<b>2. Adım:</b> Defterdeki birebir örnek: <b><code>e = -10 : 0.1 : n</code></b> (B şıkkı)."]}, {"q": "4. [TEST] (Defter Sayfa 3) 3 satır ve 5 sütundan oluşan bir A matrisi için [m, n] = size(A) ve length(A) komutlarının sonuçları nedir?", "options": ["A) m = 5, n = 3 ve length(A) = 15", "B) m = 3, n = 5 ve length(A) = 5", "C) m = 3, n = 5 ve length(A) = 3", "D) m = 15, n = 1 ve length(A) = 15"], "ans": 1, "steps": ["<b>1. Adım (Sayfa 3 'Ayrıntı ama Oku'):</b> <code>[m, n] = size(a)</code> komutu <code>a</code> matrisinin satır sayısını (<code>m = 3</code>) ve sütun sayısını (<code>n = 5</code>) verir.", "<b>2. Adım:</b> Defterdeki tanıma göre <code>length(a)</code> matrisin sütun sayısını (en büyük boyutunu) verir: <b><code>5</code></b> (B şıkkı)."]}, {"q": "5. [TEST] (Defter Sayfa 4) Düzenli (tersinir) kare matrisler olan a ve b için MATLAB'da 'a / b' komutu hangi matematiksel işlemi yapar?", "options": ["A) Elemanları karşılıklı böler (a ./ b)", "B) a * inv(b) işlemini yapar", "C) inv(a) * b işlemini yapar", "D) b'nin determinantını a'ya böler"], "ans": 1, "steps": ["<b>1. Adım (Sayfa 4):</b> Defterde açıkça yazıldığı üzere: <code>a / b</code> = <code>b</code> düzenli bir kare matrisse aynı boyutlu <code>a</code> matrisiyle <b><code>a * inv(b)</code></b> işlemi yapar (B şıkkı)."]}, {"q": "6. [TEST] (Defter Sayfa 1) MATLAB'da satır sonuna konulan noktalı virgül (;) ve yüzde işareti (%) ne işe yarar?", "options": ["A) ; programı kapatır, % değişkenleri siler", "B) ; çıktının ana ekranda görünmesini engeller, % yorum satırı yapar (program bu kısmı görmez)", "C) ; yorum satırı yapar, % kalan bulur", "D) İkisi de satır atlamaya yarar"], "ans": 1, "steps": ["<b>1. Adım (Sayfa 1):</b><br>• <b><code>;</code></b> = Çıktının ana ekranda görünmesini engeller.<br>• <b><code>%</code></b> = Yorum (program bu kısmı görmez) (B şıkkı)."]}, {"q": "7. [TEST] (Defter Sayfa 8-9) Simulink diyagramında zaman değişkeni 't'yi üreten yuvarlak saat simgeli blok ile bunun türevini (t') alan blok sırasıyla hangisidir?", "options": ["A) Step  —  Integrator (1/s)", "B) Clock  —  Derivative (du/dt)", "C) Constant  —  Math Function", "D) Scope  —  Dot Product"], "ans": 1, "steps": ["<b>1. Adım (Sayfa 8 Diyagramı):</b> Zaman sinyali <b>t</b>'yi üreten blok <b><code>Clock</code></b> bloğudur.", "<b>2. Adım:</b> <b>t</b> sinyalinden <b>t'</b> türevini elde etmek için sinyal <b><code>Derivative (du/dt)</code></b> bloğuna sokulur (B şıkkı)."]}, {"q": "8. [TEST] (Defter Sayfa 9) Simulink'te modellenen y''' = √(t' - y²) + sin(t·y') + e^(-2t) - cos(y) denkleminde en sağdaki Subtract2 bloğunun çıkışı nereye bağlanır?", "options": ["A) Doğrudan Clock bloğunun girişine", "B) En soldaki 1. Integrator bloğunun y''' girişine", "C) Constant bloğuna", "D) Hiçbir yere bağlanmaz, ucu açık kalır"], "ans": 1, "steps": ["<b>1. Adım (Sayfa 9 Alt Kırmızı Not):</b> <i>'Son olarak subtract2 bloğunun çıkışını <b>y''' girişine</b> bağlıyoruz. Çünkü elde ettiğimiz blok çıkışı denklemin sol tarafında bulunan y''' ifadesinin eşitidir. Denklemin modellenmesini bitirmiş olduk.'</i> (B şıkkı)."]}], "classic_questions": [{"q": "9. [KLASİK SORU 1 - DEFTER SAYFA 1] MATLAB arayüzünde bulunan 4 temel pencerenin (Geçerli Klasör, Komut, Çalışma Ortamı, Komut Geçmiş) görevlerini ve clc, clear, clear a, whos, Ctrl+C, exit komutlarını açıklayınız.", "answer_summary": "4 Pencere Tanımı + 6 Temel Sistem Komutu", "steps": ["<b>1. Adım (MATLAB'ın 4 Temel Penceresi - 10 Puan):</b><br>• <b>Geçerli Klasör Penceresi (Current Folder):</b> Dosyaların yer aldığı penceredir.<br>• <b>Komut Penceresi (Command Window):</b> Değişkenlerin girildiği ve programın çalıştırıldığı penceredir.<br>• <b>Çalışma Ortamı Penceresi (Workspace):</b> Kullanılan değişkenlerin bilgilerinin olduğu penceredir.<br>• <b>Komut Geçmiş Penceresi (Command History):</b> Komut penceresine girilenlerin saklandığı penceredir.", "<b>2. Adım (6 Temel Sistem Komutu - 10 Puan):</b><br>• <b><code>clc</code></b>: Komut penceresini temizler.<br>• <b><code>clear</code></b>: Çalışma Ortamı Penceresindeki tüm değişkenleri temizler (<b><code>clear a</code></b>: Yalnızca <code>a</code> değişkenini siler).<br>• <b><code>whos</code></b>: Şu ana kadar yaptığımız değişkenleri (boyut ve tür bilgileriyle) yeniden çağırır/listeler.<br>• <b><code>Ctrl + C</code></b>: Çalışan programdan (sonsuz döngüden vb.) çıkar.<br>• <b><code>exit</code></b>: MATLAB'ı kapatır."]}, {"q": "10. [KLASİK SORU 2 - DEFTER SAYFA 4] A = [2  4 ; 1  3] ve B = [1  2 ; 5  6] matrisleri için MATLAB'da: a) A + B, b) A * B, c) A .* B, d) A', e) det(A), f) trace(A), g) triu(A), h) tril(A) komutlarının sonuçlarını tek tek hesaplayınız.", "answer_summary": "Matris cebiri ve eleman-elemana işlemlerin tam sayısal çözümü", "steps": ["<b>a) <code>A + B</code> (Toplama):</b> Karşılıklı elemanlar toplanır → <code>[3  6 ; 6  9]</code>.<br><b>b) <code>A * B</code> (Matris Çarpımı):</b> Satır × Sütun → <code>[2·1+4·5, 2·2+4·6 ; 1·1+3·5, 1·2+3·6] = [22  28 ; 16  20]</code>.", "<b>c) <code>A .* B</code> (Eleman-Elemana Çarpım):</b> Karşılıklı elemanlar çarpılır → <code>[2·1, 4·2 ; 1·5, 3·6] = [2  8 ; 5  18]</code>.<br><b>d) <code>A'</code> (Devrik / Transpoz):</b> Satırlar sütun olur → <code>[2  1 ; 4  3]</code>.", "<b>e) <code>det(A)</code> (Determinant):</b> <b>2· 3 - 4· 1 = 6 - 4 =</b> <b><code>2</code></b>.<br><b>f) <code>trace(A)</code> (Matrisin İzi):</b> Ana köşegen toplamı <b>2 + 3 =</b> <b><code>5</code></b>.", "<b>g) <code>triu(A)</code> (Üst Üçgen Matris):</b> Köşegenin altı sıfırlanır → <code>[2  4 ; 0  3]</code>.<br><b>h) <code>tril(A)</code> (Alt Üçgen Matris):</b> Köşegenin üstü sıfırlanır → <code>[2  0 ; 1  3]</code>."]}]}, {"id": 5, "title": "5. Vize Deneme Sınavı (Sınav Sabahı Son Prova: Tüm 10 Sayfanın Karma Özeti — 8 Test + 2 Klasik)", "desc": "Sınavdan hemen önce çözüp tüm MATLAB komutlarını ve Simulink modellemesini %100 garantileyeceğin genel tekrar sınavı.", "test_questions": [{"q": "1. [TEST] A = [10  20  30 ; 40  50  60 ; 70  80  90] matrisi için A([1  3], :) komutunun çıktısı nedir?", "options": ["A) [10  30 ; 40  60 ; 70  90] (1. ve 3. sütun)", "B) [10  20  30 ; 70  80  90] (1. ve 3. satır)", "C) Sadece 10 ve 90 elemanları", "D) [10  40  70]"], "ans": 1, "steps": ["<b>1. Adım (Defter Sayfa 3):</b> <code>a([i j], :)</code> komutu, <code>a</code> matrisinin <b><code>i</code> ve <code>j</code>. satırını</b> alır.", "<b>2. Adım:</b> Burada satır kısmında <code>[1 3]</code>, sütun kısmında <code>:</code> olduğu için 1. ve 3. satır alınır: <b><code>[10  20  30 ; 70  80  90]</code></b> (B şıkkı)."]}, {"q": "2. [TEST] a = [40 ; 10 ; 90 ; 20] sütun vektörü için [m, i] = min(a) komutu çalıştırıldığında m ve i değerleri ne olur?", "options": ["A) m = 10, i = 2", "B) m = 2, i = 10", "C) m = 90, i = 3", "D) m = 10, i = 1"], "ans": 0, "steps": ["<b>1. Adım (Defter Sayfa 3 'Ayrıntı ama Oku'):</b> <code>[m, i] = min(a)</code> komutu bir <code>a</code> sütun vektörünün <b>en küçük elemanını (<code>m</code>)</b> ve bunun <b>satır numarasını/indisini (<code>i</code>)</b> verir.", "<b>2. Adım:</b> En küçük eleman <code>10</code>'dur ve 2. sırada (2. satırda) yer alır → <b><code>m = 10, i = 2</code></b> (A şıkkı)."]}, {"q": "3. [TEST] MATLAB'da 2 satır ve 3 sütundan oluşan, tüm elemanları 0 olan matris ile tüm elemanları 1 olan matrisi üreten komutlar sırasıyla hangisidir?", "options": ["A) zeros(3, 2)  —  ones(3, 2)", "B) zeros(2, 3)  —  ones(2, 3)", "C) eye(2, 3)  —  ones(2, 3)", "D) empty(2, 3)  —  full(2, 3)"], "ans": 1, "steps": ["<b>1. Adım (Defter Sayfa 5):</b><br>• <code>zeros(m, n)</code> = <b>m × n</b> boyutlu sıfır matrisi oluşturur.<br>• <code>ones(m, n)</code> = <b>m × n</b> boyutlu elemanları 1 olan matris oluşturur.", "<b>2. Adım:</b> 2 satır ve 3 sütun için <b><code>zeros(2, 3) — ones(2, 3)</code></b> yazılır (B şıkkı)."]}, {"q": "4. [TEST] (Defter Sayfa 2) MATLAB'da bir sayının istenilen hanesinin (basamak formatının) gösterilmesi için kullanılan komut çifti hangisidir?", "options": ["A) save / load", "B) fprintf / sprintf", "C) round / fix", "D) whos / clear"], "ans": 1, "steps": ["<b>1. Adım (Defter Sayfa 3 Orta Kısım):</b> <b><code>fprintf / sprintf</code></b> = Bir sayının istenilen hanesinin gösterilmesi için kullanılır (B şıkkı)."]}, {"q": "5. [TEST] (Defter Sayfa 6) 3 boyutlu çizgi grafiği, 3 boyutlu çubuk grafiği ve 3 boyutlu ince çubuk (gövde) grafiği çizen komutlar sırasıyla hangisidir?", "options": ["A) plot3  —  bar3  —  stem3", "B) plot3  —  barh  —  stem", "C) pie3  —  bar3  —  stairs", "D) contour  —  bar3  —  quiver"], "ans": 0, "steps": ["<b>1. Adım (Defter Sayfa 6):</b><br>• <b><code>plot3(x,y,z)</code></b>: 3 boyutlu grafik çizimini sağlar.<br>• <b><code>bar3(Y)</code></b>: 3 boyutlu çubuk grafik çizimini sağlar.<br>• <b><code>stem3(x,y,z)</code></b>: 3 boyutlu ince çubuk grafik çizimini sağlar (A şıkkı)."]}, {"q": "6. [TEST] (Defter Sayfa 6) Defter notlarına göre polar(x, y) komutu ne işe yarar ve defterde x ile y nasıl tanımlanmıştır?", "options": ["A) Kutupsal koordinatlı grafik çizer (defter notunda x: büyüklük değeri, y: açı değeri)", "B) 3 boyutlu pasta grafik çizer", "C) Çift y eksenli grafik çizer", "D) Yatay çubuk grafik çizer"], "ans": 0, "steps": ["<b>1. Adım (Defter Sayfa 6 Mavi El Yazısı Notu):</b> <code>polar(x, y)</code> = Kutupsal koordinatlı grafik çizer.", "<b>2. Adım (Defterdeki Özel Not):</b> Defterde <code>x = kutupsal koordinatın büyüklük değeri</code>, <code>y = kutupsal koordinatın açı değeri</code> olarak not düşülmüştür (Standart MATLAB'da <code>polar(theta, rho)</code> şeklindedir, sınavda her iki gösterimi de bil!) (A şıkkı)."]}, {"q": "7. [TEST] (Defter Sayfa 8) Simulink'te 'Integrator' bloğunun üzerindeki sembol nedir ve girişine y'' (ikinci türev) uygulanırsa çıkışından ne alınır?", "options": ["A) Sembolü du/dt'dir, çıkışından y''' alınır.", "B) Sembolü 1/s'dir, çıkışından y' (birinci türev) alınır.", "C) Sembolü e^u'dur, çıkışından y² alınır.", "D) Sembolü 1'dir, çıkışından sabit sayı alınır."], "ans": 1, "steps": ["<b>1. Adım (Defter Sayfa 8):</b> İntegral bloğunun (`Integrator`) Laplace uzayındaki sembolü <b><code>1/s</code></b>'dir.", "<b>2. Adım:</b> İntegral türevin tersi olduğu için girişine <b>y''</b> girerse bir kez integralini alır ve çıkışından <b><b>y'</b> (birinci türev)</b> verir (B şıkkı)."]}, {"q": "8. [TEST] (Defter Sayfa 8-10) Simulink'te modellenen bir diferansiyel denklemde y çıkışını veya y', y'', y''' türevlerinin zamana göre değişim grafiğini ekranda görmek için hangi blok kullanılır?", "options": ["A) Clock", "B) Constant", "C) Scope", "D) Subtract"], "ans": 2, "steps": ["<b>1. Adım (Defter Sayfa 8 ve 10 Kırmızı Yazı):</b> <i>'Şimdi y nin çıkışını veya y', y'', y''' değerlerini <b>Scope</b> ekranında görebiliriz.'</i> (C şıkkı)."]}], "classic_questions": [{"q": "9. [KLASİK SORU 1 - DEFTER SAYFA 1 & 2] x = 3.4 ve y = -3.4 sayıları için round, fix, floor, ceil (Ciel), abs ve sign fonksiyonlarının sonuçlarını karşılaştırmalı bir tablo halinde yazınız.", "answer_summary": "Pozitif ve negatif ondalıklı sayılarda 6 fonksiyonun tam karşılaştırma tablosu", "steps": ["<b>1. Adım (x = +3.4 İçin Sonuçlar - 10 Puan):</b><br>• <code>round(3.4) = 3</code> (en yakın tam sayı)<br>• <code>fix(3.4) = 3</code> (ondalık kısmı atar)<br>• <code>floor(3.4) = 3</code> (3.4'ten küçük en büyük tam sayı)<br>• <code>ceil(3.4) = 4</code> (3.4'ten büyük en küçük tam sayı)<br>• <code>abs(3.4) = 3.4</code> (mutlak değer)<br>• <code>sign(3.4) = 1</code> (<b>x &gt; 0</b> olduğu için <b>+1</b>)", "<b>2. Adım (y = -3.4 İçin Sonuçlar - 10 Puan):</b><br>• <code>round(-3.4) = -3</code> (en yakın tam sayı)<br>• <code>fix(-3.4) = -3</code> (ondalık kısmı atar, sıfıra yaklaşır)<br>• <code>floor(-3.4) = -4</code> (-3.4'ten küçük en büyük tam sayı — <b>DİKKAT: -4'tür!</b>)<br>• <code>ceil(-3.4) = -3</code> (-3.4'ten büyük en küçük tam sayı)<br>• <code>abs(-3.4) = 3.4</code> (mutlak değer)<br>• <code>sign(-3.4) = -1</code> (<b>x &lt; 0</b> olduğu için <b>-1</b>)"]}, {"q": "10. [KLASİK SORU 2 - SİMULİNK TASARIM SORUSU] y'' = 5·sin(t) - 3·y' + y² diferansiyel denklemini Simulink bloklarıyla modellemek için kaç adet Integrator bloğu gerekir? Hangi blokların kullanılacağını adım adım açıklayınız.", "answer_summary": "2 adet Integrator (1/s) (y'' → y' → y) + Clock + sin + Gain(5) + Gain(3) + Math Function(u²) + Sum(+ - +) + Scope", "steps": ["<b>1. Adım (İntegratör Sayısı - 5 Puan):</b><br>En yüksek türev 2. dereceden (<b>y''</b>) olduğu için yan yana <b>2 adet <code>Integrator (1/s)</code></b> bloğu kullanılır: <code>y'' → [1/s] → y' → [1/s] → y</code>.", "<b>2. Adım (Sağ Taraftaki 3 Terimin Oluşturulması - 10 Puan):</b><br>• <b>1. Terim (<b>5\sin(t)</b>):</b> <code>Clock</code> bloğundan alınan <b>t</b>, <code>Trigonometric Function (sin)</code> bloğuna girer ve <code>Gain (5)</code> bloğuyla çarpılır.<br>• <b>2. Terim (<b>-3·y'</b>):</b> 1. Integrator çıkışındaki <b>y'</b> sinyali <code>Gain (3)</code> bloğuyla çarpılır.<br>• <b>3. Terim (<b>+y²</b>):</b> 2. Integrator çıkışındaki <b>y</b> sinyali <code>Math Function (u²)</code> bloğuna sokulur.", "<b>3. Adım (Toplama/Çıkarma ve Geri Besleme - 5 Puan):</b><br><code>Sum / Subtract</code> bloğunun girişleri <code>(+  -  +)</code> yapılır. Çıkışı denklemin sol tarafı olan <b>y''</b> olduğu için 1. Integrator girişine bağlanır ve <code>Scope</code> ile <b>y</b> gözlemlenir."]}]}];
+
+// TÜM 10 SAYFADAKİ KOMUTLAR SÖZLÜĞÜ (ARAMA MOTORU İÇİN)
+const ALL_COMMANDS = [
+  {cmd: "Geçerli Klasör Penceresi", page: "Sayfa 1", desc: "Dosyaların yer aldığı pencere (Current Folder).", link: "#bolum1"},
+  {cmd: "Komut Penceresi", page: "Sayfa 1", desc: "Değişkenlerin girildiği ve programın çalıştırıldığı pencere (Command Window).", link: "#bolum1"},
+  {cmd: "Çalışma Ortamı Penceresi", page: "Sayfa 1", desc: "Kullanılan değişkenlerin bilgilerinin olduğu pencere (Workspace).", link: "#bolum1"},
+  {cmd: "Komut Geçmiş Penceresi", page: "Sayfa 1", desc: "Komut penceresine girilenlerin saklandığı pencere (Command History).", link: "#bolum1"},
+  {cmd: "clc", page: "Sayfa 1", desc: "Komut penceresini temizler (değişkenleri silmez).", link: "#bolum1"},
+  {cmd: "clear / clear a", page: "Sayfa 1", desc: "Çalışma Ortamı Penceresindeki değişkenleri temizler (clear a: yalnızca a değişkenini siler).", link: "#bolum1"},
+  {cmd: "whos", page: "Sayfa 1", desc: "Şu ana kadar yaptığımız değişkenleri (boyut ve türleriyle) yeniden çağırır.", link: "#bolum1"},
+  {cmd: "%", page: "Sayfa 1", desc: "Yorum satırı (program bu kısmı görmez).", link: "#bolum1"},
+  {cmd: "; (Noktalı Virgül)", page: "Sayfa 1", desc: "Çıktının ana ekranda görünmesini engeller; matris içinde ise alt satıra geçer.", link: "#bolum1"},
+  {cmd: "Ctrl + C", page: "Sayfa 1", desc: "Çalışan programdan (veya sonsuz döngüden) çıkar.", link: "#bolum1"},
+  {cmd: "exit", page: "Sayfa 1", desc: "MATLAB'ı kapatır.", link: "#bolum1"},
+  {cmd: "abs(x)", page: "Sayfa 1 & 7", desc: "Mutlak değer |x| (karmaşık sayıda büyüklük/modül hesaplar).", link: "#bolum1"},
+  {cmd: "exp(x)", page: "Sayfa 1", desc: "Üstel fonksiyon e^x.", link: "#bolum1"},
+  {cmd: "log(x)", page: "Sayfa 1", desc: "Doğal logaritma ln(x) (e tabanında logaritma!).", link: "#bolum1"},
+  {cmd: "log10(x)", page: "Sayfa 1", desc: "10 tabanında logaritma log₁₀(x).", link: "#bolum1"},
+  {cmd: "sign(x)", page: "Sayfa 1", desc: "Signum fonksiyonu: x<0 ise -1, x=0 ise 0, x>0 ise 1 verir.", link: "#bolum1"},
+  {cmd: "sin(x), cos(x), tan(x), cot(x), sec(x), csc(x)", page: "Sayfa 1", desc: "Trigonometrik fonksiyonlar (x RADYAN cinsindendir).", link: "#bolum1"},
+  {cmd: "sind(x), cosd(x), tand(x), cotd(x), secd(x), cscd(x)", page: "Sayfa 1", desc: "Trigonometrik fonksiyonlar (x DERECE cinsindendir, d=degree).", link: "#bolum1"},
+  {cmd: "sinh(x), cosh(x), tanh(x), coth(x)", page: "Sayfa 1", desc: "Hiperbolik fonksiyonlar.", link: "#bolum1"},
+  {cmd: "asin(x), acos(x), atan(x), acot(x)", page: "Sayfa 1", desc: "Ters trigonometrik fonksiyonlar (sonuç RADYAN).", link: "#bolum1"},
+  {cmd: "asind(x), acosd(x), atand(x), acotd(x)", page: "Sayfa 1", desc: "Ters trigonometrik fonksiyonlar (sonuç DERECE).", link: "#bolum1"},
+  {cmd: "rem(x, y)", page: "Sayfa 1", desc: "x / y bölme işleminin kalanını verir.", link: "#bolum1"},
+  {cmd: "sqrt(x)", page: "Sayfa 1", desc: "Karekök √x.", link: "#bolum1"},
+  {cmd: "round(x)", page: "Sayfa 2", desc: "x'i en yakın tam sayıya yuvarlar.", link: "#bolum1"},
+  {cmd: "fix(x)", page: "Sayfa 2", desc: "x'in ondalık kısmını atar (sıfıra doğru keser).", link: "#bolum1"},
+  {cmd: "floor(x)", page: "Sayfa 2", desc: "x'ten küçük en büyük tam sayıyı verir (tabana / sola yuvarlar).", link: "#bolum1"},
+  {cmd: "ceil(x) / Ciel(x)", page: "Sayfa 2", desc: "x'ten büyük en küçük tam sayıyı verir (tavana / sağa yuvarlar).", link: "#bolum1"},
+  {cmd: "demo / date / help", page: "Sayfa 2", desc: "demo: demoyu çalıştırır | date: Gün-Ay-Yıl | help f_na: fonksiyon bilgisi verir.", link: "#bolum1"},
+  {cmd: "save d a / load d", page: "Sayfa 2", desc: "a değişkenini d.mat dosyasına kaydeder / d dosyasından geri çağırır.", link: "#bolum1"},
+  {cmd: ".m / .mat / .fig (.fi) / .p", page: "Sayfa 2", desc: ".m: program, .mat: değişken/matris, .fig: grafik/GUI, .p: pre-parsed pseudo-code.", link: "#bolum1"},
+  {cmd: "plot(x, y, 'c')", page: "Sayfa 2", desc: "2 boyutlu grafik çizer (x: x vektörü, y: y vektörü, 'c': çizgi/renk).", link: "#bolum4"},
+  {cmd: "title / xlabel / ylabel / fontsize", page: "Sayfa 2", desc: "Grafiğe ve eksenlere başlık atar, punto büyüklüğünü ayarlar.", link: "#bolum4"},
+  {cmd: "fprintf / sprintf", page: "Sayfa 3", desc: "Bir sayının istenilen hanesinin (basamağının) gösterilmesi.", link: "#bolum2"},
+  {cmd: "a(:)", page: "Sayfa 3", desc: "vec operatörü: a matrisinin sütunlarının ard arda dizilmesiyle sütun vektör oluşturur.", link: "#bolum2"},
+  {cmd: "a(:, i) ve a(j, :)", page: "Sayfa 3", desc: "a(:,i) matrisin i. sütununu alır; a(j,:) matrisin j. satırını alır.", link: "#bolum2"},
+  {cmd: "a(:, [i j]) ve a([i j], :)", page: "Sayfa 3", desc: "Matrisin i ve j. sütunlarını veya i ve j. satırlarını alır.", link: "#bolum2"},
+  {cmd: "e = a : b : n", page: "Sayfa 3", desc: "a'dan b artışla n'ye kadar satır vektör oluşturur (Örn: e = -10:0.1:n).", link: "#bolum2"},
+  {cmd: "length(a) ve [m,n] = size(a)", page: "Sayfa 3", desc: "length: vektör eleman sayısı/sütun sayısı | size: satır (m) ve sütun (n) sayısı.", link: "#bolum2"},
+  {cmd: "[m, i] = max(a) ve min(a)", page: "Sayfa 3", desc: "En büyük/küçük elemanı (m) ve bulunduğu satır numarasını/indisini (i) verir.", link: "#bolum2"},
+  {cmd: "sort(a) ve sortrows(a, i)", page: "Sayfa 3 & 4", desc: "sort: vektörü sıralar | sortrows(a,i): matris satırlarını i. sütuna göre sıralar.", link: "#bolum2"},
+  {cmd: "a(:, i) = [] ve a(i, :) = []", page: "Sayfa 3", desc: "Matrisin i. sütununu veya i. satırını tamamen siler.", link: "#bolum2"},
+  {cmd: "inv(a), a', det(a)", page: "Sayfa 4", desc: "inv: matrisin tersi, a': devriği (transpozu), det: determinantı.", link: "#bolum3"},
+  {cmd: "a * b ve a / b", page: "Sayfa 4", desc: "Matris çarpımı ve matris sağ bölmesi (a * inv(b)).", link: "#bolum3"},
+  {cmd: "a .* b ve a ./ b", page: "Sayfa 4", desc: "Aynı boyutlu a ve b matrislerinin elemanlarını KARŞILIKLI çarpar ve oranlar.", link: "#bolum3"},
+  {cmd: "trace(a), diag(a), sum(a)", page: "Sayfa 4", desc: "trace: köşegen toplamı (iz), diag: köşegen vektör/matris, sum: sütun toplamları.", link: "#bolum3"},
+  {cmd: "triu(a) ve tril(a)", page: "Sayfa 4", desc: "triu: üst üçgen matris (upper), tril: alt üçgen matris (lower).", link: "#bolum3"},
+  {cmd: "zeros(m,n), ones(m,n), eye(m)", page: "Sayfa 5", desc: "zeros: sıfır matrisi, ones: 1'ler matrisi, eye: birim matris.", link: "#bolum3"},
+  {cmd: "grid on/off ve axis([xmin xmax ymin ymax])", page: "Sayfa 5", desc: "Çizgileri ekler/kaldırır; eksen ölçeklendirmesini düzeltir.", link: "#bolum4"},
+  {cmd: "fplot ve ezplot", page: "Sayfa 5", desc: "fplot('F',[x1,x2],tol,'çri') fonksiyon grafiği çizer; ezplot syms ile çalışır.", link: "#bolum4"},
+  {cmd: "gtext, ginput(n), \bf, \it, \rm", page: "Sayfa 5", desc: "Fareyle metin yazma (gtext), fareyle koordinat okuma (ginput), kalın/italik/normal yazı.", link: "#bolum4"},
+  {cmd: "legend ve subplot(m, n, p)", page: "Sayfa 5", desc: "legend: açıklama kutusu (-1,0,1,2,3,4) | subplot: m satır, n sütun, p. pencere.", link: "#bolum4"},
+  {cmd: "plot3, bar, barh, bar3, stem, stem3, pie, pie3, hist, polar", page: "Sayfa 6", desc: "3B çizgi, çubuk, yatay çubuk, ince çubuk (gövde), pasta (explode), histogram, kutupsal.", link: "#bolum4"},
+  {cmd: "area, comet, compass, contour, contourf, errorbar, feather, fill, loglog, pareto, pcolor, plotyy, plotmatrix, quiver, rose, scatter, semilogx, semilogy, stairs", page: "Sayfa 6 & 7", desc: "Sayfa 6-7 tablosundaki 26 özel grafik fonksiyonu.", link: "#bolum4"},
+  {cmd: "conj(x), real(x), imag(x), abs(x), angle(x)", page: "Sayfa 7", desc: "Karmaşık eşlenik, reel kısım, sanal kısım, büyüklük ve atan2 açısı (-π ile π arası).", link: "#bolum4"},
+  {cmd: "Simulink: Integrator (1/s), Constant, Product, Math Function (14 dönüşüm), Step (Step time, Initial value, Final value), Sum/Subtract, Clock, Derivative, Sqrt, Scope", page: "Sayfa 8–10", desc: "Simulink blokları ve 3. derece diferansiyel denklem modellemesi.", link: "#bolum5"}
+];
+
+function setSearch(val) {
+  document.getElementById('cmdSearchInput').value = val;
+  filterCommands();
+}
+
+function filterCommands() {
+  const q = document.getElementById('cmdSearchInput').value.trim().toLowerCase();
+  const box = document.getElementById('cmdSearchResults');
+  if (!q) {
+    box.style.display = 'none';
+    box.innerHTML = '';
+    return;
+  }
+  const matches = ALL_COMMANDS.filter(item =>
+    item.cmd.toLowerCase().includes(q) ||
+    item.desc.toLowerCase().includes(q) ||
+    item.page.toLowerCase().includes(q)
+  );
+  box.style.display = 'block';
+  if (matches.length === 0) {
+    box.innerHTML = '<div style="padding:10px; color:#be123c; font-weight:700;">Eşleşen komut bulunamadı.</div>';
+    return;
+  }
+  box.innerHTML = matches.map(m => `
+    <div class="search-item">
+      <div>
+        <span style="background:#e0e7ff; color:#3730a3; font-weight:800; font-size:0.76rem; padding:2px 8px; border-radius:6px; margin-right:6px;">${m.page}</span>
+        <code style="font-size:0.95rem;">${m.cmd}</code>
+        <div style="font-size:0.9rem; color:#334155; margin-top:4px;">${m.desc}</div>
+      </div>
+      <a href="${m.link}" style="background:#4f46e5; color:#fff; text-decoration:none; padding:6px 12px; border-radius:8px; font-size:0.82rem; font-weight:700; white-space:nowrap;">Bölüme Git →</a>
+    </div>
+  `).join('');
+}
+
+// 1. BÖLÜM: YUVARLAMA SİMÜLATÖRÜ
+function setRoundX(val) {
+  document.getElementById('roundInputX').value = val;
+  updateRoundSim();
+}
+
+function updateRoundSim() {
+  const x = parseFloat(document.getElementById('roundInputX').value);
+  if (isNaN(x)) return;
+  const rRound = Math.sign(x) * Math.round(Math.abs(x));
+  const rFix = x < 0 ? Math.ceil(x) : Math.floor(x);
+  const rFloor = Math.floor(x);
+  const rCeil = Math.ceil(x);
+  const rSign = x < 0 ? -1 : (x > 0 ? 1 : 0);
+  const rAbs = Math.abs(x);
+
+  document.getElementById('roundSimOutput').innerHTML = `
+    <div class="mini-card" style="background:#fff;">
+      <div style="font-size:0.82rem; color:#64748b; font-weight:700;">En Yakın Tam Sayı</div>
+      <div style="font-size:1.25rem; font-weight:800; color:#4f46e5; margin:4px 0;"><code>round(${x}) = ${rRound}</code></div>
+      <div style="font-size:0.84rem;">Virgülden sonrası .5 ve üstüyse büyüğe, altıysa küçüğe gider.</div>
+    </div>
+    <div class="mini-card" style="background:#fff;">
+      <div style="font-size:0.82rem; color:#64748b; font-weight:700;">Ondalık Kısmı Çöpe At (Sıfıra Doğru)</div>
+      <div style="font-size:1.25rem; font-weight:800; color:#e11d48; margin:4px 0;"><code>fix(${x}) = ${rFix}</code></div>
+      <div style="font-size:0.84rem;">Noktadan sonrasını direkt siler!</div>
+    </div>
+    <div class="mini-card" style="background:#fff;">
+      <div style="font-size:0.82rem; color:#64748b; font-weight:700;">Kendinden Küçük En Büyük (Taban)</div>
+      <div style="font-size:1.25rem; font-weight:800; color:#0d9488; margin:4px 0;"><code>floor(${x}) = ${rFloor}</code></div>
+      <div style="font-size:0.84rem;">Sayı doğrusunda her zaman SOLDAKİ tam sayıya iner!</div>
+    </div>
+    <div class="mini-card" style="background:#fff;">
+      <div style="font-size:0.82rem; color:#64748b; font-weight:700;">Kendinden Büyük En Küçük (Tavan)</div>
+      <div style="font-size:1.25rem; font-weight:800; color:#d97706; margin:4px 0;"><code>ceil(${x}) = ${rCeil}</code></div>
+      <div style="font-size:0.84rem;">Defterde <code>Ciel(x)</code>: Her zaman SAĞDAKİ tam sayıya çıkar!</div>
+    </div>
+    <div class="mini-card" style="background:#fff;">
+      <div style="font-size:0.82rem; color:#64748b; font-weight:700;">Signum (İşaret) Fonksiyonu</div>
+      <div style="font-size:1.25rem; font-weight:800; color:#7c3aed; margin:4px 0;"><code>sign(${x}) = ${rSign}</code></div>
+      <div style="font-size:0.84rem;">Negatifse -1, sıfırsa 0, pozitifse +1 verir.</div>
+    </div>
+    <div class="mini-card" style="background:#fff;">
+      <div style="font-size:0.82rem; color:#64748b; font-weight:700;">Mutlak Değer</div>
+      <div style="font-size:1.25rem; font-weight:800; color:#059669; margin:4px 0;"><code>abs(${x}) = ${rAbs}</code></div>
+      <div style="font-size:0.84rem;">Sayının pozitif büyüklüğünü verir.</div>
+    </div>
+  `;
+}
+
+// 2. BÖLÜM: MATRİS İNDİSLEME VE SORTROWS SİMÜLATÖRÜ
+function runMatrixSim(mode) {
+  for (let i = 0; i <= 8; i++) {
+    const b = document.getElementById('mBtn' + i);
+    if (b) b.classList.toggle('active', i === mode);
+  }
+  const vbox = document.getElementById('matrixVisualBox');
+  const cbox = document.getElementById('matrixConsoleBox');
+
+  if (mode <= 6) {
+    const A = [
+      [1, 3, 5],
+      [7, 8, 11],
+      [100, 1, 4]
+    ];
+    let hlMap = [[false,false,false],[false,false,false],[false,false,false]];
+    let delMap = [[false,false,false],[false,false,false],[false,false,false]];
+    let cmdHtml = '';
+
+    if (mode === 0) {
+      hlMap = [[true,true,true],[true,true,true],[true,true,true]];
+      cmdHtml = `<span class="prompt">&gt;&gt;</span> A(:) <span class="comment">% Sütunları alt alta dizer (vec operatörü)</span>
+<span class="ans">ans =</span>
+     1
+     7
+   100
+     3
+     8
+     1
+     5
+    11
+     4`;
+    } else if (mode === 1) {
+      hlMap = [[false,true,false],[false,true,false],[false,true,false]];
+      cmdHtml = `<span class="prompt">&gt;&gt;</span> A(:, 2) <span class="comment">% A matrisinin 2. sütununu alır</span>
+<span class="ans">ans =</span>
+     3
+     8
+     1`;
+    } else if (mode === 2) {
+      hlMap = [[false,false,false],[true,true,true],[false,false,false]];
+      cmdHtml = `<span class="prompt">&gt;&gt;</span> A(2, :) <span class="comment">% A matrisinin 2. satırını alır</span>
+<span class="ans">ans =</span>
+     7     8    11`;
+    } else if (mode === 3) {
+      hlMap = [[true,false,true],[true,false,true],[true,false,true]];
+      cmdHtml = `<span class="prompt">&gt;&gt;</span> A(:, [1 3]) <span class="comment">% 1. ve 3. sütunları alır</span>
+<span class="ans">ans =</span>
+     1     5
+     7    11
+   100     4`;
+    } else if (mode === 4) {
+      hlMap = [[true,true,true],[false,false,false],[true,true,true]];
+      cmdHtml = `<span class="prompt">&gt;&gt;</span> A([1 3], :) <span class="comment">% 1. ve 3. satırları alır</span>
+<span class="ans">ans =</span>
+     1     3     5
+   100     1     4`;
+    } else if (mode === 5) {
+      delMap = [[false,true,false],[false,true,false],[false,true,false]];
+      cmdHtml = `<span class="prompt">&gt;&gt;</span> A(:, 2) = [] <span class="comment">% 2. sütunu tamamen SİLER!</span>
+<span class="ans">A =</span>
+     1     5
+     7    11
+   100     4`;
+    } else if (mode === 6) {
+      hlMap = [[false,false,false],[false,false,false],[true,false,false]];
+      cmdHtml = `<span class="prompt">&gt;&gt;</span> [m, i] = max(A(:, 1)) <span class="comment">% 1. sütunun en büyüğü ve satır no</span>
+<span class="ans">m =</span>  100   <span class="comment">(En büyük eleman)</span>
+<span class="ans">i =</span>    3   <span class="comment">(Bulunduğu satır indisi)</span>`;
+    }
+
+    let cellsHtml = '';
+    for (let r = 0; r < 3; r++) {
+      for (let c = 0; c < 3; c++) {
+        const cls = hlMap[r][c] ? 'hl' : (delMap[r][c] ? 'del' : '');
+        cellsHtml += `<div class="matrix-cell ${cls}">${A[r][c]}</div>`;
+      }
+    }
+    vbox.innerHTML = `
+      <div style="font-weight:800; color:#334155; margin-bottom:8px;">Defter Sayfa 3 Matrisi: <code>A (3x3)</code></div>
+      <div class="matrix-grid" style="grid-template-columns: repeat(3, 1fr);">${cellsHtml}</div>
+    `;
+    cbox.innerHTML = `<pre style="margin:0;">${cmdHtml}</pre>`;
+  } else {
+    // sortrows(a,1) ve sortrows(a,2) - Sayfa 4
+    const orig = [[1, 1000], [3, 10], [2, 5], [4, 1]];
+    const sorted = mode === 7
+      ? [[1, 1000], [2, 5], [3, 10], [4, 1]]
+      : [[4, 1], [2, 5], [3, 10], [1, 1000]];
+    const colIdx = mode === 7 ? 0 : 1;
+
+    let cellsHtml = '';
+    for (let r = 0; r < 4; r++) {
+      for (let c = 0; c < 2; c++) {
+        const cls = c === colIdx ? 'hl' : '';
+        cellsHtml += `<div class="matrix-cell ${cls}">${sorted[r][c]}</div>`;
+      }
+    }
+    vbox.innerHTML = `
+      <div style="font-weight:800; color:#be123c; margin-bottom:8px;">Defter Sayfa 4 Matrisi: <code>sortrows(a, ${colIdx+1})</code> Sonucu</div>
+      <div class="matrix-grid" style="grid-template-columns: repeat(2, 1fr);">${cellsHtml}</div>
+      <div style="font-size:0.82rem; color:#475569; margin-top:6px;">Sarı sütun (${colIdx+1}. sütun) küçükten büyüğe sıralandı!</div>
+    `;
+    cbox.innerHTML = `<pre style="margin:0;"><span class="prompt">&gt;&gt;</span> a = [1 1000; 3 10; 2 5; 4 1];
+<span class="prompt">&gt;&gt;</span> sortrows(a, ${colIdx+1}) <span class="comment">% Satırları ${colIdx+1}. sütuna göre sırala</span>
+<span class="ans">ans =</span>
+   ${sorted.map(row => row[0].toString().padStart(3,' ') + '  ' + row[1].toString().padStart(5,' ')).join('
+   ')}</pre>`;
+  }
+}
+
+// 3. BÖLÜM: MATRİS CEBİRİ SİMÜLATÖRÜ
+function runAlgSim(mode) {
+  for (let i = 0; i <= 5; i++) {
+    const b = document.getElementById('algBtn' + i);
+    if (b) b.classList.toggle('active', i === mode);
+  }
+  const box = document.getElementById('algSimOutput');
+  const outputs = [
+    `<span class="prompt">&gt;&gt;</span> a = [2  4 ; 1  3];   b = [1  2 ; 5  6];
+<span class="prompt">&gt;&gt;</span> a * b    <span class="comment">% NORMAL MATRİS ÇARPIMI (Satır x Sütun: 2*1+4*5 = 22 ...)</span>
+<span class="ans">ans =</span>
+    22    28
+    16    20
+
+<span class="prompt">&gt;&gt;</span> a .* b   <span class="comment">% NOKTALI ÇARPIM: Karşılıklı elemanları çarpar (2*1=2, 4*2=8 ...)</span>
+<span class="ans">ans =</span>
+     2     8
+     5    18`,
+    `<span class="prompt">&gt;&gt;</span> a ./ b   <span class="comment">% NOKTALI BÖLME: Elemanları karşılıklı oranlar (2/1, 4/2, 1/5, 3/6)</span>
+<span class="ans">ans =</span>
+    2.0000    2.0000
+    0.2000    0.5000
+
+<span class="prompt">&gt;&gt;</span> a / b    <span class="comment">% MATRİS BÖLMESİ: a * inv(b) işlemini yapar!</span>
+<span class="ans">ans =</span>
+    2.0000         0
+    2.2500   -0.2500`,
+    `<span class="prompt">&gt;&gt;</span> trace(a) <span class="comment">% Ana köşegen elemanlarının toplamı (İz): 2 + 3 = 5</span>
+<span class="ans">ans =</span>  5
+
+<span class="prompt">&gt;&gt;</span> det(a)   <span class="comment">% Determinant: (2 * 3) - (4 * 1) = 2</span>
+<span class="ans">ans =</span>  2
+
+<span class="prompt">&gt;&gt;</span> a'       <span class="comment">% Devrik (Transpoz): Satırlar sütun olur</span>
+<span class="ans">ans =</span>
+     2     1
+     4     3`,
+    `<span class="prompt">&gt;&gt;</span> diag(a)      <span class="comment">% Matris verilirse köşegen elemanlarını sütun vektör yapar</span>
+<span class="ans">ans =</span>
+     2
+     3
+
+<span class="prompt">&gt;&gt;</span> diag([5  9]) <span class="comment">% Vektör verilirse köşegen matris oluşturur!</span>
+<span class="ans">ans =</span>
+     5     0
+     0     9
+
+<span class="prompt">&gt;&gt;</span> sum(a)       <span class="comment">% Her bir SÜTUNUN toplamını ayrı ayrı hesaplar (2+1=3, 4+3=7)</span>
+<span class="ans">ans =</span>
+     3     7`,
+    `<span class="prompt">&gt;&gt;</span> triu(a)  <span class="comment">% Üst üçgen matris (u = upper, köşegen altı sıfırlanır)</span>
+<span class="ans">ans =</span>
+     2     4
+     0     3
+
+<span class="prompt">&gt;&gt;</span> tril(a)  <span class="comment">% Alt üçgen matris (l = lower, köşegen üstü sıfırlanır)</span>
+<span class="ans">ans =</span>
+     2     0
+     1     3`,
+    `<span class="prompt">&gt;&gt;</span> zeros(2, 3) <span class="comment">% 2x3 boyutlu sıfır matrisi</span>
+<span class="ans">ans =</span>
+     0     0     0
+     0     0     0
+
+<span class="prompt">&gt;&gt;</span> ones(2, 3)  <span class="comment">% 2x3 boyutlu elemanları 1 olan matris</span>
+<span class="ans">ans =</span>
+     1     1     1
+     1     1     1
+
+<span class="prompt">&gt;&gt;</span> eye(3)      <span class="comment">% 3x3 boyutlu Birim Matris (köşegen 1, diğerleri 0)</span>
+<span class="ans">ans =</span>
+     1     0     0
+     0     1     0
+     0     0     1`
+  ];
+  box.innerHTML = `<pre style="margin:0;">${outputs[mode]}</pre>`;
+}
+
+// 4. BÖLÜM: SUBPLOT VE GRAFİK ÇİZİCİ
+function updateSubplotSim() {
+  const m = parseInt(document.getElementById('subM').value) || 2;
+  const n = parseInt(document.getElementById('subN').value) || 2;
+  const maxP = m * n;
+  let p = parseInt(document.getElementById('subP').value) || 1;
+  if (p < 1) p = 1;
+  if (p > maxP) p = maxP;
+  document.getElementById('subP').value = p;
+  document.getElementById('subP').max = maxP;
+
+  let html = `<div style="font-family:'JetBrains Mono',monospace; font-weight:800; color:#4f46e5; margin-bottom:8px;">&gt;&gt; subplot(${m}, ${n}, ${p})</div>`;
+  html += `<div style="display:grid; grid-template-columns:repeat(${n}, 1fr); gap:6px;">`;
+  for (let i = 1; i <= maxP; i++) {
+    const active = i === p;
+    html += `<div onclick="document.getElementById('subP').value=${i}; updateSubplotSim();" style="cursor:pointer; padding:10px; text-align:center; border-radius:8px; font-weight:800; font-family:'JetBrains Mono',monospace; border:2px solid ${active ? '#e11d48' : '#cbd5e1'}; background:${active ? '#ffe4e6' : '#f8fafc'}; color:${active ? '#be123c' : '#64748b'};">Pencere p=${i}${active ? ' 🎯' : ''}</div>`;
+  }
+  html += `</div>`;
+  document.getElementById('subplotGridBox').innerHTML = html;
+}
+
+function drawPlotType(typeIdx) {
+  for (let i = 0; i <= 5; i++) {
+    const b = document.getElementById('pType' + i);
+    if (b) b.classList.toggle('active', i === typeIdx);
+  }
+  const canvas = document.getElementById('matlabPlotCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Çerçeve ve ızgara
+  ctx.strokeStyle = '#e2e8f0';
+  ctx.lineWidth = 1;
+  for (let x = 50; x < 390; x += 40) {
+    ctx.beginPath(); ctx.moveTo(x, 25); ctx.lineTo(x, 215); ctx.stroke();
+  }
+  for (let y = 25; y <= 215; y += 38) {
+    ctx.beginPath(); ctx.moveTo(50, y); ctx.lineTo(390, y); ctx.stroke();
+  }
+  ctx.strokeStyle = '#334155';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(50, 25, 340, 190);
+
+  const pts = [
+    {x: 70, y: 180}, {x: 115, y: 110}, {x: 160, y: 65},
+    {x: 205, y: 130}, {x: 250, y: 175}, {x: 295, y: 95}, {x: 340, y: 50}, {x: 375, y: 120}
+  ];
+  const cap = document.getElementById('plotCaption');
+
+  if (typeIdx === 0) {
+    ctx.strokeStyle = '#2563eb';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    pts.forEach((p, idx) => idx === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y));
+    ctx.stroke();
+    cap.innerHTML = "<code>plot(x, y, 'b')</code> — Sürekli 2 boyutlu çizgi grafiği";
+  } else if (typeIdx === 1) {
+    ctx.strokeStyle = '#e11d48';
+    ctx.fillStyle = '#e11d48';
+    ctx.lineWidth = 2.5;
+    pts.forEach(p => {
+      ctx.beginPath(); ctx.moveTo(p.x, 215); ctx.lineTo(p.x, p.y); ctx.stroke();
+      ctx.beginPath(); ctx.arc(p.x, p.y, 5, 0, Math.PI * 2); ctx.fill();
+    });
+    cap.innerHTML = "<code>stem(x, y)</code> — İnce çubuk / Gövde (ayrık veri) grafiği (Sayfa 6-7)";
+  } else if (typeIdx === 2) {
+    ctx.strokeStyle = '#059669';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    for (let i = 0; i < pts.length - 1; i++) {
+      if (i === 0) ctx.moveTo(pts[i].x, pts[i].y);
+      ctx.lineTo(pts[i+1].x, pts[i].y);
+      ctx.lineTo(pts[i+1].x, pts[i+1].y);
+    }
+    ctx.stroke();
+    cap.innerHTML = "<code>stairs(x, y)</code> — Merdiven (basamak) grafiği (Sayfa 7)";
+  } else if (typeIdx === 3) {
+    ctx.fillStyle = '#7c3aed';
+    pts.forEach(p => {
+      ctx.fillRect(p.x - 12, p.y, 24, 215 - p.y);
+    });
+    cap.innerHTML = "<code>bar(x, y)</code> — Sütun (çubuk) grafiği (<code>barh</code> ise yatay çubuk yapar)";
+  } else if (typeIdx === 4) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const cx = 210, cy = 125, r = 80;
+    const angles = [0, 1.3, 2.8, 4.5, Math.PI * 2];
+    const cols = ['#e11d48', '#2563eb', '#10b981', '#f59e0b'];
+    for (let i = 0; i < 4; i++) {
+      const mid = (angles[i] + angles[i+1]) / 2;
+      const off = i === 0 ? 16 : 0; // explode dilimi
+      const ox = cx + Math.cos(mid) * off;
+      const oy = cy + Math.sin(mid) * off;
+      ctx.fillStyle = cols[i];
+      ctx.beginPath();
+      ctx.moveTo(ox, oy);
+      ctx.arc(ox, oy, r, angles[i], angles[i+1]);
+      ctx.closePath();
+      ctx.fill();
+    }
+    cap.innerHTML = "<code>pie3(x, [1 0 0 0])</code> — <code>explode</code> dilimler arasındaki boşluğu gösterir (Sayfa 6)";
+  } else if (typeIdx === 5) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const cx = 210, cy = 120;
+    [35, 70, 95].forEach(rad => {
+      ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.arc(cx, cy, rad, 0, Math.PI*2); ctx.stroke();
+    });
+    const vecs = [{dx: 65, dy: -50, c:'#e11d48'}, {dx: -55, dy: -60, c:'#2563eb'}, {dx: 40, dy: 65, c:'#059669'}];
+    vecs.forEach(v => {
+      ctx.strokeStyle = v.c; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + v.dx, cy + v.dy); ctx.stroke();
+    });
+    cap.innerHTML = "<code>compass</code> (Karmaşık sayı ok grafiği) & <code>polar</code> (Kutupsal koordinat grafiği)";
+  }
+}
+
+// 5. BÖLÜM: SİMULİNK ADIM VURGULAYICI
+const SIM_DESCS = [
+  "<b>🌟 Tüm Şema Açık:</b> <b>y''' = √(t' - y²) + sin(t·y') + e⁻²ᵗ - cos(y)</b> denkleminin Sayfa 8, 9 ve 10'daki tam Simulink modeli. Yukarıdaki 1–6 butonlarına tıklayarak her bir kolun nasıl kurulduğunu tek tek inceleyebilirsin!",
+  "<b>1. Adım (İntegratör Zinciri - Sayfa 8):</b> Denklemde en yüksek türev 3. dereceden (<b>y'''</b>) olduğu için yan yana <b>3 adet <code>Integrator (1/s)</code></b> bloğu koyuyoruz. Birinciden <b>y''</b>, ikinciden <b>y'</b>, üçüncüden <b>y</b> çıkışını alıyoruz.",
+  "<b>2. Adım (1. İfade <b>√(t' - y²)</b> - Sayfa 8):</b> <code>Clock</code> bloğundan gelen <b>t</b> sinyali <code>Derivative (du/dt)</code> bloğuna girip <b>t'</b> olur. <b>y</b> sinyali <code>Math Function (u²)</code> bloğuna girip <b>y²</b> olur. İkisi <code>Subtract1 (+ / -)</code> bloğunda çıkarılır (<b>t'-y²</b>) ve <code>Sqrt</code> bloğundan geçerek <b>√(t' - y²)</b> olarak sağdaki <code>Subtract2</code>'nin 1. (+) girişine bağlanır.",
+  "<b>3. Adım (2. İfade <b>+sin(t·y')</b> - Sayfa 8):</b> <code>Clock</code>'tan gelen <b>t</b> ile 2. integratörden gelen <b>y'</b> sinyali <code>Dot Product</code> bloğunda çarpılır (<b>t·y'</b>). Çıkışı <code>Trigonometric Function (sin)</code> bloğuna girer ve <code>Subtract2</code>'nin 2. (+) girişine bağlanır.",
+  "<b>4. Adım (3. İfade <b>+e<sup>-2t</sup></b> - Sayfa 8):</b> <code>Clock</code>'tan gelen <b>t</b> sinyali üçgen <code>Gain (-2)</code> bloğuyla çarpılıp <b>-2t</b> olur, ardından <code>Math Function1 (e^u)</code> bloğuna girerek <b>e<sup>-2t</sup></b> olarak <code>Subtract2</code>'nin 3. (+) girişine bağlanır.",
+  "<b>5. Adım (4. İfade <b>-cos(y)</b> - Sayfa 9 Üst Notu):</b> <i>'Dördüncü ifadedeki <b>-cos(y)</b> için trigonometrik fonksiyonun içeriği <code>cos</code> olarak değiştirilir. Son olarak elde ettiğimiz çıkışı <code>Subtract2</code> bloğunun <b>- (eksi)</b> girişine bağlıyoruz.'</i>",
+  "<b>6. Adım (Geri Besleme ve Scope - Sayfa 9 Alt & Sayfa 10 Notu):</b> <i>'Son olarak <code>Subtract2</code> bloğunun çıkışını <b>y'''</b> girişine bağlıyoruz. Çünkü elde ettiğimiz blok çıkışı denklemin sol tarafında bulunan <b>y'''</b> ifadesinin eşitidir. Şimdi <b>y</b>'nin çıkışını veya <b>y', y'', y'''</b> değerlerini <code>Scope</code> ekranında görebiliriz.'</i>"
+];
+
+function setSimStep(step) {
+  for (let i = 0; i <= 6; i++) {
+    const b = document.getElementById('simStepBtn' + i);
+    if (b) b.classList.toggle('active', i === step);
+  }
+  document.getElementById('simStepDescBox').innerHTML = SIM_DESCS[step];
+  for (let g = 1; g <= 6; g++) {
+    const el = document.getElementById('svgGroup' + g);
+    if (el) {
+      el.style.opacity = (step === 0 || step === g || (step >= 2 && g === 1)) ? '1' : '0.18';
+    }
+  }
+}
+
+// 6. BÖLÜM: 5 VİZE DENEME SINAVI MOTORU
+let currentExamIndex = 0;
+let showAllSolutions = true;
+
+function renderExamTabs() {
+  const tabsEl = document.getElementById('examTabs');
+  tabsEl.innerHTML = EXAMS.map((ex, idx) => `
+    <button class="exam-tab-btn ${idx === currentExamIndex ? 'active' : ''}" onclick="selectExam(${idx})">
+      📝 ${ex.id}. Vize Denemesi (8+2)
+    </button>
+  `).join('');
+}
+
+function selectExam(idx) {
+  currentExamIndex = idx;
+  renderExamTabs();
+  renderCurrentExam();
+}
+
+function toggleAllSolutions() {
+  showAllSolutions = !showAllSolutions;
+  const btn = document.getElementById('toggleAllSolBtn');
+  if (showAllSolutions) {
+    btn.innerHTML = '🙈 Çözümleri Gizle (Kendim Çözeceğim)';
+    btn.style.background = '#4f46e5';
+  } else {
+    btn.innerHTML = '📖 Tüm Çözümleri Aç (Döküman Modu)';
+    btn.style.background = '#e11d48';
+  }
+  renderCurrentExam();
+}
+
+function toggleSingleSol(solId) {
+  const el = document.getElementById(solId);
+  if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+function checkTestAnswer(qIdx, optIdx, correctIdx) {
+  const parent = document.getElementById(`q-opts-${qIdx}`);
+  const buttons = parent.querySelectorAll('.opt-btn');
+  buttons.forEach((btn, i) => {
+    btn.classList.remove('correct', 'wrong');
+    if (i === correctIdx) btn.classList.add('correct');
+    else if (i === optIdx) btn.classList.add('wrong');
+  });
+  const solEl = document.getElementById(`sol-test-${qIdx}`);
+  if (solEl) solEl.style.display = 'block';
+}
+
+function renderCurrentExam() {
+  const exam = EXAMS[currentExamIndex];
+  document.getElementById('examHeaderBox').innerHTML = `
+    <h3 style="margin-bottom:6px; color:#065f46;">🏆 ${exam.title}</h3>
+    <p style="color:#334155; font-size:0.96rem;">${exam.desc}</p>
+  `;
+
+  let html = '';
+  exam.test_questions.forEach((tq, qIdx) => {
+    const optsHtml = tq.options.map((optText, oIdx) => {
+      const isCorrectClass = (showAllSolutions && oIdx === tq.ans) ? 'correct' : '';
+      return `<button class="opt-btn ${isCorrectClass}" onclick="checkTestAnswer(${qIdx}, ${oIdx}, ${tq.ans})">${optText}</button>`;
+    }).join('');
+    const stepsHtml = tq.steps.map(st => `<div class="sol-step">${st}</div>`).join('');
+
+    html += `
+      <div class="q-card">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:10px;">
+          <div class="q-title" style="margin-bottom:0;">${tq.q}</div>
+          <span class="badge badge-blue" style="flex-shrink:0;">Test Sorusu (10 Puan)</span>
+        </div>
+        <div class="opt-grid" id="q-opts-${qIdx}">${optsHtml}</div>
+        <button class="toggle-sol-btn" onclick="toggleSingleSol('sol-test-${qIdx}')">💡 Adım Adım Çözümü Göster / Gizle</button>
+        <div class="sol-box" id="sol-test-${qIdx}" style="display:${showAllSolutions ? 'block' : 'none'};">
+          ${stepsHtml}
+        </div>
+      </div>
+    `;
+  });
+
+  exam.classic_questions.forEach((cq, cIdx) => {
+    const stepsHtml = cq.steps.map(st => `<div class="sol-step">${st}</div>`).join('');
+    html += `
+      <div class="q-card classic-card">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:10px;">
+          <div class="q-title" style="margin-bottom:0; color:#9f1239;">✍️ ${cq.q}</div>
+          <span class="badge badge-red" style="flex-shrink:0;">Klasik Yazılı Soru (20 Puan)</span>
+        </div>
+        <div style="background:#fff1f2; border:1px solid #fecdd3; padding:10px 14px; border-radius:10px; font-weight:800; color:#be123c; margin-bottom:10px;">
+          🎯 Kısa Cevap Özeti: ${cq.answer_summary}
+        </div>
+        <button class="toggle-sol-btn" onclick="toggleSingleSol('sol-classic-${cIdx}')">📝 Kağıda Yazılacak Tam Çözümü Göster / Gizle</button>
+        <div class="sol-box" id="sol-classic-${cIdx}" style="display:${showAllSolutions ? 'block' : 'none'}; border-left-color:#e11d48;">
+          ${stepsHtml}
+        </div>
+      </div>
+    `;
+  });
+
+  document.getElementById('examQuestionsContainer').innerHTML = html;
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  updateRoundSim();
+  runMatrixSim(0);
+  runAlgSim(0);
+  updateSubplotSim();
+  drawPlotType(0);
+  setSimStep(0);
+  renderExamTabs();
+  renderCurrentExam();
+});
+</script>
+</body>
+</html>
